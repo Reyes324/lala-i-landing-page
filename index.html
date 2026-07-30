@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>货拉拉企业国际版 · 东南亚企业用车</title>
+<meta name="description" content="货拉拉企业国际版 lala-i：为出海企业提供泰国、越南、马来西亚、印尼、菲律宾、新加坡、香港的本地货运用车服务，人民币统一结算，子母账号管理，API 直连。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234C7CF0'/%3E%3Cstop offset='1' stop-color='%2317408F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M18 40 L32 18 L46 40 Z' fill='none' stroke='white' stroke-width='4' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='40' r='4' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand: #2257D4;
+    --brand-dark: #17408F;
+    --brand-light: #4C7CF0;
+    --ink-900: #0A1024;
+    --ink-800: #10182E;
+    --ink-700: #1A2440;
+    --text-1: #0F1229;
+    --text-2: #4C5266;
+    --text-3: #8890A6;
+    --surface: #F5F6FA;
+    --surface-2: #EEF1F8;
+    --white: #FFFFFF;
+    --border: #E3E6EF;
+    --border-dark: #26314F;
+    --success: #1B9C6E;
+    --radius-s: 8px;
+    --radius-m: 14px;
+    --radius-l: 22px;
+    --shadow-sm: 0 1px 2px rgba(15,18,41,.06), 0 1px 1px rgba(15,18,41,.04);
+    --shadow-md: 0 8px 24px rgba(15,18,41,.08);
+    --shadow-lg: 0 24px 64px rgba(10,16,36,.16);
+    --maxw: 1200px;
+    --font-sc: "Noto Sans SC", "PingFang SC", sans-serif;
+    --font-en: "Inter", "Noto Sans SC", sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family: var(--font-en);
+    color: var(--text-1);
+    background: var(--white);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:600; letter-spacing:.04em;
+    color: var(--brand);
+    background: rgba(34,87,212,.08);
+    border:1px solid rgba(34,87,212,.18);
+    padding:6px 14px; border-radius:999px;
+    margin-bottom:20px;
+  }
+  .eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--brand); box-shadow:0 0 0 3px rgba(34,87,212,.18);}
+  h1,h2,h3,h4{font-family: var(--font-sc); font-weight:900; letter-spacing:-.01em; color:var(--text-1);}
+  .section-tag{display:block; font-family:var(--font-en); font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--brand); margin-bottom:14px;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,40px); line-height:1.25; margin-bottom:14px;}
+  .section-head p{font-size:16px; color:var(--text-2); line-height:1.7;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight:700; font-size:15px; border-radius:11px; border:1px solid transparent;
+    padding:13px 26px; transition:.18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--brand); color:#fff; box-shadow:0 1px 0 rgba(255,255,255,.15) inset, 0 6px 16px rgba(34,87,212,.28);}
+  .btn-primary:hover{background:var(--brand-dark); transform:translateY(-1px); box-shadow:0 10px 22px rgba(34,87,212,.34);}
+  .btn-ghost{background:transparent; color:var(--white); border-color:rgba(255,255,255,.28);}
+  .btn-ghost:hover{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.5);}
+  .btn-outline{background:#fff; color:var(--text-1); border-color:var(--border);}
+  .btn-outline:hover{border-color:var(--brand); color:var(--brand);}
+  .btn-lg{padding:16px 32px; font-size:16px;}
+  .btn svg{width:16px; height:16px; flex-shrink:0;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(255,255,255,0); border-bottom:1px solid transparent;
+    transition:.25s ease;
+  }
+  header.scrolled{background:rgba(255,255,255,.86); backdrop-filter:blur(14px); border-color:var(--border); box-shadow:0 1px 0 rgba(15,18,41,.02);}
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:76px;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-sc); font-weight:900; font-size:19px; color:#fff; transition:color .25s ease;}
+  .logo .mark{
+    width:32px; height:32px; border-radius:9px;
+    background:linear-gradient(135deg, var(--brand-light), var(--brand-dark));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 12px rgba(34,87,212,.35);
+  }
+  .logo .mark svg{width:17px; height:17px;}
+  .logo b{color:var(--brand-light); transition:color .25s ease;}
+  .logo span{color:rgba(255,255,255,.5); font-weight:700; font-size:13px; margin-left:2px; transition:color .25s ease;}
+  nav.primary-nav{display:flex; align-items:center; gap:36px;}
+  nav.primary-nav a{font-size:14.5px; font-weight:600; color:rgba(255,255,255,.75); transition:.15s;}
+  nav.primary-nav a:hover{color:#fff;}
+  .header-actions{display:flex; align-items:center; gap:12px;}
+  .header-actions .btn-outline{padding:10px 18px; font-size:14px; background:transparent; color:#fff; border-color:rgba(255,255,255,.3);}
+  .header-actions .btn-outline:hover{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.5);}
+  .header-actions .btn-primary{padding:10px 20px; font-size:14px;}
+  .nav-toggle{display:none; flex-direction:column; gap:5px; width:24px; background:none; border:none;}
+  .nav-toggle span{height:2px; background:#fff; border-radius:2px; transition:background .25s ease;}
+
+  header.scrolled .logo{color:var(--text-1);}
+  header.scrolled .logo b{color:var(--brand);}
+  header.scrolled .logo span{color:var(--text-3);}
+  header.scrolled nav.primary-nav a{color:var(--text-2);}
+  header.scrolled nav.primary-nav a:hover{color:var(--text-1);}
+  header.scrolled .header-actions .btn-outline{color:var(--text-1); border-color:var(--border); background:#fff;}
+  header.scrolled .header-actions .btn-outline:hover{border-color:var(--brand); color:var(--brand); background:#fff;}
+  header.scrolled .nav-toggle span{background:var(--text-1);}
+  nav.primary-nav.mobile-open a{color:var(--text-2) !important;}
+  nav.primary-nav.mobile-open a:hover{color:var(--text-1) !important;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(1100px 620px at 82% -10%, rgba(76,124,240,.35), transparent 60%),
+      radial-gradient(900px 500px at 8% 110%, rgba(23,64,143,.5), transparent 60%),
+      linear-gradient(180deg, var(--ink-900), var(--ink-800));
+    color:#fff;
+    padding:168px 0 120px;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:linear-gradient(180deg, rgba(0,0,0,.6), transparent 70%);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center;}
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600;
+    color:#BFD0FF; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
+    padding:7px 14px 7px 12px; border-radius:999px; margin-bottom:26px;
+  }
+  .hero-eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:#5FE39D; box-shadow:0 0 0 3px rgba(95,227,157,.22);}
+  .hero h1{
+    font-size:clamp(34px, 4.4vw, 54px); line-height:1.18; color:#fff; letter-spacing:-.015em;
+    margin-bottom:22px;
+  }
+  .hero h1 em{font-style:normal; color:var(--brand-light); background:linear-gradient(180deg, transparent 62%, rgba(76,124,240,.35) 62%);}
+  .hero p.lead{font-size:17px; line-height:1.75; color:rgba(255,255,255,.68); max-width:520px; margin-bottom:36px;}
+  .hero-ctas{display:flex; align-items:center; gap:14px; margin-bottom:52px; flex-wrap:wrap;}
+  .hero-note{font-size:13px; color:rgba(255,255,255,.45);}
+  .hero-markets{display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center;}
+  .hero-markets span.label{font-size:12.5px; color:rgba(255,255,255,.4); letter-spacing:.06em; text-transform:uppercase; font-weight:700; margin-right:4px;}
+  .market-chip{display:inline-flex; align-items:center; gap:6px; font-size:13.5px; color:rgba(255,255,255,.78); font-weight:500;}
+  .market-chip .dot{width:5px; height:5px; border-radius:50%; background:var(--brand-light);}
+
+  /* Hero visual: estimate mockup card */
+  .hero-visual{position:relative;}
+  .quote-card{
+    background:rgba(16,24,46,.6);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;
+    padding:20px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 40px 80px rgba(0,0,0,.45);
+  }
+  .quote-card .qc-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+  .qc-head h4{font-family:var(--font-en); font-size:13px; font-weight:700; color:rgba(255,255,255,.55); letter-spacing:.04em;}
+  .qc-head .live{display:flex; align-items:center; gap:6px; font-size:12px; color:#5FE39D; font-weight:700;}
+  .qc-head .live i{width:6px; height:6px; border-radius:50%; background:#5FE39D; display:inline-block; box-shadow:0 0 0 3px rgba(95,227,157,.18);}
+  .qc-tabs{display:flex; gap:6px; margin-bottom:16px;}
+  .qc-tabs span{flex:1; text-align:center; font-size:12.5px; font-weight:600; padding:8px 4px; border-radius:8px; color:rgba(255,255,255,.55); background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06);}
+  .qc-tabs span.active{background:rgba(76,124,240,.22); color:#fff; border-color:rgba(76,124,240,.5);}
+  .qc-points{display:flex; flex-direction:column; gap:10px; margin-bottom:16px;}
+  .qc-point{display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:10px 12px;}
+  .qc-point .pin{width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:10px; font-weight:800;}
+  .qc-point.a .pin{background:rgba(95,227,157,.2); color:#5FE39D;}
+  .qc-point.b .pin{background:rgba(255,138,101,.2); color:#FF8A65;}
+  .qc-point div{font-size:12.5px; color:rgba(255,255,255,.8);}
+  .qc-point small{display:block; font-size:10.5px; color:rgba(255,255,255,.42); font-weight:500; margin-top:1px;}
+  .qc-map{position:relative; height:120px; border-radius:12px; overflow:hidden; margin-bottom:16px; background:linear-gradient(160deg,#182648,#0e1730);}
+  .qc-map svg{position:absolute; inset:0; width:100%; height:100%;}
+  .qc-result{display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px dashed rgba(255,255,255,.14);}
+  .qc-result div span{display:block; font-size:11.5px; color:rgba(255,255,255,.45); margin-bottom:3px;}
+  .qc-result div strong{font-family:var(--font-en); font-size:24px; font-weight:800; color:#fff;}
+  .qc-result div strong small{font-size:13px; color:rgba(255,255,255,.5); font-weight:600;}
+  .qc-cta{background:var(--brand); color:#fff; font-size:13px; font-weight:700; padding:10px 18px; border-radius:9px;}
+  .float-badge{
+    position:absolute; background:#fff; color:var(--text-1); border-radius:14px; padding:12px 16px;
+    box-shadow:var(--shadow-lg); display:flex; align-items:center; gap:10px; font-size:12.5px; font-weight:700;
+  }
+  .float-badge.b1{ top:-30px; right:-6%; }
+  .float-badge.b2{ bottom:-24px; left:-8%; }
+  .float-badge .ic{width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .float-badge.b1 .ic{background:rgba(34,87,212,.1); color:var(--brand);}
+  .float-badge.b2 .ic{background:rgba(27,156,110,.1); color:var(--success);}
+  .float-badge small{display:block; font-weight:500; color:var(--text-3); font-size:11px; margin-top:1px;}
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust-strip{background:var(--surface); border-bottom:1px solid var(--border); padding:36px 0;}
+  .trust-strip .wrap{display:flex; align-items:center; gap:40px; flex-wrap:wrap;}
+  .trust-strip .ts-label{font-size:12.5px; font-weight:700; color:var(--text-3); letter-spacing:.05em; white-space:nowrap;}
+  .trust-logos{display:flex; align-items:center; gap:38px; flex-wrap:wrap; opacity:.85;}
+  .trust-logos .logo-item{font-family:var(--font-sc); font-weight:800; font-size:17px; color:#B7BDCC; letter-spacing:-.02em;}
+  .trust-logos .logo-item sup{font-size:9px; font-weight:600; color:#C7CCD9; margin-left:2px;}
+
+  /* ---------- SECTION generic ---------- */
+  section{padding:112px 0;}
+  .section-alt{background:var(--surface);}
+
+  /* Stats row */
+  .stats-row{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-m); overflow:hidden; margin-top:-40px; position:relative; z-index:2;}
+  .stat-cell{background:#fff; padding:28px 26px;}
+  .stat-cell strong{display:block; font-family:var(--font-en); font-size:30px; font-weight:800; color:var(--text-1); margin-bottom:6px;}
+  .stat-cell strong span{color:var(--brand);}
+  .stat-cell p{font-size:13.5px; color:var(--text-3); font-weight:500;}
+
+  /* Problem section */
+  .problem-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .problem-card{background:#fff; border:1px solid var(--border); border-radius:var(--radius-m); padding:32px; position:relative;}
+  .problem-card .num{position:absolute; top:24px; right:28px; font-family:var(--font-en); font-size:13px; font-weight:800; color:var(--border); letter-spacing:.05em;}
+  .problem-card .ic{width:44px; height:44px; border-radius:12px; background:#FFF1EE; color:#E8603C; display:flex; align-items:center; justify-content:center; margin-bottom:20px;}
+  .problem-card h3{font-size:18px; margin-bottom:10px; font-weight:800;}
+  .problem-card p{font-size:14.5px; color:var(--text-2); line-height:1.7;}
+
+  /* Feature grid */
+  .feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .feature-card{
+    border:1px solid var(--border); border-radius:var(--radius-m); padding:30px;
+    transition:.2s ease; background:#fff;
+  }
+  .feature-card:hover{border-color:rgba(34,87,212,.35); box-shadow:var(--shadow-md); transform:translateY(-3px);}
+  .feature-card .ic{width:46px; height:46px; border-radius:12px; background:linear-gradient(135deg, rgba(34,87,212,.12), rgba(34,87,212,.04)); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:20px;}
+  .feature-card h3{font-size:17.5px; margin-bottom:9px; font-weight:800;}
+  .feature-card p{font-size:14px; color:var(--text-2); line-height:1.7;}
+  .feature-card.feat-wide{grid-column:span 2;}
+
+  /* Vehicle scale bar */
+  .fleet-strip{margin-top:64px; border:1px solid var(--border); border-radius:var(--radius-m); padding:36px; background:linear-gradient(180deg,#fff,var(--surface));}
+  .fleet-strip h4{font-size:15px; font-weight:800; margin-bottom:24px; color:var(--text-2); text-align:center; letter-spacing:.02em;}
+  .fleet-row{display:flex; align-items:flex-end; justify-content:space-between; gap:10px; position:relative;}
+  .fleet-row::before{content:""; position:absolute; left:0; right:0; bottom:22px; height:2px; background:repeating-linear-gradient(90deg, var(--border) 0 6px, transparent 6px 12px);}
+  .fleet-item{display:flex; flex-direction:column; align-items:center; gap:10px; position:relative; z-index:1; flex:1;}
+  .fleet-item .ic-wrap{width:100%; display:flex; align-items:flex-end; justify-content:center; height:64px;}
+  .fleet-item svg{color:var(--brand);}
+  .fleet-item span{font-size:12.5px; font-weight:700; color:var(--text-2); text-align:center;}
+
+  /* How it works */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:0; position:relative;}
+  .step{position:relative; padding:0 28px 0 0;}
+  .step:first-child{padding-left:0;}
+  .step .step-num{
+    font-family:var(--font-en); font-size:13px; font-weight:800; color:var(--brand);
+    display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .step .step-num::before{content:""; width:34px; height:1px; background:var(--border);}
+  .step:first-child .step-num::before{display:none;}
+  .step h3{font-size:19px; margin-bottom:10px;}
+  .step p{font-size:14.5px; color:var(--text-2); line-height:1.7; margin-bottom:18px;}
+  .step .step-shot{border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--surface); height:160px; display:flex; align-items:center; justify-content:center;}
+
+  /* Coverage */
+  .coverage-wrap{display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center;}
+  .market-list{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .market-card{border:1px solid var(--border); border-radius:12px; padding:18px 20px; display:flex; align-items:center; gap:14px; background:#fff;}
+  .market-card .flag{width:38px; height:38px; border-radius:10px; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;}
+  .market-card strong{display:block; font-size:15px; font-weight:800;}
+  .market-card span{font-size:12.5px; color:var(--text-3);}
+  .map-visual{
+    position:relative; border-radius:var(--radius-l); overflow:hidden; aspect-ratio:1/1;
+    background:linear-gradient(160deg, var(--ink-900), var(--ink-700));
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* Testimonials */
+  .test-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .test-card{background:#fff; border:1px solid var(--border); border-radius:var(--radius-m); padding:30px; display:flex; flex-direction:column;}
+  .test-card .stars{color:#F5A623; font-size:14px; margin-bottom:16px; letter-spacing:2px;}
+  .test-card p{font-size:14.5px; line-height:1.75; color:var(--text-1); margin-bottom:22px; flex:1;}
+  .test-person{display:flex; align-items:center; gap:12px;}
+  .test-person .avatar{width:40px; height:40px; border-radius:50%; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--brand); font-size:14px; flex-shrink:0;}
+  .test-person strong{display:block; font-size:13.5px; font-weight:700;}
+  .test-person span{font-size:12px; color:var(--text-3);}
+  .sample-tag{font-size:11px; font-weight:700; color:var(--text-3); background:var(--surface-2); padding:3px 9px; border-radius:6px; margin-top:14px; display:inline-block; align-self:flex-start;}
+
+  /* Settlement */
+  .settle-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .settle-card{border:1px solid var(--border); border-radius:var(--radius-m); padding:36px; background:#fff; position:relative;}
+  .settle-card.featured{border:1.5px solid var(--brand); box-shadow:0 12px 32px rgba(34,87,212,.14);}
+  .settle-card .tag-featured{position:absolute; top:-13px; left:32px; background:var(--brand); color:#fff; font-size:12px; font-weight:700; padding:5px 12px; border-radius:999px;}
+  .settle-card h3{font-size:19px; margin-bottom:8px;}
+  .settle-card .sub{font-size:13.5px; color:var(--text-3); margin-bottom:24px;}
+  .settle-list{display:flex; flex-direction:column; gap:13px;}
+  .settle-list li{display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text-2); line-height:1.6;}
+  .settle-list li svg{color:var(--success); flex-shrink:0; margin-top:2px;}
+
+  /* FAQ */
+  .faq-wrap{max-width:760px; margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--border);}
+  .faq-q{display:flex; align-items:center; justify-content:space-between; padding:24px 4px; font-size:16.5px; font-weight:700; color:var(--text-1); background:none; border:none; width:100%; text-align:left;}
+  .faq-q svg{flex-shrink:0; transition:.25s ease; color:var(--text-3);}
+  .faq-item.open .faq-q svg{transform:rotate(45deg); color:var(--brand);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{padding:0 4px 24px; font-size:14.5px; color:var(--text-2); line-height:1.75; max-width:660px;}
+
+  /* Final CTA */
+  .final-cta{
+    background:linear-gradient(160deg, var(--ink-900), var(--ink-700));
+    color:#fff; border-radius:var(--radius-l); padding:72px 60px; text-align:center; position:relative; overflow:hidden;
+  }
+  .final-cta::before{content:""; position:absolute; inset:0; background:radial-gradient(700px 300px at 50% -20%, rgba(76,124,240,.4), transparent 60%);}
+  .final-cta h2{position:relative; color:#fff; font-size:clamp(26px,3.2vw,36px); margin-bottom:14px;}
+  .final-cta p{position:relative; color:rgba(255,255,255,.65); font-size:16px; margin-bottom:34px;}
+  .final-cta .hero-ctas{justify-content:center; position:relative;}
+
+  /* Footer */
+  footer{background:var(--ink-900); color:rgba(255,255,255,.6); padding:76px 0 32px;}
+  .footer-grid{display:grid; grid-template-columns:1.4fr repeat(4,1fr); gap:32px; padding-bottom:56px; border-bottom:1px solid rgba(255,255,255,.08);}
+  .footer-brand .logo{color:#fff;}
+  .footer-brand p{font-size:13.5px; line-height:1.8; margin:18px 0 22px; max-width:280px; color:rgba(255,255,255,.45);}
+  .footer-contact{display:flex; flex-direction:column; gap:10px; font-size:13.5px;}
+  .footer-contact div{display:flex; align-items:center; gap:9px; color:rgba(255,255,255,.55);}
+  .footer-contact svg{flex-shrink:0; color:rgba(255,255,255,.35);}
+  .footer-col h5{font-size:13px; font-weight:700; color:#fff; margin-bottom:18px; letter-spacing:.03em;}
+  .footer-col ul{display:flex; flex-direction:column; gap:12px;}
+  .footer-col a{font-size:13.5px; color:rgba(255,255,255,.5); transition:.15s;}
+  .footer-col a:hover{color:#fff;}
+  .footer-bottom{display:flex; align-items:center; justify-content:space-between; padding-top:28px; font-size:12.5px; color:rgba(255,255,255,.35); flex-wrap:wrap; gap:12px;}
+  .footer-bottom .legal-links{display:flex; gap:20px;}
+
+  /* Sticky WeCom badge */
+  .sticky-contact{
+    position:fixed; right:24px; bottom:24px; z-index:90;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--brand); color:#fff; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 12px 28px rgba(34,87,212,.4); cursor:pointer;
+  }
+  .sticky-contact:hover .sticky-panel{opacity:1; visibility:visible; transform:translateY(0);}
+  .sticky-panel{
+    position:absolute; bottom:70px; right:0; width:200px; background:#fff; border-radius:14px;
+    box-shadow:var(--shadow-lg); padding:18px; text-align:center; color:var(--text-1);
+    opacity:0; visibility:hidden; transform:translateY(8px); transition:.2s ease;
+  }
+  .sticky-panel .qr{width:140px; height:140px; margin:0 auto 12px; background:repeating-conic-gradient(#0F1229 0% 25%, #fff 0% 50%) 50% / 14px 14px; border-radius:8px; border:8px solid #fff; box-shadow:0 0 0 1px var(--border);}
+  .sticky-panel strong{display:block; font-size:13px; margin-bottom:2px;}
+  .sticky-panel span{font-size:11.5px; color:var(--text-3);}
+
+  /* mobile sticky cta */
+  .mobile-cta-bar{display:none; position:fixed; bottom:0; left:0; right:0; z-index:95; background:#fff; border-top:1px solid var(--border); padding:12px 16px; box-shadow:0 -8px 24px rgba(15,18,41,.08);}
+  .mobile-cta-bar .btn{width:100%;}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1080px){
+    .wrap{padding:0 24px;}
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-visual{max-width:480px;}
+    .feature-grid, .problem-grid, .test-grid{grid-template-columns:repeat(2,1fr);}
+    .feature-card.feat-wide{grid-column:span 2;}
+    .stats-row{grid-template-columns:repeat(2,1fr);}
+    .coverage-wrap{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr; gap:40px;}
+    .step{padding-left:0;}
+    .step .step-num::before{display:none;}
+    .settle-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr; gap:40px 24px;}
+  }
+  @media (max-width:720px){
+    nav.primary-nav, .header-actions .btn-outline{display:none;}
+    .nav-toggle{display:flex;}
+    header .wrap{height:64px;}
+    .logo{font-size:16px; gap:8px; white-space:nowrap; overflow:hidden;}
+    .logo .mark{width:28px; height:28px; flex-shrink:0;}
+    .logo .mark svg{width:15px; height:15px;}
+    .logo span{display:none;}
+    .header-actions .btn-primary{padding:9px 14px; font-size:13px;}
+    section{padding:72px 0;}
+    .hero{padding:120px 0 80px;}
+    .hero-ctas{flex-direction:column; align-items:stretch;}
+    .hero-ctas .btn{width:100%;}
+    .feature-grid, .problem-grid, .test-grid, .market-list{grid-template-columns:1fr;}
+    .feature-card.feat-wide{grid-column:span 1;}
+    .stats-row{grid-template-columns:repeat(2,1fr);}
+    .fleet-row{flex-wrap:wrap; gap:20px 12px;}
+    .fleet-row::before{display:none;}
+    .fleet-item{flex:1 1 28%;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .final-cta{padding:52px 24px;}
+    .mobile-cta-bar{display:block;}
+    body{padding-bottom:74px;}
+    .sticky-contact{bottom:90px;}
+    .trust-strip .wrap{flex-direction:column; align-items:flex-start; gap:16px;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="#top" class="logo">
+      <span class="mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 17L12 5L20 17H4Z" stroke="white" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="17" r="1.6" fill="white"/></svg>
+      </span>
+      <b>货拉拉</b>企业国际版<span>lala-i</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="#solutions">解决方案</a>
+      <a href="#coverage">覆盖城市</a>
+      <a href="#api">开发者 / API</a>
+      <a href="#cases">客户案例</a>
+      <a href="#about">关于我们</a>
+      <a href="#help">帮助中心</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#" class="btn btn-outline">登录</a>
+      <a href="#quote" class="btn btn-primary">免费试用估价</a>
+    </div>
+    <button class="nav-toggle" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">东南亚企业用车 · 覆盖 7 个国家/地区</div>
+        <h1>东南亚七国货运，<br>一个账户<em>全搞定</em></h1>
+        <p class="lead">从二轮摩托到 9.6 米大车，货拉拉企业国际版为出海企业提供泰国、越南、马来西亚、印尼、菲律宾、新加坡、香港的本地货运用车 —— 人民币统一结算，子母账号分权管理，让海外配送像在国内一样简单。</p>
+        <div class="hero-ctas">
+          <a href="#quote" class="btn btn-primary btn-lg">免费试用估价 →</a>
+          <a href="#coverage" class="btn btn-ghost btn-lg">查看服务城市</a>
+        </div>
+        <div class="hero-markets">
+          <span class="label">已上线市场</span>
+          <span class="market-chip"><i class="dot"></i>泰国</span>
+          <span class="market-chip"><i class="dot"></i>越南</span>
+          <span class="market-chip"><i class="dot"></i>马来西亚</span>
+          <span class="market-chip"><i class="dot"></i>印尼</span>
+          <span class="market-chip"><i class="dot"></i>菲律宾</span>
+          <span class="market-chip"><i class="dot"></i>新加坡</span>
+          <span class="market-chip"><i class="dot"></i>香港</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="quote-card">
+          <div class="qc-head">
+            <h4>试用估价</h4>
+            <div class="live"><i></i>实时报价</div>
+          </div>
+          <div class="qc-tabs">
+            <span>轿车</span><span class="active">厢式货车</span><span>大车</span>
+          </div>
+          <div class="qc-points">
+            <div class="qc-point a">
+              <div class="pin">A</div>
+              <div>雅加达 · 仓库园区<small>装货点</small></div>
+            </div>
+            <div class="qc-point b">
+              <div class="pin">B</div>
+              <div>茂物 · 配送中心<small>卸货点</small></div>
+            </div>
+          </div>
+          <div class="qc-map">
+            <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="route" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#5FE39D"/>
+                  <stop offset="1" stop-color="#4C7CF0"/>
+                </linearGradient>
+              </defs>
+              <path d="M20 90 C 90 20, 150 100, 280 30" fill="none" stroke="url(#route)" stroke-width="2.5" stroke-dasharray="1 7" stroke-linecap="round"/>
+              <circle cx="20" cy="90" r="5" fill="#5FE39D"/>
+              <circle cx="280" cy="30" r="5" fill="#FF8A65"/>
+              <circle cx="120" cy="55" r="2" fill="rgba(255,255,255,.4)"/>
+              <circle cx="200" cy="70" r="2" fill="rgba(255,255,255,.3)"/>
+              <circle cx="90" cy="30" r="2" fill="rgba(255,255,255,.25)"/>
+            </svg>
+          </div>
+          <div class="qc-result">
+            <div><span>预估费用（含税）</span><strong>≈ ¥ 1,280<small> / 单程</small></strong></div>
+            <span class="qc-cta">立即下单</span>
+          </div>
+        </div>
+        <div class="float-badge b1">
+          <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          <div>统一人民币结算<small>汇率月末对账</small></div>
+        </div>
+        <div class="float-badge b2">
+          <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <div>子母账号管理<small>E001-VN / E001-TH…</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TRUST STRIP ================= -->
+  <div class="trust-strip">
+    <div class="wrap">
+      <span class="ts-label">已服务出海企业（示例）</span>
+      <div class="trust-logos">
+        <span class="logo-item">CaiNiao Global<sup>示例</sup></span>
+        <span class="logo-item">JD Logistics<sup>示例</sup></span>
+        <span class="logo-item">JT Express<sup>示例</sup></span>
+        <span class="logo-item">FreshChain<sup>示例</sup></span>
+        <span class="logo-item">GoTrade<sup>示例</sup></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STATS ================= -->
+  <div class="wrap">
+    <div class="stats-row reveal">
+      <div class="stat-cell"><strong><span>7</span> 国</strong><p>已上线国家 / 地区</p></div>
+      <div class="stat-cell"><strong>6+ 类</strong><p>车型全场景覆盖</p></div>
+      <div class="stat-cell"><strong>24H</strong><p>双语客服在线</p></div>
+      <div class="stat-cell"><strong>API</strong><p>可对接企业自有系统</p></div>
+    </div>
+  </div>
+
+  <!-- ================= PROBLEM ================= -->
+  <section id="solutions">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">The Problem</span>
+        <h2>出海东南亚，本地配送卡在哪</h2>
+        <p>企业把货铺到东南亚市场后，本地"最后一公里"往往比想象中更难标准化。</p>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card reveal">
+          <span class="num">01</span>
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>车队分散、难以统一管理</h3>
+          <p>每个国家要单独对接当地车队或平台，供应商参差不齐，出问题时缺乏统一的服务标准和响应机制。</p>
+        </div>
+        <div class="problem-card reveal">
+          <span class="num">02</span>
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>多国货币，对账极其繁琐</h3>
+          <p>泰铢、越南盾、印尼盾、马来令吉……多套汇率和账单格式让财务对账成本直线上升，还容易出错。</p>
+        </div>
+        <div class="problem-card reveal">
+          <span class="num">03</span>
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18" stroke="currentColor" stroke-width="2"/></svg></div>
+          <h3>内部系统和供应商割裂</h3>
+          <p>企业自有的 TMS / ERP 系统对不上当地供应商的下单方式，只能靠人工传单，效率低、易出错。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES ================= -->
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">The Solution</span>
+        <h2>一个账户，覆盖出海企业的全部用车需求</h2>
+        <p>货拉拉企业国际版把 7 个市场的本地运力、结算和管理整合进同一套系统。</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card feat-wide reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 13l2-6h9l3 6M3 13v5h2M3 13h15m0 0v5h3v-5M8 18a2 2 0 100-4 2 2 0 000 4zm10 0a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <h3>全车型全场景覆盖</h3>
+          <p>从二轮摩托、轿车、MPV，到厢式/开篷货车，再到 9.6 米大型货车，覆盖电商送货、大件运输、生鲜配送、搬家等各类场景，一个平台按需调度。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>多国统一人民币结算</h3>
+          <p>按每月月末中国银行挂牌汇率兑换，次月月末统一还账单，财务对账不用再逐国核算。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <h3>充值 + 账期双结算方式</h3>
+          <p>支持预充值即时使用，也支持账期结算，匹配企业不同规模和现金流管理习惯。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 4.5a3.2 3.2 0 010 6M20 20c0-2.8-2-5.2-4.6-5.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <h3>企业子母账号管理</h3>
+          <p>上级账号可统一管理多个市场子账号（如 E001-VN、E001-TH），权限分级，数据集中查看。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+          <h3>24 小时双语客服</h3>
+          <p>当地语言 + 中文双语在线，支持企业微信直连，遇到问题随时响应。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 9l-5 3 5 3M16 9l5 3-5 3M13 5l-3 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>API 直连自有系统</h3>
+          <p>提供标准 API，对接企业自有 TMS / ERP，下单、查价、对账全流程自动化。</p>
+        </div>
+      </div>
+
+      <div class="fleet-strip reveal">
+        <h4>车型全覆盖 · 从二轮摩托到 9.6 米大车</h4>
+        <div class="fleet-row">
+          <div class="fleet-item">
+            <div class="ic-wrap"><svg width="30" height="24" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="17" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="17" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M5 17l3-8h4l4 8M8 9h5l3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <span>二轮摩托</span>
+          </div>
+          <div class="fleet-item">
+            <div class="ic-wrap"><svg width="38" height="28" viewBox="0 0 24 24" fill="none"><path d="M3 15l1.5-5h6L14 15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 15h16v2H3zM14 11h4l3 4v0h-7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.6"/></svg></div>
+            <span>轿车 / MPV</span>
+          </div>
+          <div class="fleet-item">
+            <div class="ic-wrap"><svg width="44" height="30" viewBox="0 0 24 24" fill="none"><path d="M2 16V9h10v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 12h4l4 3v1H12z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="6" cy="17" r="1.8" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17" r="1.8" stroke="currentColor" stroke-width="1.6"/></svg></div>
+            <span>面包车</span>
+          </div>
+          <div class="fleet-item">
+            <div class="ic-wrap"><svg width="50" height="32" viewBox="0 0 24 24" fill="none"><rect x="1" y="8" width="12" height="8" stroke="currentColor" stroke-width="1.6"/><path d="M13 11h4l4 3v2h-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="5.5" cy="18" r="1.8" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="18" r="1.8" stroke="currentColor" stroke-width="1.6"/></svg></div>
+            <span>厢式货车</span>
+          </div>
+          <div class="fleet-item">
+            <div class="ic-wrap"><svg width="58" height="34" viewBox="0 0 24 24" fill="none"><rect x="1" y="6" width="14" height="10" stroke="currentColor" stroke-width="1.6"/><path d="M15 10h4l3 3v3h-7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="5" cy="18" r="1.8" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="18" r="1.8" stroke="currentColor" stroke-width="1.6"/></svg></div>
+            <span>开篷货车</span>
+          </div>
+          <div class="fleet-item">
+            <div class="ic-wrap"><svg width="66" height="36" viewBox="0 0 24 24" fill="none"><rect x="1" y="4" width="15" height="12" stroke="currentColor" stroke-width="1.6"/><path d="M16 9h4l3 3.5v3.5h-7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="5.5" cy="18" r="1.8" stroke="currentColor" stroke-width="1.6"/><circle cx="19.5" cy="18" r="1.8" stroke="currentColor" stroke-width="1.6"/></svg></div>
+            <span>9.6 米大车</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW IT WORKS ================= -->
+  <section id="quote">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">How It Works</span>
+        <h2>三步完成试用估价，当场看到价格</h2>
+        <p>"试用估价"功能已上线，不用注册企业资质也能先看看价格是否合适。</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <h3>选择服务类型与车型</h3>
+          <p>按货物大小和场景，从轿车到 9.6 米大车中选择合适车型。</p>
+          <div class="step-shot">
+            <svg width="120" height="80" viewBox="0 0 120 80" fill="none"><rect x="8" y="16" width="104" height="48" rx="8" fill="#EEF1F8"/><rect x="18" y="28" width="28" height="24" rx="4" fill="#2257D4" opacity=".15"/><rect x="18" y="28" width="28" height="24" rx="4" stroke="#2257D4" stroke-width="1.6"/><rect x="52" y="28" width="20" height="24" rx="4" stroke="#C7CCDB" stroke-width="1.6"/><rect x="78" y="28" width="26" height="24" rx="4" stroke="#C7CCDB" stroke-width="1.6"/></svg>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <h3>填写装货点与卸货点</h3>
+          <p>直接在地图上选点，支持新增多个提货点，适配复杂配送路线。</p>
+          <div class="step-shot">
+            <svg width="120" height="80" viewBox="0 0 120 80" fill="none"><rect x="8" y="10" width="104" height="60" rx="8" fill="#0E1730"/><path d="M22 55 C 45 20, 70 60, 98 25" stroke="#4C7CF0" stroke-width="2" stroke-dasharray="1 5" fill="none"/><circle cx="22" cy="55" r="4" fill="#5FE39D"/><circle cx="98" cy="25" r="4" fill="#FF8A65"/></svg>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <h3>即时查看估价，一键下单</h3>
+          <p>系统实时返回预估费用，确认无误直接下单，无需人工报价等待。</p>
+          <div class="step-shot">
+            <svg width="120" height="80" viewBox="0 0 120 80" fill="none"><rect x="8" y="16" width="104" height="48" rx="8" fill="#EEF1F8"/><text x="60" y="38" font-family="Inter" font-size="16" font-weight="800" fill="#2257D4" text-anchor="middle">¥1,280</text><rect x="34" y="46" width="52" height="12" rx="6" fill="#2257D4"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COVERAGE ================= -->
+  <section id="coverage" class="section-alt">
+    <div class="wrap">
+      <div class="coverage-wrap">
+        <div>
+          <div class="section-head reveal" style="margin-bottom:32px;">
+            <span class="section-tag">Coverage</span>
+            <h2>已覆盖东南亚 7 个国家 / 地区</h2>
+            <p>持续拓展本地运力网络，覆盖主要经济中心城市。</p>
+          </div>
+          <div class="market-list reveal">
+            <div class="market-card"><span class="flag">🇹🇭</span><div><strong>泰国</strong><span>曼谷及周边</span></div></div>
+            <div class="market-card"><span class="flag">🇻🇳</span><div><strong>越南</strong><span>河内 · 胡志明市</span></div></div>
+            <div class="market-card"><span class="flag">🇲🇾</span><div><strong>马来西亚</strong><span>吉隆坡及周边</span></div></div>
+            <div class="market-card"><span class="flag">🇮🇩</span><div><strong>印度尼西亚</strong><span>雅加达 · 泗水</span></div></div>
+            <div class="market-card"><span class="flag">🇵🇭</span><div><strong>菲律宾</strong><span>马尼拉及周边</span></div></div>
+            <div class="market-card"><span class="flag">🇸🇬</span><div><strong>新加坡</strong><span>全岛覆盖</span></div></div>
+            <div class="market-card"><span class="flag">🇭🇰</span><div><strong>香港</strong><span>全区覆盖</span></div></div>
+            <div class="market-card" style="align-items:flex-start;"><span class="flag">＋</span><div><strong>持续拓展中</strong><span>更多市场规划上线</span></div></div>
+          </div>
+        </div>
+        <div class="map-visual reveal">
+          <svg width="100%" height="100%" viewBox="0 0 400 400" style="position:absolute;inset:0;">
+            <defs>
+              <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+                <stop offset="0" stop-color="rgba(76,124,240,.35)"/>
+                <stop offset="1" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <rect width="400" height="400" fill="url(#glow)"/>
+            <g stroke="rgba(255,255,255,.08)" stroke-width="1">
+              <line x1="0" y1="80" x2="400" y2="80"/><line x1="0" y1="160" x2="400" y2="160"/>
+              <line x1="0" y1="240" x2="400" y2="240"/><line x1="0" y1="320" x2="400" y2="320"/>
+              <line x1="80" y1="0" x2="80" y2="400"/><line x1="160" y1="0" x2="160" y2="400"/>
+              <line x1="240" y1="0" x2="240" y2="400"/><line x1="320" y1="0" x2="320" y2="400"/>
+            </g>
+            <g>
+              <circle cx="130" cy="120" r="6" fill="#5FE39D"/><text x="145" y="125" fill="#fff" font-size="12" font-family="Inter">Bangkok</text>
+              <circle cx="180" cy="190" r="6" fill="#4C7CF0"/><text x="195" y="195" fill="#fff" font-size="12" font-family="Inter">HCMC</text>
+              <circle cx="120" cy="230" r="6" fill="#4C7CF0"/><text x="135" y="235" fill="#fff" font-size="12" font-family="Inter">KL</text>
+              <circle cx="230" cy="280" r="6" fill="#FF8A65"/><text x="245" y="285" fill="#fff" font-size="12" font-family="Inter">Jakarta</text>
+              <circle cx="260" cy="150" r="6" fill="#F5C243"/><text x="275" y="155" fill="#fff" font-size="12" font-family="Inter">Manila</text>
+              <circle cx="140" cy="270" r="6" fill="#fff"/><text x="60" y="275" fill="#fff" font-size="12" font-family="Inter">Singapore</text>
+              <circle cx="310" cy="90" r="6" fill="#B983F5"/><text x="245" y="80" fill="#fff" font-size="12" font-family="Inter">Hong Kong</text>
+              <path d="M130 120 Q160 160 180 190" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
+              <path d="M180 190 Q150 210 120 230" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
+              <path d="M120 230 Q175 255 230 280" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= API ================= -->
+  <section id="api">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">Developers</span>
+        <h2>API 直连，接入企业自有系统</h2>
+        <p>标准化接口，覆盖下单、查价、状态回调、账单对账全流程，帮助企业把货运能力嵌入自身系统。</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 9l-5 3 5 3M16 9l5 3-5 3M13 5l-3 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>下单 / 查价接口</h3>
+          <p>一次调用完成车型报价与下单，支持多装卸货点参数。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0114-5.3M20 12a8 8 0 01-14 5.3M15 6h5V1M9 18H4v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>状态 Webhook 回调</h3>
+          <p>司机接单、到达、完成等节点实时推送，无需轮询。</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8"/></svg></div>
+          <h3>账单与对账接口</h3>
+          <p>按月拉取多国汇率折算后的统一账单，直接同步财务系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CASES ================= -->
+  <section id="cases" class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">Customer Stories</span>
+        <h2>出海企业怎么用 lala-i</h2>
+        <p>以下为示例场景，用于说明典型使用方式（非真实客户引语）。</p>
+      </div>
+      <div class="test-grid">
+        <div class="test-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"以前每进一个新市场都要重新找车队，现在一个后台管理泰国、越南、印尼三地的配送，子账号权限也很清楚。"</p>
+          <div class="test-person">
+            <div class="avatar">跨</div>
+            <div><strong>跨境电商仓配团队</strong><span>物流负责人 · 示例</span></div>
+          </div>
+          <span class="sample-tag">示例场景</span>
+        </div>
+        <div class="test-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"生鲜配送对时效要求高，双语客服响应很快，遇到临时改点也能及时协调车辆。"</p>
+          <div class="test-person">
+            <div class="avatar">鲜</div>
+            <div><strong>生鲜出海连锁品牌</strong><span>运营经理 · 示例</span></div>
+          </div>
+          <span class="sample-tag">示例场景</span>
+        </div>
+        <div class="test-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"API 对接我们自己的 ERP 后，下单和对账基本自动化了，财务每月只需要核对一次汇总账单。"</p>
+          <div class="test-person">
+            <div class="avatar">3C</div>
+            <div><strong>3C 出海品牌</strong><span>供应链总监 · 示例</span></div>
+          </div>
+          <span class="sample-tag">示例场景</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SETTLEMENT ================= -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">Settlement</span>
+        <h2>灵活结算，适配不同规模企业</h2>
+        <p>无论是初次试水海外市场，还是已有稳定订单量，都能找到合适的结算方式。</p>
+      </div>
+      <div class="settle-grid">
+        <div class="settle-card reveal">
+          <h3>充值结算</h3>
+          <div class="sub">适合刚拓展海外业务、订单量还在爬坡的企业</div>
+          <ul class="settle-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>预充值即时使用，无需信用审核</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>人民币充值，系统自动折算当地货币</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>余额与消费记录实时可查</li>
+          </ul>
+        </div>
+        <div class="settle-card featured reveal">
+          <span class="tag-featured">企业客户首选</span>
+          <h3>账期结算</h3>
+          <div class="sub">适合订单量稳定、需要统一财务周期管理的企业</div>
+          <ul class="settle-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>每月月末按中国银行挂牌汇率统一折算</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>次月月末统一还账单，减少多国对账负担</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>支持子账号消费分账查看</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="help" class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal" style="margin:0 auto 48px; text-align:center;">
+        <span class="section-tag" style="display:block;">FAQ</span>
+        <h2>常见问题</h2>
+      </div>
+      <div class="faq-wrap">
+        <div class="faq-item reveal open">
+          <button class="faq-q">支持哪些结算方式？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="faq-a"><p>支持人民币充值即时使用，也支持账期结算。账期客户按每月月末中国银行挂牌汇率统一折算，次月月末出具汇总账单。</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">子母账号具体怎么管理？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="faq-a"><p>企业可开设一个上级账号，下设多个按市场划分的子账号（如 E001-VN、E001-TH），上级账号统一查看各子账号的订单和消费数据，权限可分级设置。</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">可以同时在多个国家下单吗？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="faq-a"><p>可以。子账号按市场划分后，各市场订单可独立下单、独立追踪，上级账号可在同一后台查看全部市场的整体情况。</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">API 对接需要什么条件？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="faq-a"><p>企业认证通过后即可申请 API 权限，我们提供接口文档、测试环境和技术对接支持，覆盖下单、查价、状态回调与账单查询。</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">客服支持哪些语言，响应速度如何？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="faq-a"><p>提供 24 小时当地语言与中文双语客服，支持企业微信直接联系，紧急订单问题可优先响应。</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">试用估价需要先完成企业认证吗？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="faq-a"><p>不需要。试用估价功能已开放体验，选择服务类型和装卸货点即可即时查看预估价格；正式下单和账期开通需完成企业认证。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA ================= -->
+  <section>
+    <div class="wrap">
+      <div class="final-cta reveal">
+        <h2>现在开始，试试东南亚货运估价</h2>
+        <p>无需复杂配置，几分钟内就能看到覆盖 7 个国家 / 地区的真实报价。</p>
+        <div class="hero-ctas">
+          <a href="#quote" class="btn btn-primary btn-lg">免费试用估价 →</a>
+          <a href="#" class="btn btn-ghost btn-lg">预约产品演示</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="logo">
+          <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 17L12 5L20 17H4Z" stroke="white" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="17" r="1.6" fill="white"/></svg></span>
+          <b style="color:#fff;">货拉拉</b>企业国际版<span style="color:rgba(255,255,255,.4);">lala-i</span>
+        </a>
+        <p>为出海企业提供泰国、越南、马来西亚、印尼、菲律宾、新加坡、香港的本地货运用车服务。</p>
+        <div class="footer-contact">
+          <div><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z" stroke="currentColor" stroke-width="1.7"/></svg>企业热线：400-XXX-XXXX（示例）</div>
+          <div><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.7"/></svg>enterprise@lalamove.example（示例）</div>
+          <div><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>工作时间：7×24 小时在线</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>产品</h5>
+        <ul>
+          <li><a href="#solutions">解决方案</a></li>
+          <li><a href="#coverage">覆盖城市</a></li>
+          <li><a href="#api">开发者 / API</a></li>
+          <li><a href="#quote">试用估价</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>客户</h5>
+        <ul>
+          <li><a href="#cases">客户案例</a></li>
+          <li><a href="#about">结算方式</a></li>
+          <li><a href="#help">常见问题</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>公司</h5>
+        <ul>
+          <li><a href="#">关于我们</a></li>
+          <li><a href="#">加入我们</a></li>
+          <li><a href="#">媒体报道</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>支持</h5>
+        <ul>
+          <li><a href="#help">帮助中心</a></li>
+          <li><a href="#">联系客服</a></li>
+          <li><a href="#">服务协议</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 货拉拉企业国际版 · lala-i. 保留所有权利。</span>
+      <div class="legal-links">
+        <a href="#">隐私政策</a>
+        <a href="#">服务条款</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-contact" aria-label="企业微信客服">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+  <div class="sticky-panel">
+    <div class="qr"></div>
+    <strong>企业微信客服</strong>
+    <span>扫码咨询（示例二维码）</span>
+  </div>
+</div>
+
+<div class="mobile-cta-bar">
+  <a href="#quote" class="btn btn-primary">免费试用估价</a>
+</div>
+
+<script>
+  // header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  });
+
+  // mobile nav toggle -> simple show/hide of primary nav as dropdown
+  const navToggle = document.querySelector('.nav-toggle');
+  const primaryNav = document.querySelector('.primary-nav');
+  navToggle.addEventListener('click', () => {
+    const open = primaryNav.classList.toggle('mobile-open');
+    if(open){
+      primaryNav.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#fff;padding:20px 24px;gap:18px;box-shadow:0 16px 32px rgba(15,18,41,.12);border-top:1px solid var(--border);';
+    } else {
+      primaryNav.style.cssText = '';
+    }
+  });
+  primaryNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    primaryNav.classList.remove('mobile-open');
+    primaryNav.style.cssText = '';
+  }));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    if(item.classList.contains('open')) a.style.maxHeight = a.scrollHeight + 'px';
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o => {
+        o.classList.remove('open');
+        o.querySelector('.faq-a').style.maxHeight = 0;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
+  }
+  // safety net: force-reveal anything the observer missed
+  setTimeout(() => revealEls.forEach(el => el.classList.add('in')), 4000);
+</script>
+
+</body>
+</html>
