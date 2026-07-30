@@ -77,7 +77,7 @@
 
   /* header */
   header{position:fixed; top:0; left:0; right:0; z-index:100; transition:.25s; background:rgba(255,255,255,.0);}
-  header.scrolled{background:rgba(255,255,255,.9); backdrop-filter:blur(14px); border-bottom:1px solid var(--border);}
+  header.scrolled{background:rgba(255,255,255,.9); backdrop-filter:blur(14px); box-shadow:0 1px 0 rgba(15,18,41,.06);}
   header .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
   .logo{display:flex; align-items:center; gap:9px; font-family:var(--font-sc); font-weight:600; font-size:18px; color:var(--text-1); white-space:nowrap;}
   .logo .mark{width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,var(--brand-light),var(--brand-dark)); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
@@ -121,20 +121,21 @@
   /* social proof — dedicated section, logos only */
   .sp-logos{display:flex; justify-content:center;}
   .trust-logos{
-    display:grid; grid-template-columns:repeat(6,1fr); gap:12px;
+    display:grid; grid-template-columns:repeat(6,1fr);
     width:100%; max-width:980px;
   }
   .logo-cell{
-    height:64px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-s);
-    display:flex; align-items:center; justify-content:center; padding:10px 14px; transition:.18s ease;
+    height:64px; display:flex; align-items:center; justify-content:center;
+    padding:10px 18px; position:relative; transition:transform .25s cubic-bezier(.16,1,.3,1);
   }
-  .logo-cell:hover{border-color:var(--brand); box-shadow:var(--shadow-md);}
-  .trust-logos img{max-height:24px; max-width:100%; width:auto; filter:grayscale(1) opacity(.65); transition:filter .2s ease;}
-  .logo-cell:hover img{filter:grayscale(0) opacity(1);}
-  .trust-logos img.chip-logo{max-height:32px; border-radius:5px; filter:grayscale(.4) opacity(.85);}
-  .logo-cell:hover img.chip-logo{filter:grayscale(0) opacity(1);}
-  .trust-logos .wordmark{font-family:var(--font-sc); font-weight:500; font-size:14px; color:#AEB4C4; letter-spacing:.01em; transition:color .2s ease; white-space:nowrap;}
-  .logo-cell:hover .wordmark{color:var(--brand);}
+  .logo-cell::after{
+    content:""; position:absolute; right:0; top:50%; transform:translateY(-50%);
+    width:1px; height:28px; background:var(--border);
+  }
+  .logo-cell:nth-child(6n)::after{display:none;}
+  .logo-cell:hover{transform:translateY(-2px);}
+  .trust-logos img{max-height:26px; max-width:100%; width:auto;}
+  .trust-logos img.chip-logo{max-height:34px; border-radius:5px;}
 
   /* problem */
   .problem-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
@@ -282,18 +283,34 @@
 
   /* sticky WeCom contact — matches Figma node 4147:6589 exactly */
   .sticky-contact{
-    position:fixed; right:24px; bottom:24px; z-index:90; width:180px;
+    position:fixed; right:24px; bottom:24px; z-index:90; width:200px;
     background:#fff; border-radius:20px;
-    box-shadow:0 10px 20px rgba(0,0,0,.12); padding:20px; text-align:center; color:var(--text-1);
+    box-shadow:0 10px 20px rgba(0,0,0,.12); padding:16px; text-align:center; color:var(--text-1);
     transition:transform .18s ease, opacity .18s ease;
   }
+  @keyframes qrDot{
+    0%{transform:scale(1); opacity:.7;}
+    100%{transform:scale(2.6); opacity:0;}
+  }
   .sticky-contact strong{
-    display:block; font-family:"Noto Sans SC",sans-serif; font-weight:500; font-size:18px;
-    color:var(--brand); margin-bottom:16px;
+    display:flex; align-items:center; gap:6px; justify-content:center;
+    width:100%; font-family:"Noto Sans SC",sans-serif; font-weight:500; font-size:14px;
+    color:var(--brand); margin-bottom:8px;
+  }
+  .live-dot{
+    position:relative; width:6px; height:6px; border-radius:50%;
+    background:var(--success); flex-shrink:0;
+  }
+  .live-dot::after{
+    content:""; position:absolute; inset:0; border-radius:50%;
+    background:var(--success); animation:qrDot 1.8s ease-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .live-dot::after{animation:none; display:none;}
   }
   .sticky-contact .qr{width:100%; aspect-ratio:1/1; object-fit:cover; display:block;}
   @media (max-width:640px){
-    .sticky-contact{right:16px; bottom:88px; width:152px; padding:16px;}
+    .sticky-contact{right:16px; bottom:88px; width:168px; padding:14px;}
   }
 
   .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
@@ -322,6 +339,7 @@
     .hero-copy{text-align:center;}
     .hero-ctas{justify-content:center;}
     .trust-logos{grid-template-columns:repeat(4,1fr);}
+    .logo-cell::after{display:none;}
     .hero-photo-wrap{max-width:480px; margin:0 auto;}
   }
   @media (max-width:640px){
@@ -406,13 +424,8 @@
           <div class="logo-cell"><img src="assets/logos/jd.png" alt="京东国际 JD.com"></div>
           <div class="logo-cell"><img src="assets/logos/tiktok.svg" alt="TikTok"></div>
           <div class="logo-cell"><img src="assets/logos/jt-express.svg" alt="极兔速递 J&T Express"></div>
-          <div class="logo-cell"><span class="wordmark">韵达国际</span></div>
           <div class="logo-cell"><img src="assets/logos/sf-express.png" alt="顺丰速运 SF Express" class="chip-logo"></div>
           <div class="logo-cell"><img src="assets/logos/flash-express.svg" alt="Flash Express"></div>
-          <div class="logo-cell"><span class="wordmark">联宇越南</span></div>
-          <div class="logo-cell"><span class="wordmark">JT Cargo</span></div>
-          <div class="logo-cell"><span class="wordmark">TK</span></div>
-          <div class="logo-cell"><span class="wordmark">周正实业</span></div>
         </div>
       </div>
     </div>
@@ -494,36 +507,8 @@
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how" class="section-plain">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">使用流程</span>
-        <h2>三步完成<em>试用估价</em></h2>
-        <p>不用先完成企业认证，就能看到真实报价。</p>
-      </div>
-      <div class="steps3">
-        <div class="step3 reveal">
-          <div class="snum">01</div>
-          <h3>选择服务类型与车型</h3>
-          <p>从轿车到大型货车，按货物大小选择合适车型。</p>
-        </div>
-        <div class="step3 reveal">
-          <div class="snum">02</div>
-          <h3>填写装货点与卸货点</h3>
-          <p>地图上直接选点，支持新增多个提货点。</p>
-        </div>
-        <div class="step3 reveal">
-          <div class="snum">03</div>
-          <h3>查看估价，一键下单</h3>
-          <p>系统实时返回预估费用，确认无误直接下单。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- VEHICLE COVERAGE -->
-  <section class="section-alt">
+  <section class="section-plain">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">车型覆盖</span>
@@ -580,7 +565,7 @@
   </section>
 
   <!-- COVERAGE -->
-  <section class="section-plain">
+  <section class="section-alt">
     <div class="wrap">
       <div class="coverage-wrap">
         <div>
@@ -634,7 +619,7 @@
   </section>
 
   <!-- API -->
-  <section id="api" class="section-alt">
+  <section id="api" class="section-plain">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">开发者能力</span>
@@ -656,6 +641,34 @@
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V7" /><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></svg></div>
           <h3>账单与对账接口</h3>
           <p>按月拉取多国汇率折算后的统一账单，直接同步财务系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">使用流程</span>
+        <h2>三步完成<em>试用估价</em></h2>
+        <p>不用先完成企业认证，就能看到真实报价。</p>
+      </div>
+      <div class="steps3">
+        <div class="step3 reveal">
+          <div class="snum">01</div>
+          <h3>选择服务类型与车型</h3>
+          <p>从轿车到大型货车，按货物大小选择合适车型。</p>
+        </div>
+        <div class="step3 reveal">
+          <div class="snum">02</div>
+          <h3>填写装货点与卸货点</h3>
+          <p>地图上直接选点，支持新增多个提货点。</p>
+        </div>
+        <div class="step3 reveal">
+          <div class="snum">03</div>
+          <h3>查看估价，一键下单</h3>
+          <p>系统实时返回预估费用，确认无误直接下单。</p>
         </div>
       </div>
     </div>
@@ -815,7 +828,7 @@
 </footer>
 
 <div class="sticky-contact" aria-label="企业微信客服">
-  <strong>立即扫码咨询</strong>
+  <strong><span class="live-dot"></span>立即扫码咨询</strong>
   <img class="qr" src="assets/wecom-qr.png" alt="企业微信客服二维码">
 </div>
 
