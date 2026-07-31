@@ -79,7 +79,7 @@
   header{position:fixed; top:0; left:0; right:0; z-index:100; transition:.25s; background:rgba(255,255,255,.0);}
   header.scrolled{background:rgba(255,255,255,.9); backdrop-filter:blur(14px); box-shadow:0 1px 0 rgba(15,18,41,.06);}
   header .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
-  .logo{display:flex; align-items:center; gap:9px; font-family:var(--font-sc); font-weight:600; font-size:18px; color:var(--text-1); white-space:nowrap;}
+  .logo{display:flex; align-items:center; gap:9px; font-family:var(--font-sc); font-weight:400; font-size:18px; color:var(--text-1); white-space:nowrap;}
   .logo .mark{width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,var(--brand-light),var(--brand-dark)); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
   .logo .mark img{width:33px; height:33px; object-fit:contain;}
   .logo b{color:var(--brand);}
@@ -410,27 +410,6 @@
     </div>
   </section>
 
-  <!-- SOCIAL PROOF — dedicated section per Section Order #2, logos only -->
-  <section class="social-proof section-alt">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">客户信任</span>
-        <h2>与<em>出海企业</em>一起增长</h2>
-        <p>已服务多个跨境电商、物流与消费品出海品牌（部分为示例）。</p>
-      </div>
-      <div class="sp-logos">
-        <div class="trust-logos">
-          <div class="logo-cell"><img src="assets/logos/cainiao.svg" alt="菜鸟国际 Cainiao"></div>
-          <div class="logo-cell"><img src="assets/logos/jd.png" alt="京东国际 JD.com"></div>
-          <div class="logo-cell"><img src="assets/logos/tiktok.svg" alt="TikTok"></div>
-          <div class="logo-cell"><img src="assets/logos/jt-express.svg" alt="极兔速递 J&T Express"></div>
-          <div class="logo-cell"><img src="assets/logos/sf-express.png" alt="顺丰速运 SF Express" class="chip-logo"></div>
-          <div class="logo-cell"><img src="assets/logos/flash-express.svg" alt="Flash Express"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- PROBLEM -->
   <section class="section-plain">
     <div class="wrap">
@@ -442,7 +421,7 @@
       <div class="problem-grid">
         <div class="problem-card reveal">
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3" /><path d="M9 19h8.5c.4 0 .9-.1 1.3-.2" /><path d="M5.2 5.2A3.5 3.53 0 0 0 6.5 12H12" /><path d="m2 2 20 20" /><path d="M21 15.3a3.5 3.5 0 0 0-3.3-3.3" /><path d="M15 5h-4.3" /><circle cx="18" cy="5" r="3" /></svg></div>
-          <h3>车队分散，难统一管理</h3>
+          <h3>难找车，难统一管理</h3>
           <p>每国单独对接车队，服务标准参差不齐，出问题缺乏统一响应机制。</p>
         </div>
         <div class="problem-card reveal">
@@ -507,8 +486,62 @@
     </div>
   </section>
 
-  <!-- VEHICLE COVERAGE -->
+  <!-- COVERAGE -->
   <section class="section-plain">
+    <div class="wrap">
+      <div class="coverage-wrap">
+        <div>
+          <div class="section-head reveal" style="text-align:left; margin:0 0 32px;">
+            <span class="tag">覆盖城市</span>
+            <h2>已覆盖东南亚 <em>7 个国家/地区</em></h2>
+            <p>持续拓展本地运力网络，覆盖主要经济中心城市。</p>
+          </div>
+          <div class="market-list reveal">
+            <div class="market-card"><span class="flag">🇹🇭</span><div><strong>泰国</strong><span>曼谷及周边</span></div></div>
+            <div class="market-card"><span class="flag">🇻🇳</span><div><strong>越南</strong><span>河内 · 胡志明市</span></div></div>
+            <div class="market-card"><span class="flag">🇲🇾</span><div><strong>马来西亚</strong><span>吉隆坡及周边</span></div></div>
+            <div class="market-card"><span class="flag">🇮🇩</span><div><strong>印度尼西亚</strong><span>雅加达 · 泗水</span></div></div>
+            <div class="market-card"><span class="flag">🇵🇭</span><div><strong>菲律宾</strong><span>马尼拉及周边</span></div></div>
+            <div class="market-card"><span class="flag">🇸🇬</span><div><strong>新加坡</strong><span>全岛覆盖</span></div></div>
+            <div class="market-card"><span class="flag">🇭🇰</span><div><strong>香港</strong><span>全区覆盖</span></div></div>
+            <div class="market-card" style="align-items:flex-start;"><span class="flag">＋</span><div><strong>持续拓展中</strong><span>更多市场规划上线</span></div></div>
+          </div>
+        </div>
+        <div class="map-visual reveal">
+          <svg width="100%" height="100%" viewBox="0 0 400 400" style="position:absolute;inset:0;">
+            <defs>
+              <radialGradient id="covGlow" cx="50%" cy="45%" r="60%">
+                <stop offset="0" stop-color="rgba(76,124,240,.35)"/>
+                <stop offset="1" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <rect width="400" height="400" fill="url(#covGlow)"/>
+            <g stroke="rgba(255,255,255,.08)" stroke-width="1">
+              <line x1="0" y1="80" x2="400" y2="80"/><line x1="0" y1="160" x2="400" y2="160"/>
+              <line x1="0" y1="240" x2="400" y2="240"/><line x1="0" y1="320" x2="400" y2="320"/>
+              <line x1="80" y1="0" x2="80" y2="400"/><line x1="160" y1="0" x2="160" y2="400"/>
+              <line x1="240" y1="0" x2="240" y2="400"/><line x1="320" y1="0" x2="320" y2="400"/>
+            </g>
+            <g>
+              <circle cx="130" cy="120" r="6" fill="#FF8A3D"/><text x="145" y="125" fill="#fff" font-size="12" font-family="Inter">Bangkok</text>
+              <circle cx="180" cy="190" r="6" fill="#4C7CF0"/><text x="195" y="195" fill="#fff" font-size="12" font-family="Inter">HCMC</text>
+              <circle cx="120" cy="230" r="6" fill="#4C7CF0"/><text x="135" y="235" fill="#fff" font-size="12" font-family="Inter">KL</text>
+              <circle cx="230" cy="280" r="6" fill="#FF8A3D"/><text x="245" y="285" fill="#fff" font-size="12" font-family="Inter">Jakarta</text>
+              <circle cx="260" cy="150" r="6" fill="#4C7CF0"/><text x="275" y="155" fill="#fff" font-size="12" font-family="Inter">Manila</text>
+              <circle cx="140" cy="270" r="6" fill="#fff"/><text x="60" y="275" fill="#fff" font-size="12" font-family="Inter">Singapore</text>
+              <circle cx="310" cy="90" r="6" fill="#4C7CF0"/><text x="245" y="80" fill="#fff" font-size="12" font-family="Inter">Hong Kong</text>
+              <path d="M130 120 Q160 160 180 190" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
+              <path d="M180 190 Q150 210 120 230" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
+              <path d="M120 230 Q175 255 230 280" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VEHICLE COVERAGE -->
+  <section class="section-alt">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">车型覆盖</span>
@@ -564,60 +597,6 @@
     </div>
   </section>
 
-  <!-- COVERAGE -->
-  <section class="section-alt">
-    <div class="wrap">
-      <div class="coverage-wrap">
-        <div>
-          <div class="section-head reveal" style="text-align:left; margin:0 0 32px;">
-            <span class="tag">覆盖城市</span>
-            <h2>已覆盖东南亚 <em>7 个国家/地区</em></h2>
-            <p>持续拓展本地运力网络，覆盖主要经济中心城市。</p>
-          </div>
-          <div class="market-list reveal">
-            <div class="market-card"><span class="flag">🇹🇭</span><div><strong>泰国</strong><span>曼谷及周边</span></div></div>
-            <div class="market-card"><span class="flag">🇻🇳</span><div><strong>越南</strong><span>河内 · 胡志明市</span></div></div>
-            <div class="market-card"><span class="flag">🇲🇾</span><div><strong>马来西亚</strong><span>吉隆坡及周边</span></div></div>
-            <div class="market-card"><span class="flag">🇮🇩</span><div><strong>印度尼西亚</strong><span>雅加达 · 泗水</span></div></div>
-            <div class="market-card"><span class="flag">🇵🇭</span><div><strong>菲律宾</strong><span>马尼拉及周边</span></div></div>
-            <div class="market-card"><span class="flag">🇸🇬</span><div><strong>新加坡</strong><span>全岛覆盖</span></div></div>
-            <div class="market-card"><span class="flag">🇭🇰</span><div><strong>香港</strong><span>全区覆盖</span></div></div>
-            <div class="market-card" style="align-items:flex-start;"><span class="flag">＋</span><div><strong>持续拓展中</strong><span>更多市场规划上线</span></div></div>
-          </div>
-        </div>
-        <div class="map-visual reveal">
-          <svg width="100%" height="100%" viewBox="0 0 400 400" style="position:absolute;inset:0;">
-            <defs>
-              <radialGradient id="covGlow" cx="50%" cy="45%" r="60%">
-                <stop offset="0" stop-color="rgba(76,124,240,.35)"/>
-                <stop offset="1" stop-color="transparent"/>
-              </radialGradient>
-            </defs>
-            <rect width="400" height="400" fill="url(#covGlow)"/>
-            <g stroke="rgba(255,255,255,.08)" stroke-width="1">
-              <line x1="0" y1="80" x2="400" y2="80"/><line x1="0" y1="160" x2="400" y2="160"/>
-              <line x1="0" y1="240" x2="400" y2="240"/><line x1="0" y1="320" x2="400" y2="320"/>
-              <line x1="80" y1="0" x2="80" y2="400"/><line x1="160" y1="0" x2="160" y2="400"/>
-              <line x1="240" y1="0" x2="240" y2="400"/><line x1="320" y1="0" x2="320" y2="400"/>
-            </g>
-            <g>
-              <circle cx="130" cy="120" r="6" fill="#FF8A3D"/><text x="145" y="125" fill="#fff" font-size="12" font-family="Inter">Bangkok</text>
-              <circle cx="180" cy="190" r="6" fill="#4C7CF0"/><text x="195" y="195" fill="#fff" font-size="12" font-family="Inter">HCMC</text>
-              <circle cx="120" cy="230" r="6" fill="#4C7CF0"/><text x="135" y="235" fill="#fff" font-size="12" font-family="Inter">KL</text>
-              <circle cx="230" cy="280" r="6" fill="#FF8A3D"/><text x="245" y="285" fill="#fff" font-size="12" font-family="Inter">Jakarta</text>
-              <circle cx="260" cy="150" r="6" fill="#4C7CF0"/><text x="275" y="155" fill="#fff" font-size="12" font-family="Inter">Manila</text>
-              <circle cx="140" cy="270" r="6" fill="#fff"/><text x="60" y="275" fill="#fff" font-size="12" font-family="Inter">Singapore</text>
-              <circle cx="310" cy="90" r="6" fill="#4C7CF0"/><text x="245" y="80" fill="#fff" font-size="12" font-family="Inter">Hong Kong</text>
-              <path d="M130 120 Q160 160 180 190" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
-              <path d="M180 190 Q150 210 120 230" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
-              <path d="M120 230 Q175 255 230 280" stroke="rgba(255,255,255,.25)" stroke-dasharray="2 4" fill="none"/>
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- API -->
   <section id="api" class="section-plain">
     <div class="wrap">
@@ -634,72 +613,13 @@
         </div>
         <div class="api-card reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" /><path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" /><path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8" /></svg></div>
-          <h3>状态 Webhook 回调</h3>
+          <h3>订单状态实时推送</h3>
           <p>司机接单、到达、完成等节点实时推送，无需轮询。</p>
         </div>
         <div class="api-card reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V7" /><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></svg></div>
           <h3>账单与对账接口</h3>
           <p>按月拉取多国汇率折算后的统一账单，直接同步财务系统。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how" class="section-alt">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">使用流程</span>
-        <h2>三步完成<em>试用估价</em></h2>
-        <p>不用先完成企业认证，就能看到真实报价。</p>
-      </div>
-      <div class="steps3">
-        <div class="step3 reveal">
-          <div class="snum">01</div>
-          <h3>选择服务类型与车型</h3>
-          <p>从轿车到大型货车，按货物大小选择合适车型。</p>
-        </div>
-        <div class="step3 reveal">
-          <div class="snum">02</div>
-          <h3>填写装货点与卸货点</h3>
-          <p>地图上直接选点，支持新增多个提货点。</p>
-        </div>
-        <div class="step3 reveal">
-          <div class="snum">03</div>
-          <h3>查看估价，一键下单</h3>
-          <p>系统实时返回预估费用，确认无误直接下单。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="section-plain">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">客户故事</span>
-        <h2>出海企业怎么用 <em>lala-i</em></h2>
-        <p>以下为示例场景，用于说明典型使用方式（非真实客户引语）。</p>
-      </div>
-      <div class="test-grid3">
-        <div class="test-card reveal">
-          <div class="stars">★★★★★</div>
-          <p>"以前每进一个新市场都要重新找车队，现在一个后台管理泰国、越南、印尼三地，子账号权限也很清楚。"</p>
-          <div class="test-person"><img class="avatar" src="assets/avatars/avatar1.jpeg" alt=""><div><strong>跨境电商仓配团队</strong><span>物流负责人 · 示例</span></div></div>
-          <span class="sample-tag">示例场景</span>
-        </div>
-        <div class="test-card reveal">
-          <div class="stars">★★★★★</div>
-          <p>"生鲜配送对时效要求高，双语客服响应很快，临时改点也能及时协调车辆。"</p>
-          <div class="test-person"><img class="avatar" src="assets/avatars/avatar2.jpeg" alt=""><div><strong>生鲜出海连锁品牌</strong><span>运营经理 · 示例</span></div></div>
-          <span class="sample-tag">示例场景</span>
-        </div>
-        <div class="test-card reveal">
-          <div class="stars">★★★★★</div>
-          <p>"API 对接我们自己的 ERP 后，下单和对账基本自动化了，财务每月只需核对一次账单。"</p>
-          <div class="test-person"><img class="avatar" src="assets/avatars/avatar3.jpeg" alt=""><div><strong>3C 出海品牌</strong><span>供应链总监 · 示例</span></div></div>
-          <span class="sample-tag">示例场景</span>
         </div>
       </div>
     </div>
@@ -737,8 +657,88 @@
     </div>
   </section>
 
+  <!-- HOW IT WORKS -->
+  <section id="how" class="section-plain">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">使用流程</span>
+        <h2>三步完成<em>试用估价</em></h2>
+        <p>不用先完成企业认证，就能看到真实报价。</p>
+      </div>
+      <div class="steps3">
+        <div class="step3 reveal">
+          <div class="snum">01</div>
+          <h3>选择服务类型与车型</h3>
+          <p>从轿车到大型货车，按货物大小选择合适车型。</p>
+        </div>
+        <div class="step3 reveal">
+          <div class="snum">02</div>
+          <h3>填写装货点与卸货点</h3>
+          <p>支持谷歌地址链接、地图选点、多个卸货点。</p>
+        </div>
+        <div class="step3 reveal">
+          <div class="snum">03</div>
+          <h3>查看估价，一键下单</h3>
+          <p>系统实时返回预估费用，确认无误直接下单。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">客户故事</span>
+        <h2>出海企业怎么用 <em>lala-i</em></h2>
+        <p>以下为示例场景，用于说明典型使用方式（非真实客户引语）。</p>
+      </div>
+      <div class="test-grid3">
+        <div class="test-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"以前每进一个新市场都要重新找车队，现在一个后台管理泰国、越南、印尼三地，子账号权限也很清楚。"</p>
+          <div class="test-person"><img class="avatar" src="assets/avatars/avatar1.jpeg" alt=""><div><strong>跨境电商仓配团队</strong><span>物流负责人 · 示例</span></div></div>
+          <span class="sample-tag">示例场景</span>
+        </div>
+        <div class="test-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"生鲜配送对时效要求高，双语客服响应很快，临时改点也能及时协调车辆。"</p>
+          <div class="test-person"><img class="avatar" src="assets/avatars/avatar2.jpeg" alt=""><div><strong>生鲜出海连锁品牌</strong><span>运营经理 · 示例</span></div></div>
+          <span class="sample-tag">示例场景</span>
+        </div>
+        <div class="test-card reveal">
+          <div class="stars">★★★★★</div>
+          <p>"API 对接我们自己的 ERP 后，下单和对账基本自动化了，财务每月只需核对一次账单。"</p>
+          <div class="test-person"><img class="avatar" src="assets/avatars/avatar3.jpeg" alt=""><div><strong>3C 出海品牌</strong><span>供应链总监 · 示例</span></div></div>
+          <span class="sample-tag">示例场景</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF — dedicated section, logos only -->
+  <section class="social-proof section-plain">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">客户信任</span>
+        <h2>与<em>出海企业</em>一起增长</h2>
+        <p>已服务多个跨境电商、物流与消费品出海品牌（部分为示例）。</p>
+      </div>
+      <div class="sp-logos">
+        <div class="trust-logos">
+          <div class="logo-cell"><img src="assets/logos/cainiao.svg" alt="菜鸟国际 Cainiao"></div>
+          <div class="logo-cell"><img src="assets/logos/jd.png" alt="京东国际 JD.com"></div>
+          <div class="logo-cell"><img src="assets/logos/tiktok.svg" alt="TikTok"></div>
+          <div class="logo-cell"><img src="assets/logos/jt-express.svg" alt="极兔速递 J&T Express"></div>
+          <div class="logo-cell"><img src="assets/logos/sf-express.png" alt="顺丰速运 SF Express" class="chip-logo"></div>
+          <div class="logo-cell"><img src="assets/logos/flash-express.svg" alt="Flash Express"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- LEAD FORM — Form Design rules applied -->
-  <section id="quote" class="section-plain">
+  <section id="quote" class="section-alt">
     <div class="wrap">
       <div class="section-head reveal">
         <h2>商务合作或定制方案</h2>
@@ -758,7 +758,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section-alt">
+  <section class="section-plain">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">常见问题</span>
