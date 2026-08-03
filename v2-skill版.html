@@ -375,14 +375,14 @@
   #annoToggle .dot{width:7px; height:7px; border-radius:50%; background:#8FE3B8;}
   body.anno-mode [data-section]{cursor:crosshair;}
   .anno-pin{
-    position:fixed; width:26px; height:26px; border-radius:50% 50% 50% 4px;
+    position:absolute; width:26px; height:26px; border-radius:50% 50% 50% 4px;
     background:var(--brand); color:#fff; font-family:var(--font-en); font-weight:700; font-size:12px;
     display:flex; align-items:center; justify-content:center; transform:translate(-50%,-100%) rotate(45deg);
     cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); z-index:9998; pointer-events:none;
   }
   .anno-pin span{transform:rotate(-45deg);}
   .anno-popover{
-    position:fixed; z-index:9999; width:320px; background:#fff; border-radius:14px;
+    position:absolute; z-index:9999; width:320px; background:#fff; border-radius:14px;
     box-shadow:0 20px 48px rgba(0,0,0,.28); padding:16px; font-family:var(--font-sc);
     text-align:left; color:var(--text-1);
   }
@@ -918,26 +918,28 @@
       return { headingText, elementDesc: elText ? (tag + ': ' + elText) : tag };
     }
 
-    function renderPin(clientX, clientY){
+    function renderPin(pageX, pageY){
       const pin = document.createElement('div');
       pin.className = 'anno-pin';
-      pin.style.left = clientX + 'px';
-      pin.style.top = clientY + 'px';
+      pin.style.left = pageX + 'px';
+      pin.style.top = pageY + 'px';
       pin.innerHTML = '<span>✓</span>';
       document.body.appendChild(pin);
       setTimeout(() => { pin.style.transition = 'opacity .4s ease'; pin.style.opacity = '0'; setTimeout(() => pin.remove(), 400); }, 1400);
     }
 
-    function placePopover(pop, clientX, clientY){
+    function placePopover(pop, pageX, pageY){
       const w = 320, pad = 12;
+      const clientX = pageX - window.scrollX, clientY = pageY - window.scrollY;
       let left = clientX + 16;
       if(left + w + pad > window.innerWidth) left = clientX - w - 16;
       left = Math.max(pad, Math.min(left, window.innerWidth - w - pad));
-      pop.style.left = left + 'px';
-      pop.style.top = Math.max(pad, Math.min(clientY, window.innerHeight - pad)) + 'px';
+      const top = Math.max(pad, Math.min(clientY, window.innerHeight - pad));
+      pop.style.left = (left + window.scrollX) + 'px';
+      pop.style.top = (top + window.scrollY) + 'px';
     }
 
-    function showForm(sectionName, context, xPct, yPct, clientX, clientY){
+    function showForm(sectionName, context, xPct, yPct, pageX, pageY){
       closePopover();
       const pop = document.createElement('div');
       pop.className = 'anno-popover';
@@ -946,7 +948,7 @@
         '<textarea placeholder="写下你的意见（文案/布局/设计都可以）" class="anno-text"></textarea>' +
         '<div class="row"><button type="button" class="cancel">取消</button><button type="button" class="submit">提交</button></div>';
       document.body.appendChild(pop);
-      placePopover(pop, clientX, clientY);
+      placePopover(pop, pageX, pageY);
       openPopover = pop;
       pop.querySelector('.cancel').addEventListener('click', (e) => { e.stopPropagation(); closePopover(); });
       pop.addEventListener('click', (e) => e.stopPropagation());
@@ -965,7 +967,7 @@
         pop.querySelector('.submit').textContent = '提交中…';
         try{
           await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
-          renderPin(clientX, clientY);
+          renderPin(pageX, pageY);
         }catch(err){ console.warn('anno submit failed', err); alert('提交失败，请稍后重试'); }
         closePopover();
       });
@@ -980,7 +982,7 @@
         const yPct = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
         const sectionName = section.dataset.section;
         const context = getContext(e.target, section);
-        showForm(sectionName, context, xPct, yPct, e.clientX, e.clientY);
+        showForm(sectionName, context, xPct, yPct, e.pageX, e.pageY);
       });
     });
 
