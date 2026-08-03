@@ -361,6 +361,48 @@
     .trust-logos{gap:24px;}
     .header-actions .btn-ghost{display:none;}
   }
+
+  /* annotation review widget */
+  #annoToggle{
+    position:fixed; left:24px; bottom:24px; z-index:200;
+    display:flex; align-items:center; gap:8px; background:var(--ink-900); color:#fff;
+    border:none; border-radius:999px; padding:12px 18px; font-size:14px; font-weight:600;
+    font-family:var(--font-sc); cursor:pointer; box-shadow:0 10px 24px rgba(0,0,0,.22);
+    transition:transform .18s ease, background .2s ease;
+  }
+  #annoToggle:hover{transform:translateY(-2px);}
+  #annoToggle.active{background:var(--brand);}
+  #annoToggle .dot{width:7px; height:7px; border-radius:50%; background:#8FE3B8;}
+  body.anno-mode [data-section]{cursor:crosshair;}
+  .anno-pin{
+    position:absolute; width:26px; height:26px; border-radius:50% 50% 50% 4px;
+    background:var(--brand); color:#fff; font-family:var(--font-en); font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center; transform:translate(-50%,-100%) rotate(45deg);
+    cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); z-index:60;
+  }
+  .anno-pin span{transform:rotate(-45deg);}
+  .anno-pin.resolved{background:var(--text-3);}
+  .anno-popover{
+    position:absolute; z-index:210; width:280px; background:#fff; border-radius:14px;
+    box-shadow:0 20px 48px rgba(0,0,0,.22); padding:16px; font-family:var(--font-sc);
+    text-align:left; color:var(--text-1);
+  }
+  .anno-popover .ctx{font-size:12px; color:var(--text-3); margin-bottom:10px; line-height:1.6; background:var(--surface); border-radius:8px; padding:8px 10px;}
+  .anno-popover input, .anno-popover textarea{
+    width:100%; border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:13.5px;
+    font-family:inherit; margin-bottom:8px; resize:vertical;
+  }
+  .anno-popover textarea{min-height:64px;}
+  .anno-popover .row{display:flex; gap:8px; justify-content:flex-end;}
+  .anno-popover button{border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit;}
+  .anno-popover .cancel{background:var(--surface); color:var(--text-2);}
+  .anno-popover .submit{background:var(--brand); color:#fff;}
+  .anno-tooltip{
+    position:absolute; z-index:210; max-width:260px; background:var(--ink-900); color:#fff;
+    border-radius:10px; padding:10px 12px; font-size:12.5px; line-height:1.6; font-family:var(--font-sc);
+    text-align:left; box-shadow:0 12px 28px rgba(0,0,0,.25);
+  }
+  .anno-tooltip b{color:#8FE3B8;}
 </style>
 </head>
 <body>
@@ -381,7 +423,7 @@
 <main id="top">
 
   <!-- HERO — Above-the-Fold Formula -->
-  <section class="hero">
+  <section class="hero" data-section="Hero首屏">
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <div class="hero-eyebrow">东南亚企业用车 · 泰国 越南 马来西亚 印尼 菲律宾 新加坡 香港</div>
@@ -411,7 +453,7 @@
   </section>
 
   <!-- PROBLEM -->
-  <section class="section-plain">
+  <section class="section-plain" data-section="痛点">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">痛点</span>
@@ -439,7 +481,7 @@
   </section>
 
   <!-- SOLUTION — 3 key features -->
-  <section class="section-alt">
+  <section class="section-alt" data-section="解决方案">
     <div class="wrap">
       <div class="section-head reveal" style="max-width:680px;">
         <span class="tag">解决方案</span>
@@ -487,7 +529,7 @@
   </section>
 
   <!-- COVERAGE -->
-  <section class="section-plain">
+  <section class="section-plain" data-section="覆盖城市">
     <div class="wrap">
       <div class="coverage-wrap">
         <div>
@@ -541,7 +583,7 @@
   </section>
 
   <!-- VEHICLE COVERAGE -->
-  <section class="section-alt">
+  <section class="section-alt" data-section="车型覆盖">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">车型覆盖</span>
@@ -598,7 +640,7 @@
   </section>
 
   <!-- API -->
-  <section id="api" class="section-plain">
+  <section id="api" class="section-plain" data-section="开发者能力(API)">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">开发者能力</span>
@@ -626,7 +668,7 @@
   </section>
 
   <!-- PRICING (settlement tiers, clear + highlight recommended) -->
-  <section class="section-alt">
+  <section class="section-alt" data-section="结算方案">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">结算方案</span>
@@ -658,7 +700,7 @@
   </section>
 
   <!-- HOW IT WORKS -->
-  <section id="how" class="section-plain">
+  <section id="how" class="section-plain" data-section="使用流程">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">使用流程</span>
@@ -686,7 +728,7 @@
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="section-alt">
+  <section class="section-alt" data-section="客户故事">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">客户故事</span>
@@ -717,7 +759,7 @@
   </section>
 
   <!-- SOCIAL PROOF — dedicated section, logos only -->
-  <section class="social-proof section-plain">
+  <section class="social-proof section-plain" data-section="客户信任">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">客户信任</span>
@@ -738,7 +780,7 @@
   </section>
 
   <!-- LEAD FORM — Form Design rules applied -->
-  <section id="quote" class="section-alt">
+  <section id="quote" class="section-alt" data-section="留资表单">
     <div class="wrap">
       <div class="section-head reveal">
         <h2>商务合作或定制方案</h2>
@@ -758,7 +800,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section-plain">
+  <section class="section-plain" data-section="FAQ">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">常见问题</span>
@@ -798,7 +840,7 @@
   </section>
 
   <!-- FINAL CTA — with urgency -->
-  <section>
+  <section data-section="最终CTA">
     <div class="wrap">
       <div class="final-cta reveal">
         <span class="tag">立即开始</span>
@@ -834,6 +876,8 @@
 
 <div class="mobile-cta-bar"><a href="#quote" class="btn btn-primary">立即试用</a></div>
 
+<button id="annoToggle" type="button"><span class="dot"></span><span id="annoToggleLabel">开启批注</span></button>
+
 <script>
   const header = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 8));
@@ -860,6 +904,124 @@
     const io = new IntersectionObserver(es => es.forEach(e => { e.target.classList.toggle('in', e.isIntersecting); }), { threshold:.12 });
     revealEls.forEach(el => io.observe(el));
   } else { revealEls.forEach(el => el.classList.add('in')); }
+
+  /* ---------- annotation review widget ---------- */
+  (function(){
+    const API = '/.netlify/functions/annotate';
+    const toggleBtn = document.getElementById('annoToggle');
+    const toggleLabel = document.getElementById('annoToggleLabel');
+    let annoMode = false;
+    let openPopover = null;
+    const NAME_KEY = 'lala_anno_name';
+
+    function closePopover(){
+      if(openPopover){ openPopover.remove(); openPopover = null; }
+    }
+
+    function getContext(target, section){
+      const heading = section.querySelector('h2, h3');
+      const headingText = heading ? heading.textContent.trim().slice(0, 60) : '';
+      let el = target;
+      let elText = (el.textContent || '').trim().replace(/\s+/g,' ').slice(0, 50);
+      const tag = el.tagName ? el.tagName.toLowerCase() : '';
+      return { headingText, elementDesc: elText ? (tag + ': ' + elText) : tag };
+    }
+
+    function renderPin(rec){
+      const section = document.querySelector('[data-section="' + CSS.escape(rec.section) + '"]');
+      if(!section) return;
+      if(getComputedStyle(section).position === 'static') section.style.position = 'relative';
+      const pin = document.createElement('div');
+      pin.className = 'anno-pin' + (rec.status === '已处理' || rec.status === '不采纳' ? ' resolved' : '');
+      pin.style.left = rec.x + '%';
+      pin.style.top = rec.y + '%';
+      pin.innerHTML = '<span>' + (rec.name ? rec.name.charAt(0) : '?') + '</span>';
+      pin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePopover();
+        const tip = document.createElement('div');
+        tip.className = 'anno-tooltip';
+        tip.style.left = rec.x + '%';
+        tip.style.top = rec.y + '%';
+        tip.innerHTML = '<b>' + (rec.name || '匿名') + '</b>' + (rec.context ? ' · ' + rec.context : '') + '<br/>' + rec.comment;
+        section.appendChild(tip);
+        openPopover = tip;
+        setTimeout(() => document.addEventListener('click', function h(){ tip.remove(); document.removeEventListener('click', h); }), 0);
+      });
+      section.appendChild(pin);
+    }
+
+    async function loadAnnotations(){
+      try{
+        const res = await fetch(API, { method:'GET' });
+        if(!res.ok) return;
+        const data = await res.json();
+        (data.records || []).forEach(renderPin);
+      }catch(err){ console.warn('anno load failed', err); }
+    }
+
+    function showForm(section, sectionName, context, xPct, yPct, clientX, clientY){
+      closePopover();
+      const pop = document.createElement('div');
+      pop.className = 'anno-popover';
+      pop.style.left = xPct + '%';
+      pop.style.top = yPct + '%';
+      const savedName = localStorage.getItem(NAME_KEY) || '';
+      pop.innerHTML =
+        '<div class="ctx">板块：' + sectionName + (context.headingText ? ' · ' + context.headingText : '') + '</div>' +
+        '<input type="text" placeholder="你的名字" value="' + savedName.replace(/"/g,'&quot;') + '" class="anno-name">' +
+        '<textarea placeholder="写下你的意见（文案/布局/设计都可以）" class="anno-text"></textarea>' +
+        '<div class="row"><button type="button" class="cancel">取消</button><button type="button" class="submit">提交</button></div>';
+      section.appendChild(pop);
+      openPopover = pop;
+      pop.querySelector('.cancel').addEventListener('click', (e) => { e.stopPropagation(); closePopover(); });
+      pop.addEventListener('click', (e) => e.stopPropagation());
+      pop.querySelector('.anno-name').focus();
+      pop.querySelector('.submit').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const name = pop.querySelector('.anno-name').value.trim() || '匿名';
+        const comment = pop.querySelector('.anno-text').value.trim();
+        if(!comment) return;
+        localStorage.setItem(NAME_KEY, name);
+        const rec = {
+          section: sectionName,
+          context: context.headingText || context.elementDesc,
+          comment, name,
+          url: location.href,
+          x: xPct, y: yPct
+        };
+        pop.querySelector('.submit').textContent = '提交中…';
+        try{
+          await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
+          renderPin(rec);
+        }catch(err){ console.warn('anno submit failed', err); alert('提交失败，请稍后重试'); }
+        closePopover();
+      });
+    }
+
+    document.querySelectorAll('[data-section]').forEach(section => {
+      section.addEventListener('click', (e) => {
+        if(!annoMode) return;
+        if(e.target.closest('.anno-popover') || e.target.closest('.anno-pin')) return;
+        const rect = section.getBoundingClientRect();
+        const xPct = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+        const yPct = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+        const sectionName = section.dataset.section;
+        const context = getContext(e.target, section);
+        showForm(section, sectionName, context, xPct, yPct, e.clientX, e.clientY);
+      });
+    });
+
+    toggleBtn.addEventListener('click', () => {
+      annoMode = !annoMode;
+      document.body.classList.toggle('anno-mode', annoMode);
+      toggleBtn.classList.toggle('active', annoMode);
+      toggleLabel.textContent = annoMode ? '批注中（点任意处）' : '开启批注';
+      closePopover();
+    });
+
+    loadAnnotations();
+  })();
 </script>
 
 </body>
