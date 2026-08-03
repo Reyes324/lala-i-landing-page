@@ -947,7 +947,7 @@
       pop.style.top = (top + window.scrollY) + 'px';
     }
 
-    function showForm(sectionName, context, xPct, yPct, pageX, pageY){
+    function showForm(sectionName, context, pageX, pageY){
       closePopover();
       const pop = document.createElement('div');
       pop.className = 'anno-popover';
@@ -972,8 +972,7 @@
           context: context.headingText || context.elementDesc,
           comment,
           name,
-          url: location.href,
-          x: xPct, y: yPct
+          url: location.href
         };
         pop.querySelector('.submit').textContent = '提交中…';
         pop.querySelector('.submit').disabled = true;
@@ -999,12 +998,9 @@
       section.addEventListener('click', (e) => {
         if(!annoMode) return;
         if(e.target.closest('.anno-popover') || e.target.closest('.anno-pin')) return;
-        const rect = section.getBoundingClientRect();
-        const xPct = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
-        const yPct = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
         const sectionName = section.dataset.section;
         const context = getContext(e.target, section);
-        showForm(sectionName, context, xPct, yPct, e.pageX, e.pageY);
+        showForm(sectionName, context, e.pageX, e.pageY);
       });
     });
 

@@ -52,7 +52,7 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const { section, context, comment, name, url, x, y } = body;
+    const { section, context, comment, name, url } = body;
     if (!comment || !section) {
       return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'missing section or comment' }) };
     }
@@ -64,8 +64,6 @@ exports.handler = async (event) => {
       '批注内容': comment,
       '留言人': name || '匿名',
       '页面URL': url ? { link: url, text: url } : '',
-      '相对X坐标(%)': Number(x) || 0,
-      '相对Y坐标(%)': Number(y) || 0,
       '状态': '待处理',
     };
     const res = await fetch(recordsUrl(), {
