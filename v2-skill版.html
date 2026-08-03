@@ -185,14 +185,14 @@
   /* fleet visual strip — horizontal scroll carousel */
   .fleet-carousel{position:relative;}
   .fleet-row{
-    display:flex; align-items:flex-start; gap:12px;
+    display:flex; align-items:flex-start; gap:16px;
     overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth;
     padding:4px 4px 12px; -ms-overflow-style:none; scrollbar-width:none;
   }
   .fleet-row::-webkit-scrollbar{display:none;}
-  .fleet-item{display:flex; flex-direction:column; align-items:center; gap:10px; width:104px; flex-shrink:0; scroll-snap-align:start;}
-  .fleet-item .ic-wrap{width:88px; height:72px; display:flex; align-items:center; justify-content:center;}
-  .fleet-item .ic-wrap img{max-height:56px; max-width:76px; width:auto; object-fit:contain; transition:transform .3s cubic-bezier(.16,1,.3,1);}
+  .fleet-item{display:flex; flex-direction:column; align-items:center; gap:10px; width:132px; flex-shrink:0; scroll-snap-align:start;}
+  .fleet-item .ic-wrap{width:112px; height:92px; display:flex; align-items:center; justify-content:center;}
+  .fleet-item .ic-wrap img{max-height:72px; max-width:96px; width:auto; object-fit:contain; transition:transform .3s cubic-bezier(.16,1,.3,1);}
   .fleet-item:hover .ic-wrap img{transform:scale(1.1) translateY(-2px);}
   .fleet-item span{font-size:12px; font-weight:600; color:var(--text-2); text-align:center; transition:color .2s ease;}
   .fleet-item:hover span{color:var(--brand);}
@@ -445,7 +445,7 @@
     <div class="wrap">
       <div class="stats-strip reveal">
         <div class="sp-stat"><strong>7</strong><span>国家/地区已上线</span></div>
-        <div class="sp-stat"><strong>9+</strong><span>车型全场景覆盖</span></div>
+        <div class="sp-stat"><strong>14+</strong><span>车型全场景覆盖</span></div>
         <div class="sp-stat"><strong>24H</strong><span>双语客服在线</span></div>
         <div class="sp-stat"><strong>API</strong><span>可直连企业系统</span></div>
       </div>
@@ -588,7 +588,7 @@
       <div class="section-head reveal">
         <span class="tag">车型覆盖</span>
         <h2>从二轮摩托到大型货车，<em>全场景覆盖</em></h2>
-        <p>具体车型规格与吨位因市场而异，最大可达 9.6 米 / 18 吨级（越南、印尼）。</p>
+        <p>单市场 8~14 种车型可选，具体规格与吨位因市场而异，最大可达 9.6 米 / 18 吨级（越南、印尼）。</p>
       </div>
       <div class="fleet-carousel">
         <button class="fleet-nav prev" aria-label="向左滚动">
@@ -884,7 +884,7 @@
 
   const fleetRow = document.getElementById('fleetRow');
   if(fleetRow){
-    const scrollAmount = () => fleetRow.querySelector('.fleet-item').offsetWidth * 2 + 24;
+    const scrollAmount = () => fleetRow.querySelector('.fleet-item').offsetWidth * 2 + 32;
     document.querySelector('.fleet-nav.prev')?.addEventListener('click', () => fleetRow.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
     document.querySelector('.fleet-nav.next')?.addEventListener('click', () => fleetRow.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
   }
