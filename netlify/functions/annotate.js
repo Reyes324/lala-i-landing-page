@@ -63,7 +63,7 @@ exports.handler = async (event) => {
       '具体位置上下文': context || '',
       '批注内容': comment,
       '留言人': name || '匿名',
-      '页面URL': url || '',
+      '页面URL': url ? { link: url, text: url } : '',
       '相对X坐标(%)': Number(x) || 0,
       '相对Y坐标(%)': Number(y) || 0,
       '状态': '待处理',
