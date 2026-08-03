@@ -391,6 +391,10 @@
     width:100%; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:14px;
     font-family:inherit; margin-bottom:8px; resize:vertical; min-height:120px;
   }
+  .anno-popover .anno-name{
+    width:100%; border:1px solid var(--border); border-radius:8px; padding:6px 10px; font-size:12px;
+    font-family:inherit; margin-bottom:8px; box-sizing:border-box;
+  }
   .anno-popover .row{display:flex; gap:8px; justify-content:flex-end;}
   .anno-popover button{border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit;}
   .anno-popover .cancel{background:var(--surface); color:var(--text-2);}
@@ -950,6 +954,7 @@
       pop.innerHTML =
         '<div class="ctx">板块：' + sectionName + (context.headingText ? ' · ' + context.headingText : '') + '</div>' +
         '<textarea placeholder="写下你的意见（文案/布局/设计都可以）" class="anno-text"></textarea>' +
+        '<input type="text" placeholder="提出人（可选）" class="anno-name" maxlength="20">' +
         '<div class="row"><button type="button" class="cancel">取消</button><button type="button" class="submit">提交</button></div>';
       document.body.appendChild(pop);
       placePopover(pop, pageX, pageY);
@@ -961,10 +966,12 @@
         e.stopPropagation();
         const comment = pop.querySelector('.anno-text').value.trim();
         if(!comment) return;
+        const name = pop.querySelector('.anno-name').value.trim();
         const rec = {
           section: sectionName,
           context: context.headingText || context.elementDesc,
           comment,
+          name,
           url: location.href,
           x: xPct, y: yPct
         };
