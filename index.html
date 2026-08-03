@@ -977,7 +977,8 @@
         pop.querySelector('.submit').textContent = '提交中…';
         pop.querySelector('.submit').disabled = true;
         try{
-          await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
+          const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
+          if(!res.ok) throw new Error('HTTP ' + res.status);
           renderPin(pageX, pageY);
           pop.innerHTML =
             '<div class="anno-ok"><span class="anno-ok-icon">✓</span>已提交，感谢反馈</div>' +
