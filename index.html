@@ -375,34 +375,26 @@
   #annoToggle .dot{width:7px; height:7px; border-radius:50%; background:#8FE3B8;}
   body.anno-mode [data-section]{cursor:crosshair;}
   .anno-pin{
-    position:absolute; width:26px; height:26px; border-radius:50% 50% 50% 4px;
+    position:fixed; width:26px; height:26px; border-radius:50% 50% 50% 4px;
     background:var(--brand); color:#fff; font-family:var(--font-en); font-weight:700; font-size:12px;
     display:flex; align-items:center; justify-content:center; transform:translate(-50%,-100%) rotate(45deg);
-    cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); z-index:60;
+    cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); z-index:9998; pointer-events:none;
   }
   .anno-pin span{transform:rotate(-45deg);}
-  .anno-pin.resolved{background:var(--text-3);}
   .anno-popover{
-    position:absolute; z-index:210; width:280px; background:#fff; border-radius:14px;
-    box-shadow:0 20px 48px rgba(0,0,0,.22); padding:16px; font-family:var(--font-sc);
+    position:fixed; z-index:9999; width:320px; background:#fff; border-radius:14px;
+    box-shadow:0 20px 48px rgba(0,0,0,.28); padding:16px; font-family:var(--font-sc);
     text-align:left; color:var(--text-1);
   }
   .anno-popover .ctx{font-size:12px; color:var(--text-3); margin-bottom:10px; line-height:1.6; background:var(--surface); border-radius:8px; padding:8px 10px;}
-  .anno-popover input, .anno-popover textarea{
-    width:100%; border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:13.5px;
-    font-family:inherit; margin-bottom:8px; resize:vertical;
+  .anno-popover textarea{
+    width:100%; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:14px;
+    font-family:inherit; margin-bottom:8px; resize:vertical; min-height:120px;
   }
-  .anno-popover textarea{min-height:64px;}
   .anno-popover .row{display:flex; gap:8px; justify-content:flex-end;}
   .anno-popover button{border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit;}
   .anno-popover .cancel{background:var(--surface); color:var(--text-2);}
   .anno-popover .submit{background:var(--brand); color:#fff;}
-  .anno-tooltip{
-    position:absolute; z-index:210; max-width:260px; background:var(--ink-900); color:#fff;
-    border-radius:10px; padding:10px 12px; font-size:12.5px; line-height:1.6; font-family:var(--font-sc);
-    text-align:left; box-shadow:0 12px 28px rgba(0,0,0,.25);
-  }
-  .anno-tooltip b{color:#8FE3B8;}
 </style>
 </head>
 <body>
@@ -876,7 +868,7 @@
 
 <div class="mobile-cta-bar"><a href="#quote" class="btn btn-primary">立即试用</a></div>
 
-<button id="annoToggle" type="button"><span class="dot"></span><span id="annoToggleLabel">开启批注</span></button>
+<button id="annoToggle" type="button"><span class="dot"></span><span id="annoToggleLabel">意见批注</span></button>
 
 <script>
   const header = document.getElementById('siteHeader');
@@ -912,7 +904,6 @@
     const toggleLabel = document.getElementById('annoToggleLabel');
     let annoMode = false;
     let openPopover = null;
-    const NAME_KEY = 'lala_anno_name';
 
     function closePopover(){
       if(openPopover){ openPopover.remove(); openPopover = null; }
@@ -927,64 +918,54 @@
       return { headingText, elementDesc: elText ? (tag + ': ' + elText) : tag };
     }
 
-    function renderPin(rec){
-      const section = document.querySelector('[data-section="' + CSS.escape(rec.section) + '"]');
-      if(!section) return;
-      if(getComputedStyle(section).position === 'static') section.style.position = 'relative';
+    function renderPin(clientX, clientY){
       const pin = document.createElement('div');
-      pin.className = 'anno-pin' + (rec.status === '已处理' || rec.status === '不采纳' ? ' resolved' : '');
-      pin.style.left = rec.x + '%';
-      pin.style.top = rec.y + '%';
-      pin.innerHTML = '<span>' + (rec.name ? rec.name.charAt(0) : '?') + '</span>';
-      pin.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closePopover();
-        const tip = document.createElement('div');
-        tip.className = 'anno-tooltip';
-        tip.style.left = rec.x + '%';
-        tip.style.top = rec.y + '%';
-        tip.innerHTML = '<b>' + (rec.name || '匿名') + '</b>' + (rec.context ? ' · ' + rec.context : '') + '<br/>' + rec.comment;
-        section.appendChild(tip);
-        openPopover = tip;
-        setTimeout(() => document.addEventListener('click', function h(){ tip.remove(); document.removeEventListener('click', h); }), 0);
-      });
-      section.appendChild(pin);
+      pin.className = 'anno-pin';
+      pin.style.left = clientX + 'px';
+      pin.style.top = clientY + 'px';
+      pin.innerHTML = '<span>✓</span>';
+      document.body.appendChild(pin);
+      setTimeout(() => { pin.style.transition = 'opacity .4s ease'; pin.style.opacity = '0'; setTimeout(() => pin.remove(), 400); }, 1400);
     }
 
-    function showForm(section, sectionName, context, xPct, yPct, clientX, clientY){
+    function placePopover(pop, clientX, clientY){
+      const w = 320, pad = 12;
+      let left = clientX + 16;
+      if(left + w + pad > window.innerWidth) left = clientX - w - 16;
+      left = Math.max(pad, Math.min(left, window.innerWidth - w - pad));
+      pop.style.left = left + 'px';
+      pop.style.top = Math.max(pad, Math.min(clientY, window.innerHeight - pad)) + 'px';
+    }
+
+    function showForm(sectionName, context, xPct, yPct, clientX, clientY){
       closePopover();
       const pop = document.createElement('div');
       pop.className = 'anno-popover';
-      pop.style.left = xPct + '%';
-      pop.style.top = yPct + '%';
-      const savedName = localStorage.getItem(NAME_KEY) || '';
       pop.innerHTML =
         '<div class="ctx">板块：' + sectionName + (context.headingText ? ' · ' + context.headingText : '') + '</div>' +
-        '<input type="text" placeholder="你的名字" value="' + savedName.replace(/"/g,'&quot;') + '" class="anno-name">' +
         '<textarea placeholder="写下你的意见（文案/布局/设计都可以）" class="anno-text"></textarea>' +
         '<div class="row"><button type="button" class="cancel">取消</button><button type="button" class="submit">提交</button></div>';
-      section.appendChild(pop);
+      document.body.appendChild(pop);
+      placePopover(pop, clientX, clientY);
       openPopover = pop;
       pop.querySelector('.cancel').addEventListener('click', (e) => { e.stopPropagation(); closePopover(); });
       pop.addEventListener('click', (e) => e.stopPropagation());
-      pop.querySelector('.anno-name').focus();
+      pop.querySelector('.anno-text').focus();
       pop.querySelector('.submit').addEventListener('click', async (e) => {
         e.stopPropagation();
-        const name = pop.querySelector('.anno-name').value.trim() || '匿名';
         const comment = pop.querySelector('.anno-text').value.trim();
         if(!comment) return;
-        localStorage.setItem(NAME_KEY, name);
         const rec = {
           section: sectionName,
           context: context.headingText || context.elementDesc,
-          comment, name,
+          comment,
           url: location.href,
           x: xPct, y: yPct
         };
         pop.querySelector('.submit').textContent = '提交中…';
         try{
           await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
-          renderPin(rec);
+          renderPin(clientX, clientY);
         }catch(err){ console.warn('anno submit failed', err); alert('提交失败，请稍后重试'); }
         closePopover();
       });
@@ -999,7 +980,7 @@
         const yPct = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
         const sectionName = section.dataset.section;
         const context = getContext(e.target, section);
-        showForm(section, sectionName, context, xPct, yPct, e.clientX, e.clientY);
+        showForm(sectionName, context, xPct, yPct, e.clientX, e.clientY);
       });
     });
 
@@ -1007,7 +988,7 @@
       annoMode = !annoMode;
       document.body.classList.toggle('anno-mode', annoMode);
       toggleBtn.classList.toggle('active', annoMode);
-      toggleLabel.textContent = annoMode ? '批注中（点任意处）' : '开启批注';
+      toggleLabel.textContent = annoMode ? '批注中（点任意处）' : '意见批注';
       closePopover();
     });
   })();
