@@ -951,15 +951,6 @@
       section.appendChild(pin);
     }
 
-    async function loadAnnotations(){
-      try{
-        const res = await fetch(API, { method:'GET' });
-        if(!res.ok) return;
-        const data = await res.json();
-        (data.records || []).forEach(renderPin);
-      }catch(err){ console.warn('anno load failed', err); }
-    }
-
     function showForm(section, sectionName, context, xPct, yPct, clientX, clientY){
       closePopover();
       const pop = document.createElement('div');
@@ -1019,8 +1010,6 @@
       toggleLabel.textContent = annoMode ? '批注中（点任意处）' : '开启批注';
       closePopover();
     });
-
-    loadAnnotations();
   })();
 </script>
 
