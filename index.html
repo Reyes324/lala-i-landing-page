@@ -121,7 +121,7 @@
   /* social proof — dedicated section, logos only */
   .sp-logos{display:flex; justify-content:center;}
   .trust-logos{
-    display:grid; grid-template-columns:repeat(6,1fr);
+    display:grid; grid-template-columns:repeat(4,1fr);
     width:100%; max-width:980px;
   }
   .logo-cell{
@@ -132,7 +132,7 @@
     content:""; position:absolute; right:0; top:50%; transform:translateY(-50%);
     width:1px; height:28px; background:var(--border);
   }
-  .logo-cell:nth-child(6n)::after{display:none;}
+  .logo-cell:nth-child(4n)::after{display:none;}
   .logo-cell:hover{transform:translateY(-2px);}
   .trust-logos img{max-height:26px; max-width:100%; width:auto;}
   .trust-logos img.chip-logo{max-height:34px; border-radius:5px;}
@@ -774,6 +774,8 @@
           <div class="logo-cell"><img src="assets/logos/jt-express.svg" alt="极兔速递 J&T Express"></div>
           <div class="logo-cell"><img src="assets/logos/sf-express.png" alt="顺丰速运 SF Express" class="chip-logo"></div>
           <div class="logo-cell"><img src="assets/logos/flash-express.svg" alt="Flash Express"></div>
+          <div class="logo-cell"><img src="assets/logos/lianyu.png" alt="联宇物流 LINKTRANS" class="chip-logo"></div>
+          <div class="logo-cell"><img src="assets/logos/yunda.png" alt="韵达国际 YUNDA Express"></div>
         </div>
       </div>
     </div>
