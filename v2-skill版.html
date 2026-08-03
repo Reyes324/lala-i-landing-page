@@ -395,6 +395,10 @@
   .anno-popover button{border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit;}
   .anno-popover .cancel{background:var(--surface); color:var(--text-2);}
   .anno-popover .submit{background:var(--brand); color:#fff;}
+  .anno-popover .submit:disabled{opacity:.7; cursor:default;}
+  .anno-popover .anno-ok{display:flex; align-items:center; gap:8px; font-weight:600; color:var(--brand); margin-bottom:10px;}
+  .anno-popover .anno-ok-icon{width:20px; height:20px; border-radius:50%; background:var(--brand); color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .anno-popover .anno-ok-text{font-size:13px; line-height:1.6; color:var(--text-2); background:var(--surface); border-radius:8px; padding:10px 12px; margin-bottom:12px; white-space:pre-wrap; word-break:break-word;}
 </style>
 </head>
 <body>
@@ -965,11 +969,22 @@
           x: xPct, y: yPct
         };
         pop.querySelector('.submit').textContent = '提交中…';
+        pop.querySelector('.submit').disabled = true;
         try{
           await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
           renderPin(pageX, pageY);
-        }catch(err){ console.warn('anno submit failed', err); alert('提交失败，请稍后重试'); }
-        closePopover();
+          pop.innerHTML =
+            '<div class="anno-ok"><span class="anno-ok-icon">✓</span>已提交，感谢反馈</div>' +
+            '<div class="anno-ok-text">' + comment.replace(/</g,'&lt;') + '</div>' +
+            '<div class="row"><button type="button" class="cancel anno-close">关闭</button></div>';
+          pop.querySelector('.anno-close').addEventListener('click', (e2) => { e2.stopPropagation(); closePopover(); });
+          setTimeout(() => { if(openPopover === pop) closePopover(); }, 4000);
+        }catch(err){
+          console.warn('anno submit failed', err);
+          pop.querySelector('.submit').textContent = '提交';
+          pop.querySelector('.submit').disabled = false;
+          alert('提交失败，请稍后重试');
+        }
       });
     }
 
