@@ -148,7 +148,8 @@
   .problem-card p{font-size:14px; color:var(--text-2); line-height:1.7;}
 
   /* 3 pillar features */
-  .pillar-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .pillar-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+  .pillar.wide{grid-column:span 2;}
   .pillar{border-radius:var(--radius-m); padding:32px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
   .pillar:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:#F9FBFF;}
   .pillar .ic{width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg, rgba(34,87,212,.16), rgba(34,87,212,.05)); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:20px; transition:background .3s ease, transform .3s cubic-bezier(.16,1,.3,1);}
@@ -159,6 +160,7 @@
   .pillar ul{display:flex; flex-direction:column; gap:9px;}
   .pillar li{font-size:13.5px; color:var(--text-2); display:flex; gap:8px; align-items:flex-start;}
   .pillar li svg{color:var(--success); flex-shrink:0; margin-top:3px;}
+  .pillar > p.fn-note{font-size:12px; color:var(--text-3); line-height:1.6; margin-top:-8px;}
 
   /* coverage */
   .coverage-wrap{display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;}
@@ -526,6 +528,12 @@
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>API 直连企业自有 TMS / ERP</li>
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>24 小时当地语言 + 中文双语客服</li>
           </ul>
+        </div>
+        <div class="pillar reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></svg></div>
+          <h3>企业级货运险保障</h3>
+          <p>企业订单默认赠送 GPP* 货运保险，支持付费升级保额，货损货丢有据可依。</p>
+          <p class="fn-note">* GPP = Goods Protection Promise，具体保额与理赔规则以 Lalamove 当地市场官网政策为准。</p>
         </div>
       </div>
     </div>
