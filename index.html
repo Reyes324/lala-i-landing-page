@@ -418,7 +418,7 @@
       <b>货拉拉</b>企业国际版
     </a>
     <div class="header-actions">
-      <a href="#login" class="btn btn-ghost header-cta">登录</a>
+      <a href="#login" id="loginBtn" class="btn btn-ghost header-cta">登录</a>
       <a href="#quote" class="btn btn-primary header-cta">立即试用</a>
     </div>
   </div>
@@ -893,6 +893,41 @@
 <button id="annoToggle" type="button"><span class="dot"></span><span id="annoToggleLabel">意见批注</span></button>
 
 <script>
+  // --- 父应用通信：env → 父域名 映射表，postMessage 的唯一真相源，禁止从 URL 直接接收父域名 ---
+  const PARENT_ORIGIN_BY_ENV = {
+    dev: 'http://localhost:3001',
+    pre: 'https://lala-i-web--stable-1.sg-van-pre.lalamove.com',
+    prd: 'https://lala-i.net',
+  };
+  function resolveParentOrigin(env) {
+    return PARENT_ORIGIN_BY_ENV[env] ?? null;
+  }
+
+  const qs = new URLSearchParams(window.location.search);
+  const currentEnv = qs.get('env');
+  const isLoggedIn = qs.get('loggedIn') === '1';
+
+  // 已登录：隐藏「登录」按钮（展示态切换，不代表真实鉴权）
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
+    if (isLoggedIn) {
+      loginBtn.style.display = 'none';
+    } else {
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parentOrigin = resolveParentOrigin(currentEnv);
+        if (!parentOrigin) {
+          console.warn('[intro] invalid or missing env, skip GO_LOGIN postMessage', currentEnv);
+          return;
+        }
+        window.parent.postMessage(
+          { source: 'lala-i-intro', type: 'GO_LOGIN' },
+          parentOrigin,
+        );
+      });
+    }
+  }
+
   const header = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 8));
 
