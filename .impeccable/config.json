@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-21T06:56:03.706Z",
+        "reason": "既有品牌字体系统(Inter+Noto Sans SC)，非本次改动引入，identity-preservation"
+      },
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-08-21T06:56:03.914Z",
+        "reason": "FAQ 手风琴 max-height 动画为页面既有代码，不在本次下载APP板块改动范围内"
+      }
+    ]
+  }
+}
