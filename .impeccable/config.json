@@ -17,6 +17,24 @@
         ],
         "createdAt": "2026-08-21T06:56:03.914Z",
         "reason": "FAQ 手风琴 max-height 动画为页面既有代码，不在本次下载APP板块改动范围内"
+      },
+      {
+        "rule": "overused-font",
+        "value": "plus jakarta sans",
+        "files": [
+          "/Users/zzz/Desktop/lala-i官网/download-guide.html"
+        ],
+        "createdAt": "2026-08-26T10:19:52.342Z",
+        "reason": "matches lala-i Design System's --font-sans token, kept for consistency with existing site"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "/Users/zzz/Desktop/lala-i官网/download-guide.html"
+        ],
+        "createdAt": "2026-08-26T10:21:06.069Z",
+        "reason": "zoomImg lightbox placeholder, src set dynamically on click"
       }
     ]
   }

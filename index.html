@@ -766,6 +766,7 @@
         <span class="tag">随时随地下单</span>
         <h2>下载 <em>lala-i</em> 企业版 APP</h2>
         <p>扫码下载企业版 APP，出车、跟单、对账，走到哪管到哪。</p>
+        <a href="download-guide.html" class="btn-text" style="display:inline-block; margin-top:14px;">查看详细安装指引 →</a>
       </div>
       <div class="app-grid">
         <div class="app-card ready reveal">
@@ -924,6 +925,24 @@
     );
   }
 
+  // 独立访问（未被父应用 iframe 嵌入，如营销/BD 场景直接打开本页）时，postMessage 无人接收，
+  // 改为直接跳转到 prd 正式站对应路由；被嵌入时仍走上面的 postMessage 协议，不受影响
+  const STANDALONE_ROUTE_BY_TYPE = {
+    GO_LOGIN: '/login',
+    GO_TRIAL_QUOTE: '/trial-quote',
+    GO_BOOKING: '/booking',
+  };
+  function navigateOrPost(type) {
+    const isEmbedded = window.self !== window.top;
+    if (isEmbedded) {
+      postNavigateToParent(type);
+      return;
+    }
+    const route = STANDALONE_ROUTE_BY_TYPE[type];
+    if (!route) return;
+    window.location.href = PARENT_ORIGIN_BY_ENV.prd + route;
+  }
+
   const qs = new URLSearchParams(window.location.search);
   const isLoggedIn = qs.get('loggedIn') === '1';
 
@@ -935,7 +954,7 @@
     } else {
       loginBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        postNavigateToParent('GO_LOGIN');
+        navigateOrPost('GO_LOGIN');
       });
     }
   }
@@ -944,7 +963,7 @@
   document.querySelectorAll('[data-nav]').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
-      postNavigateToParent(el.dataset.nav);
+      navigateOrPost(el.dataset.nav);
     });
   });
 
