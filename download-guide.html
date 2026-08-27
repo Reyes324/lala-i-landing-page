@@ -367,6 +367,17 @@
     overlay.classList.remove('show');
     document.body.style.overflow = '';
     setTimeout(() => overlay.classList.remove('active'), 220);
+    resetViewportZoom();
+  }
+  // Pinching to read a wide screenshot inside the lightbox leaves mobile browsers
+  // (iOS Safari in particular) stuck at that page zoom level after the modal closes.
+  // Toggling maximum-scale forces the browser to recompute and snap back to 1x.
+  function resetViewportZoom() {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (!viewport) return;
+    const original = viewport.getAttribute('content');
+    viewport.setAttribute('content', original + ', maximum-scale=1.0');
+    setTimeout(() => viewport.setAttribute('content', original), 60);
   }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.getElementById('zoomOverlay').classList.contains('active')) closeZoom();
