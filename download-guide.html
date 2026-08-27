@@ -107,11 +107,6 @@
   }
   .step-warn span { font-size: 13px; line-height: 1.6; color: var(--warning-fg); }
   .step img { width: 100%; max-width: 900px; height: auto; margin-top: 14px; border-radius: 12px; display: block; cursor: zoom-in; }
-  .step img.step-img-mobile { display: none; }
-  @media (max-width: 640px) {
-    .step img.step-img-desktop { display: none; }
-    .step img.step-img-mobile { display: block; max-width: 420px; }
-  }
 
   h2 {
     margin: clamp(56px, 7vw, 84px) 0 8px; border-top: 1px solid var(--divider);
@@ -217,8 +212,7 @@
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--warning-fg)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px;"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
               <span data-en="WeChat blocks the App Store link. Tap ⋯ in the top right and choose “Open in Browser”, then continue there." data-cn="如在微信内打开，需右上角「···」选择「在浏览器中打开」，再继续安装。">如在微信内打开，需右上角「···」选择「在浏览器中打开」，再继续安装。</span>
             </div>
-            <img class="step-img-desktop" src="assets/download-guide/shot-ios-step1-v2.png" alt="邀请页第 1 步点击「在 App Store 中查看」，前往 App Store 安装 TestFlight，打开后点击继续" onclick="openZoom(this.src, this.alt)">
-            <img class="step-img-mobile" src="assets/download-guide/shot-ios-step1-mobile.png" alt="邀请页第 1 步点击「在 App Store 中查看」，前往 App Store 安装 TestFlight，打开后点击继续" onclick="openZoom(this.src, this.alt)">
+            <img src="assets/download-guide/shot-ios-step1-v2.png" alt="邀请页第 1 步点击「在 App Store 中查看」，前往 App Store 安装 TestFlight，打开后点击继续" onclick="openZoom(this.src, this.alt)">
           </div>
         </li>
         <li class="step">
@@ -226,8 +220,7 @@
           <div>
             <div class="step-title" data-en="Install the beta build (second install)" data-cn="完成后，安装体验包（第二个安装）">完成后，安装体验包（第二个安装）</div>
             <div class="step-desc" data-en="On the invitation page, tap “View in TestFlight” in Step 2. In TestFlight tap “Accept”, then “Install”." data-cn="在邀请页第 2 步点击【在 TestFlight 中查看】，跳转后点击【安装】，安装后再点击【继续】。">在邀请页第 2 步点击【在 TestFlight 中查看】，跳转后点击【安装】，安装后再点击【继续】。</div>
-            <img class="step-img-desktop" src="assets/download-guide/shot-ios-step2-v3.png" alt="邀请页第 2 步点击「在 TestFlight 中查看」，点击安装，安装后打开点击继续" onclick="openZoom(this.src, this.alt)">
-            <img class="step-img-mobile" src="assets/download-guide/shot-ios-step2-mobile.png" alt="邀请页第 2 步点击「在 TestFlight 中查看」，点击安装，安装后打开点击继续" onclick="openZoom(this.src, this.alt)">
+            <img src="assets/download-guide/shot-ios-step2-v3.png" alt="邀请页第 2 步点击「在 TestFlight 中查看」，点击安装，安装后打开点击继续" onclick="openZoom(this.src, this.alt)">
           </div>
         </li>
         <li class="step">
