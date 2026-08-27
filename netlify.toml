@@ -4,8 +4,3 @@
 
 [functions]
   node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/download"
-  to = "/download-guide.html"
-  status = 200
