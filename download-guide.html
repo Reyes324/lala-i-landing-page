@@ -137,11 +137,32 @@
   .footer-note { margin: 40px 0; text-align: center; font-size: 13px; color: var(--fg-4); }
 
   .zoom-overlay {
-    display: none; position: fixed; inset: 0; z-index: 90; background: rgba(20,28,51,.92);
-    padding: 20px; overflow: auto; cursor: zoom-out;
+    display: none; position: fixed; inset: 0; z-index: 90; background: rgba(16,20,38,.94);
+    padding: clamp(16px, 4vw, 40px); overflow: auto; cursor: zoom-out;
+    opacity: 0; transition: opacity 220ms var(--ease-out);
   }
-  .zoom-overlay.active { display: block; }
-  .zoom-overlay img { width: 900px; max-width: none; height: auto; margin: 0 auto; border-radius: 8px; display: block; }
+  .zoom-overlay.active { display: flex; align-items: flex-start; justify-content: center; }
+  .zoom-overlay.show { opacity: 1; }
+  .zoom-frame {
+    margin: auto; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px;
+    transform: scale(.96); opacity: 0; transition: transform 220ms var(--ease-out), opacity 220ms var(--ease-out);
+  }
+  .zoom-overlay.show .zoom-frame { transform: scale(1); opacity: 1; }
+  .zoom-overlay img {
+    width: auto; max-width: min(880px, 100%); max-height: 78vh; height: auto;
+    border-radius: 10px; display: block; box-shadow: 0 30px 64px -14px rgba(0,0,0,.5); cursor: default;
+  }
+  .zoom-caption {
+    max-width: 640px; text-align: center; font-size: 13.5px; line-height: 1.6; color: rgba(255,255,255,.72);
+    padding: 0 8px;
+  }
+  .zoom-close {
+    position: fixed; top: clamp(12px, 3vw, 24px); right: clamp(12px, 3vw, 24px);
+    width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,.12); color: #fff; font-size: 20px; line-height: 1;
+    display: flex; align-items: center; justify-content: center; transition: background var(--dur) var(--ease-out);
+  }
+  .zoom-close:hover { background: rgba(255,255,255,.22); }
 </style>
 </head>
 <body>
@@ -190,7 +211,7 @@
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--warning-fg)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px;"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
               <span data-en="WeChat blocks the App Store link. Tap ⋯ in the top right and choose “Open in Browser”, then continue there." data-cn="如在微信内打开，需右上角「···」选择「在浏览器中打开」，再继续安装。">如在微信内打开，需右上角「···」选择「在浏览器中打开」，再继续安装。</span>
             </div>
-            <img src="assets/download-guide/shot-ios-step1-v2.png" alt="邀请页第 1 步点击「在 App Store 中查看」，前往 App Store 安装 TestFlight，打开后点击继续" onclick="openZoom(this.src)">
+            <img src="assets/download-guide/shot-ios-step1-v2.png" alt="邀请页第 1 步点击「在 App Store 中查看」，前往 App Store 安装 TestFlight，打开后点击继续" onclick="openZoom(this.src, this.alt)">
           </div>
         </li>
         <li class="step">
@@ -198,7 +219,7 @@
           <div>
             <div class="step-title" data-en="Install the beta build (second install)" data-cn="完成后，安装体验包（第二个安装）">完成后，安装体验包（第二个安装）</div>
             <div class="step-desc" data-en="On the invitation page, tap “View in TestFlight” in Step 2. In TestFlight tap “Accept”, then “Install”." data-cn="在邀请页第 2 步点击【在 TestFlight 中查看】，跳转后点击【安装】，安装后再点击【继续】。">在邀请页第 2 步点击【在 TestFlight 中查看】，跳转后点击【安装】，安装后再点击【继续】。</div>
-            <img src="assets/download-guide/shot-ios-step2-v3.png" alt="邀请页第 2 步点击「在 TestFlight 中查看」，点击安装，安装后打开点击继续" onclick="openZoom(this.src)">
+            <img src="assets/download-guide/shot-ios-step2-v3.png" alt="邀请页第 2 步点击「在 TestFlight 中查看」，点击安装，安装后打开点击继续" onclick="openZoom(this.src, this.alt)">
           </div>
         </li>
         <li class="step">
@@ -235,7 +256,7 @@
           <div>
             <div class="step-title" data-en="Allow the installation" data-cn="直接下载安装">直接下载安装</div>
             <div class="step-desc" data-en="If the phone warns about an unknown source, tap Continue. On some models: Settings › Security › Install unknown apps." data-cn="浏览器链接打开直接下载并安装。若手机提示「未知来源」，点击允许。部分机型需在 设置 › 安全 › 安装未知应用 中开启权限。">浏览器链接打开直接下载并安装。若手机提示「未知来源」，点击允许。部分机型需在 设置 › 安全 › 安装未知应用 中开启权限。</div>
-            <img src="assets/download-guide/shot-android-step1.png" alt="下载页点击「下载安装」，弹出「是否允许浏览器安装应用」时点击允许" onclick="openZoom(this.src)">
+            <img src="assets/download-guide/shot-android-step1.png" alt="下载页点击「下载安装」，弹出「是否允许浏览器安装应用」时点击允许" onclick="openZoom(this.src, this.alt)">
           </div>
         </li>
         <li class="step">
@@ -278,7 +299,11 @@
 </div>
 
 <div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
-  <img id="zoomImg" src="" alt="">
+  <button class="zoom-close" type="button" aria-label="关闭" onclick="event.stopPropagation(); closeZoom();">&times;</button>
+  <div class="zoom-frame" onclick="event.stopPropagation();">
+    <img id="zoomImg" src="" alt="">
+    <div class="zoom-caption" id="zoomCaption"></div>
+  </div>
 </div>
 
 <script>
@@ -327,13 +352,25 @@
   });
   applyLang();
 
-  function openZoom(src) {
+  function openZoom(src, alt) {
+    const overlay = document.getElementById('zoomOverlay');
     document.getElementById('zoomImg').src = src;
-    document.getElementById('zoomOverlay').classList.add('active');
+    document.getElementById('zoomImg').alt = alt || '';
+    document.getElementById('zoomCaption').textContent = alt || '';
+    document.body.style.overflow = 'hidden';
+    overlay.classList.add('active');
+    overlay.offsetHeight; // force reflow so the opacity/transform transition runs
+    overlay.classList.add('show');
   }
   function closeZoom() {
-    document.getElementById('zoomOverlay').classList.remove('active');
+    const overlay = document.getElementById('zoomOverlay');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+    setTimeout(() => overlay.classList.remove('active'), 220);
   }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('zoomOverlay').classList.contains('active')) closeZoom();
+  });
 </script>
 </body>
 </html>
