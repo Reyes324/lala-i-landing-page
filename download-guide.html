@@ -106,7 +106,7 @@
     border-radius: 10px; padding: 12px 14px; margin-top: 12px;
   }
   .step-warn span { font-size: 13px; line-height: 1.6; color: var(--warning-fg); }
-  .step img { width: 100%; max-width: 660px; height: auto; margin-top: 14px; border-radius: 12px; display: block; cursor: zoom-in; }
+  .step img { width: 100%; max-width: 900px; height: auto; margin-top: 14px; border-radius: 12px; display: block; cursor: zoom-in; }
 
   h2 {
     margin: clamp(56px, 7vw, 84px) 0 8px; border-top: 1px solid var(--divider);
@@ -141,15 +141,16 @@
     padding: clamp(16px, 4vw, 40px); overflow: auto; cursor: zoom-out;
     opacity: 0; transition: opacity 220ms var(--ease-out);
   }
-  .zoom-overlay.active { display: flex; align-items: flex-start; justify-content: center; }
+  .zoom-overlay.active { display: flex; align-items: center; justify-content: center; }
   .zoom-overlay.show { opacity: 1; }
   .zoom-frame {
+    position: relative; z-index: 1;
     margin: auto; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px;
     transform: scale(.96); opacity: 0; transition: transform 220ms var(--ease-out), opacity 220ms var(--ease-out);
   }
   .zoom-overlay.show .zoom-frame { transform: scale(1); opacity: 1; }
   .zoom-overlay img {
-    width: auto; max-width: min(880px, 100%); max-height: 78vh; height: auto;
+    width: auto; max-width: min(1480px, 100%); max-height: 90vh; height: auto;
     border-radius: 10px; display: block; box-shadow: 0 30px 64px -14px rgba(0,0,0,.5); cursor: default;
   }
   .zoom-caption {
@@ -157,7 +158,7 @@
     padding: 0 8px;
   }
   .zoom-close {
-    position: fixed; top: clamp(12px, 3vw, 24px); right: clamp(12px, 3vw, 24px);
+    position: fixed; z-index: 2; top: clamp(12px, 3vw, 24px); right: clamp(12px, 3vw, 24px);
     width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
     background: rgba(255,255,255,.12); color: #fff; font-size: 20px; line-height: 1;
     display: flex; align-items: center; justify-content: center; transition: background var(--dur) var(--ease-out);
