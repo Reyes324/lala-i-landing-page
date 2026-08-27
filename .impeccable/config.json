@@ -35,6 +35,15 @@
         ],
         "createdAt": "2026-08-26T10:21:06.069Z",
         "reason": "zoomImg lightbox placeholder, src set dynamically on click"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "/Users/zzz/Desktop/lala-i官网/download-app/index.html"
+        ],
+        "createdAt": "2026-08-27T03:11:56.977Z",
+        "reason": "zoomImg lightbox placeholder, src set dynamically on click (same as download-guide.html)"
       }
     ]
   }
