@@ -1,2 +1,5 @@
 .extract-design-system/
 .DS_Store
+
+# Local Netlify folder
+.netlify
