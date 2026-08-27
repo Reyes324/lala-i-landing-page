@@ -7,7 +7,8 @@
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Noto+Sans+SC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fontsapi.zeoseven.com/84/main/result.css">
 <style>
   :root {
     --blue-50:  #eef3ff; --blue-100: #dde7ff; --blue-300: #98b2f6; --blue-500: #3f6ce3;
@@ -27,9 +28,9 @@
     --radius-card: 16px;
     --dur: 200ms; --ease-out: cubic-bezier(.22,1,.36,1);
 
-    --font-brand: 'Sora', 'Noto Sans SC', system-ui, sans-serif;
-    --font-title: 'Sora', 'Noto Sans SC', system-ui, sans-serif;
-    --font-sans: 'Plus Jakarta Sans', 'Noto Sans SC', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-brand: 'Poppins', 'Alibaba PuHuiTi 3', 'Noto Sans SC', system-ui, sans-serif;
+    --font-title: 'Poppins', 'DouyinSans', 'Noto Sans SC', system-ui, sans-serif;
+    --font-sans: 'Poppins', 'Alibaba PuHuiTi 3', 'Alibaba PuHuiTi', 'Noto Sans SC', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: #fff; font-family: var(--font-sans); color: var(--fg-1); }
@@ -121,18 +122,15 @@
 
   .help-card {
     display: flex; flex-wrap: wrap; align-items: center; gap: clamp(22px, 4vw, 40px);
-    margin: clamp(52px, 6vw, 76px) 0 0; background: #fff; border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm); border-radius: 20px; padding: clamp(24px, 3vw, 32px);
+    margin: clamp(52px, 6vw, 76px) 0 0; background: #fff;
+    box-shadow: var(--shadow-md); border-radius: var(--radius-card); padding: clamp(20px, 3vw, 28px);
   }
-  .help-card img { width: 156px; height: 156px; flex: none; border-radius: 8px; display: block; }
+  .help-card img { width: 156px; height: 156px; flex: none; border-radius: 4px; display: block; }
   .help-copy { flex: 1 1 240px; }
   .help-copy .t { font-family: var(--font-title); font-size: 20px; font-weight: 500; margin-bottom: 6px; color: var(--n-800); }
   .help-copy .d { font-size: 15px; line-height: 1.6; color: var(--fg-3); }
-  .help-mail {
-    font-size: 14px; font-weight: 500; background: var(--n-50); border-radius: 10px;
-    padding: 12px 16px; transition: all var(--dur) var(--ease-out);
-  }
-  .help-mail:hover { background: var(--brand); color: #fff; }
+  .help-mail { display: inline-block; white-space: nowrap; color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--blue-300); }
+  .help-mail:hover { color: var(--brand-strong); text-decoration-color: currentColor; }
 
   .footer-note { margin: 40px 0; text-align: center; font-size: 13px; color: var(--fg-4); }
 
@@ -187,7 +185,7 @@
 
   <!-- iOS panel -->
   <div class="panel" id="panelIOS">
-    <a href="https://testflight.apple.com/join/aZFcdFeZ" class="cta-btn phone-only" data-en="Download and install" data-cn="前往下载安装" target="_blank" rel="noopener noreferrer">前往下载安装</a>
+    <a href="https://testflight.apple.com/join/aZFcdFeZ" class="cta-btn phone-only" data-en="Download and install →" data-cn="前往下载安装 →" target="_blank" rel="noopener noreferrer">前往下载安装 →</a>
 
     <div class="qr-row desktop-only">
       <div class="qr-card">
@@ -236,7 +234,7 @@
 
   <!-- Android panel -->
   <div class="panel" id="panelAndroid">
-    <a href="https://mdap-mcv-h5-v.huolala.cn/#/download?permalink=6077a127" class="cta-btn phone-only" data-en="Download and install" data-cn="前往下载安装" target="_blank" rel="noopener">前往下载安装</a>
+    <a href="https://mdap-mcv-h5-v.huolala.cn/#/download?permalink=6077a127" class="cta-btn phone-only" data-en="Download and install →" data-cn="前往下载安装 →" target="_blank" rel="noopener">前往下载安装 →</a>
 
     <div class="qr-row desktop-only">
       <div class="qr-card">
@@ -290,10 +288,11 @@
   <div class="help-card">
     <img src="assets/download-guide/qr-wecom-n.png" alt="运营客服企业微信二维码">
     <div class="help-copy">
-      <div class="t" data-en="Need help, or have feedback?" data-cn="需要协助或提交反馈">需要协助或提交反馈</div>
-      <div class="d" data-en="Scan to add your operations contact on WeCom for the fastest reply, or reach us by email." data-cn="扫码添加运营客服同事的企业微信，响应最快，也可发送邮件联系我们。">扫码添加运营客服同事的企业微信，响应最快，也可发送邮件联系我们。</div>
+      <div class="t" data-en="Need help, or have feedback?" data-cn="需要协助或提交反馈？">需要协助或提交反馈？</div>
+      <div class="d">
+        <span data-en="Scan to add your operations contact on WeCom for the fastest reply, or reach us by email: " data-cn="扫码添加运营客服同事的企业微信，响应最快，也可发送邮件联系我们：">扫码添加运营客服同事的企业微信，响应最快，也可发送邮件联系我们：</span><a href="mailto:lala-i@huolala.cn" class="help-mail">lala-i@huolala.cn</a>
+      </div>
     </div>
-    <a href="mailto:lala-i@huolala.cn" class="help-mail">lala-i@huolala.cn</a>
   </div>
 
   <p class="footer-note" data-en="lala·i Enterprise International · early access · for invited customers" data-cn="lala·i 企业国际版 · 抢先体验版 · 仅供受邀客户使用">lala·i 企业国际版 · 抢先体验版 · 仅供受邀客户使用</p>
