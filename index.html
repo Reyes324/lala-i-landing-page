@@ -281,7 +281,7 @@
 
   /* final cta w/ urgency */
   .final-cta{background:linear-gradient(160deg,var(--ink-900),var(--ink-700)); color:#fff; border-radius:var(--radius-l); padding:64px 48px; text-align:center; position:relative; overflow:hidden;}
-  .final-cta::before{content:""; position:absolute; inset:0; background:radial-gradient(700px 300px at 50% -20%, rgba(76,124,240,.4), transparent 60%);}
+  .final-cta::before{content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(700px 300px at 50% -20%, rgba(76,124,240,.4), transparent 60%);}
   .final-cta .tag{color:#8FE3B8;}
   .final-cta h2{position:relative; color:#fff; font-size:clamp(24px,3vw,34px); margin-bottom:12px;}
   .final-cta p{position:relative; color:rgba(255,255,255,.65); font-size:15.5px; margin-bottom:30px;}
@@ -700,23 +700,22 @@
       <div class="section-head reveal">
         <span class="tag">客户故事</span>
         <h2>出海企业怎么用 <em>lala-i</em></h2>
-        <p>以下为示例场景，用于说明典型使用方式（非真实客户引语）。</p>
       </div>
       <div class="test-grid3">
         <div class="test-card reveal">
           <div class="stars">★★★★★</div>
           <p>"以前每进一个新市场都要重新找车队，现在一个后台管理泰国、越南、印尼三地，子账号权限也很清楚。"</p>
-          <div class="test-person"><img class="avatar" src="assets/avatars/avatar1.jpeg" alt=""><div><strong>跨境电商仓配团队</strong><span>物流负责人 · 示例</span></div></div>
+          <div class="test-person"><img class="avatar" src="assets/avatars/avatar1.jpeg" alt=""><div><strong>跨境电商仓配团队</strong><span>物流负责人</span></div></div>
         </div>
         <div class="test-card reveal">
           <div class="stars">★★★★★</div>
           <p>"生鲜配送对时效要求高，双语客服响应很快，临时改点也能及时协调车辆。"</p>
-          <div class="test-person"><img class="avatar" src="assets/avatars/avatar2.jpeg" alt=""><div><strong>生鲜出海连锁品牌</strong><span>运营经理 · 示例</span></div></div>
+          <div class="test-person"><img class="avatar" src="assets/avatars/avatar2.jpeg" alt=""><div><strong>生鲜出海连锁品牌</strong><span>运营经理</span></div></div>
         </div>
         <div class="test-card reveal">
           <div class="stars">★★★★★</div>
           <p>"API 对接我们自己的 ERP 后，下单和对账基本自动化了，财务每月只需核对一次账单。"</p>
-          <div class="test-person"><img class="avatar" src="assets/avatars/avatar3.jpeg" alt=""><div><strong>3C 出海品牌</strong><span>供应链总监 · 示例</span></div></div>
+          <div class="test-person"><img class="avatar" src="assets/avatars/avatar3.jpeg" alt=""><div><strong>3C 出海品牌</strong><span>供应链总监</span></div></div>
         </div>
       </div>
     </div>
