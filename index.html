@@ -527,20 +527,25 @@
     .final-cta-actions .btn{flex:1; min-width:0; padding:13px 10px; font-size:14.5px; white-space:nowrap;}
     body{padding-bottom:74px;}
     .mobile-cta-bar{display:block;}
-    /* 移动端已有底部固定 CTA，悬浮二维码会挡住正文内容，隐藏 */
-    .stats-strip{grid-template-columns:repeat(2,1fr); gap:22px 18px; padding-top:24px;}
-    .sp-stat strong{font-size:25px;}
-    .sp-stat strong em{font-size:14px;}
+    /* 数据条移动端一排 4 个（而非 2x2）：字号和留白全线收紧才塞得下 */
+    .stats-strip{grid-template-columns:repeat(4,1fr); gap:14px 10px; padding-top:22px;}
+    .sp-stat strong{font-size:19px;}
+    .sp-stat strong em{font-size:12px; margin-left:1px;}
+    .sp-stat span{font-size:10.5px; line-height:1.4; margin-top:5px;}
+    .sp-codes{font-size:9px !important; letter-spacing:0 !important;}
     .trust-logos{gap:24px;}
     /* 登录在移动端不隐藏（老用户回访要有入口），但降级成纯文字链接省宽度，
        让蓝色主按钮继续是头部唯一的重色块 */
     .header-actions{gap:14px;}
     .header-actions .btn-ghost{
       background:none; border:none; box-shadow:none; padding:0;
-      font-size:14px; color:var(--text-2); min-height:auto;
+      font-size:13px; color:var(--text-2); min-height:auto; white-space:nowrap;
     }
     .header-actions .btn-ghost:hover{background:none; border:none; box-shadow:none; transform:none; color:var(--brand);}
-    .header-cta{padding:10px 16px;}
+    /* flex 子项默认允许收缩到比文字还窄，导致按钮文字被挤成两行——锁住不缩、不折行 */
+    .header-cta{padding:10px 14px; white-space:nowrap; flex-shrink:0;}
+    .header-actions .btn-ghost{flex-shrink:0;}
+    .logo-wordmark{flex-shrink:0;}
     /* 移动端隐藏首屏配图：桌面端它在文案右侧不占纵向空间，移动端却独占近一屏，
        把真正有说服力的数据条挤到折叠线以下（同 .map-visual 的取舍） */
     .hero-photo-wrap{display:none;}
