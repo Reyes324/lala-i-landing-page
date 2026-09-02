@@ -128,14 +128,15 @@
   .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center; max-width:1120px; margin-bottom:76px;}
   .hero-copy{text-align:left;}
   /* 场景标签：承接副标题，把「本地运力」展开成读者能对号入座的具体场景。
-     它紧挨主按钮，所以必须用中性灰、绝不用品牌蓝——同色相 = 读成「能点的按钮」。
-     视觉重量刻意压到按钮之下：小字号、无阴影、无 hover。
-     容器 440px 让 7 个标签分成 4+3，避免最后一个孤字挂行 */
+     它紧挨主按钮，绝不能用品牌蓝——同色相 = 读成「能点的按钮」。改用绿色（--success 族，
+     和价格卡的对勾同色系）而不是暖橙：橙色在这页专属「痛点」语义，混进首屏会打架；
+     绿色则天然带「支持/可用」的含义，跟「这些场景我们都覆盖」的意思顺。
+     无填充只描边、胶囊形，读起来轻快不像控件。容器 440px 让 7 个标签分成 4+3，避免孤字挂行 */
   .hero-scenes{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:28px; max-width:440px;}
   .hero-scenes span{
-    font-size:12px; line-height:1.4; color:var(--text-2); font-weight:500;
-    background:#F4F6FA; border:1px solid #E8EBF2;
-    border-radius:6px; padding:5px 9px; white-space:nowrap;
+    font-size:12px; line-height:1.4; color:#0F7A54; font-weight:500;
+    background:rgba(27,156,110,.045); border:1px solid rgba(27,156,110,.16);
+    border-radius:999px; padding:5px 11px; white-space:nowrap;
   }
   .hero h1{font-size:clamp(30px,3.8vw,44px); line-height:1.4; color:var(--text-1); font-weight:700; margin-bottom:18px;}
   .hero h1 em{font-style:normal; color:var(--brand);}
@@ -175,9 +176,6 @@
     display:grid; grid-template-columns:repeat(4,1fr);
     width:100%; max-width:980px;
   }
-  /* 场景卡片区的次级说明：明确这是「典型用法」不是「上面这些 logo 说的话」，
-     避免读者把场景化描述脑补成某个具名客户的真实引语 */
-  .test-lead{text-align:center; font-size:13.5px; color:var(--text-3); margin:-28px 0 32px;}
   .logo-cell{
     height:64px; display:flex; align-items:center; justify-content:center;
     padding:10px 18px; position:relative; transition:transform .25s cubic-bezier(.16,1,.3,1);
@@ -517,7 +515,10 @@
     .hero-scenes span{font-size:12px; padding:4px 9px;}
     /* 移动端按钮组一律并排平分，不要竖排各占一整行 */
     .hero-ctas{flex-direction:row; align-items:stretch; gap:10px; justify-content:center;}
-    .hero-ctas .btn{flex:1; width:auto; min-width:0; padding:13px 10px; font-size:14.5px; white-space:nowrap;}
+    .hero-ctas .btn{width:auto; min-width:0; padding:13px 10px; font-size:14.5px; white-space:nowrap;}
+    /* 主按钮比次按钮宽一些：视觉上突出主 CTA，而不是两个按钮等重 */
+    .hero-ctas .btn-primary{flex:1.3;}
+    .hero-ctas .btn-ghost{flex:1;}
     .form-foot{flex-wrap:nowrap; gap:10px;}
     .form-foot .btn{flex:1; min-width:0; padding:13px 8px; font-size:14px; white-space:nowrap;}
     /* 最终 CTA：桌面端的 1.25fr/.75fr 分栏在窄屏会把按钮挤成一列字，必须解除 */
@@ -573,7 +574,7 @@
   <section class="hero" data-section="Hero首屏">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1>东南亚<em>多国本地运力</em>，<br>一个账号统一管理</h1>
+        <h1>东南亚<em>多国本地运力</em>，<br>1个账号统一管理</h1>
         <p class="lead">面向跨境物流、海外仓与供应链企业，覆盖东南亚主要国家，统一下单、查询轨迹、获取 POD 并完成企业结算。</p>
         <div class="hero-scenes" aria-label="典型使用场景">
           <span>本地提货</span><span>仓间调拨</span><span>门店补货</span><span>电商末端配送</span><span>当日达履约</span><span>临时加车</span><span>大件及非标用车</span>
@@ -864,7 +865,6 @@
           <div class="logo-cell"><img src="assets/logos/yunda.png" alt="韵达国际 YUNDA Express"></div>
         </div>
       </div>
-      <p class="test-lead">出海企业怎么用 lala-i · 典型场景</p>
       <div class="test-grid3">
         <div class="test-card reveal">
           <div class="stars">★★★★★</div>
@@ -889,7 +889,7 @@
   <!-- APP 下载 + 留资表单：合并为一个区块，参照 B 版布局逻辑 -->
   <section id="quote" class="section-alt" data-section="下载APP与留资">
     <div class="wrap">
-      <div class="section-head reveal" style="max-width:640px;">
+      <div class="section-head reveal" style="max-width:760px;">
         <span class="tag">立即开始</span>
         <h2 style="margin-bottom:0;">扫码下载 APP，或者留个手机号我们联系你</h2>
       </div>
@@ -917,6 +917,7 @@
             <div class="ct-tabs" role="tablist" id="ctTabs">
               <button type="button" class="ct-tab active" role="tab" aria-selected="true" data-type="tel" data-label="手机号" data-placeholder="请输入手机号">手机号</button>
               <button type="button" class="ct-tab" role="tab" aria-selected="false" data-type="email" data-label="邮箱" data-placeholder="请输入邮箱">邮箱</button>
+              <button type="button" class="ct-tab" role="tab" aria-selected="false" data-type="text" data-label="微信号" data-placeholder="请输入微信号">微信号</button>
             </div>
             <div class="field">
               <label for="lf-contact" id="lfContactLabel">手机号</label>
