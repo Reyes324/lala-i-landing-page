@@ -13,16 +13,21 @@
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --brand: #2257D4; --brand-dark: #17408F; --brand-light: #4C7CF0;
     --ink-900: #0A1024; --ink-800: #10182E; --ink-700: #1A2440;
     --text-1: #0F1229; --text-2: #4C5266; --text-3: #8890A6;
     --surface: #F5F6FA; --surface-2: #EEF1F8; --white:#fff; --border:#E3E6EF;
-    --success:#1B9C6E; --radius-s:8px; --radius-m:14px; --radius-l:22px;
+    --success:#1B9C6E;
+    /* 暖橙：痛点语义专用。-graphic 是图标/边框用的饱和版（已在 .problem-card 使用），
+       -text 是压暗后的文字版，白底对比度 4.9:1 过 WCAG AA（饱和版只有 3.4:1，小字不合格） */
+    --accent-warm-graphic:#E8603C; --accent-warm-text:#C24A22;
+    --radius-s:8px; --radius-m:14px; --radius-l:22px;
     --shadow-md:0 8px 24px rgba(15,18,41,.08); --shadow-lg:0 24px 64px rgba(10,16,36,.16);
     --maxw:1120px; --font-sc:"Noto Sans SC","PingFang SC",sans-serif; --font-en:"Inter","Noto Sans SC",sans-serif;
+    --font-num:"Poppins","Inter","Noto Sans SC",sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -38,10 +43,40 @@
   .section-head h2{font-size:clamp(26px,3.2vw,36px); line-height:1.3; margin-bottom:12px;}
   h2 em{font-style:normal; color:var(--brand);}
   .final-cta h2 em{color:#8FE3B8;}
+  /* 痛点区改用暖橙：这一节讲的是「问题」，用品牌蓝高亮会和下面讲「方案」的区块撞语义 */
+  #pain .tag, #pain h2 em{color:var(--accent-warm-text);}
+  /* 连氛围光一起转暖：这一节是「问题」，其余节是「方案」，读者滑出这一节回到蓝色时
+     会读到一次松弛。暖色是前进色，同透明度下比蓝色重得多，所以从 10%/8% 压到 7%/5% */
+  #pain.section-plain::before{
+    background:
+      radial-gradient(760px 500px at 8% 0%, rgba(232,96,60,.07), transparent 68%),
+      radial-gradient(680px 440px at 94% 100%, rgba(232,96,60,.05), transparent 68%);
+  }
   .section-head p{font-size:15.5px; color:var(--text-2); line-height:1.7;}
-  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:700; font-size:15px; border-radius:11px; border:1px solid transparent; padding:14px 28px; transition:.18s; min-height:48px;}
-  .btn-primary{background:var(--brand); color:#fff; box-shadow:0 6px 18px rgba(34,87,212,.3);}
-  .btn-primary:hover{background:var(--brand-dark); transform:translateY(-1px);}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:700; font-size:15px; border-radius:11px; border:1px solid transparent; padding:14px 28px; min-height:48px;
+    transition:transform .22s cubic-bezier(.16,1,.3,1), box-shadow .28s cubic-bezier(.16,1,.3,1), background .2s ease, border-color .2s ease, color .2s ease;}
+  /* 主按钮：沿用结尾 CTA 大色块的 104° 斜向渐变（深蓝→亮蓝），品牌只保留一种渐变语言。
+     整体比大色块提亮一档（深色端不用 --brand-dark，否则小按钮会显得发暗）；最亮端受白字 4.5:1 下限约束。 */
+  .btn-primary{
+    color:#fff; position:relative; overflow:hidden;
+    background:linear-gradient(104deg,#2059CE 0%,#2E66DE 52%,#3A6CE1 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.20), 0 1px 2px rgba(10,16,36,.16), 0 8px 20px -6px rgba(34,87,212,.45);
+  }
+  /* 掠过式高光：只在 hover 时扫一次，不循环 */
+  .btn-primary::after{
+    content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+    background:linear-gradient(105deg, transparent 32%, rgba(255,255,255,.22) 46%, transparent 60%);
+    transform:translateX(-120%); transition:transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    background:linear-gradient(104deg,#2963D6 0%,#3369DF 52%,#3D70E2 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.26), 0 2px 4px rgba(10,16,36,.16), 0 14px 30px -8px rgba(34,87,212,.55);
+  }
+  .btn-primary:hover::after{transform:translateX(120%);}
+  .btn-primary:active{transform:translateY(0); box-shadow:inset 0 1px 2px rgba(10,16,36,.28), 0 1px 2px rgba(10,16,36,.14);}
+  .btn-primary .btn-arrow{display:inline-block; transition:transform .28s cubic-bezier(.16,1,.3,1);}
+  .btn-primary:hover .btn-arrow{transform:translateX(4px);}
   .btn-ghost{background:transparent; color:#fff; border-color:rgba(255,255,255,.3);}
   .btn-ghost:hover{background:rgba(255,255,255,.08);}
   .btn-text{color:var(--brand); font-weight:700; font-size:14.5px;}
@@ -82,9 +117,7 @@
   header.scrolled{background:rgba(255,255,255,.9); backdrop-filter:blur(14px); box-shadow:0 1px 0 rgba(15,18,41,.06);}
   header .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
   .logo{display:flex; align-items:center; gap:9px; font-family:var(--font-sc); font-weight:400; font-size:18px; color:var(--text-1); white-space:nowrap;}
-  .logo .mark{width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,var(--brand-light),var(--brand-dark)); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
-  .logo .mark img{width:33px; height:33px; object-fit:contain;}
-  .logo b{color:var(--brand);}
+  .logo-wordmark{height:26px; width:auto; display:block;}
   .header-actions{display:flex; align-items:center; gap:10px;}
   .header-cta{padding:10px 20px; font-size:14px; min-height:auto;}
 
@@ -94,38 +127,57 @@
   .hero .wrap{position:relative;}
   .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center; max-width:1120px; margin-bottom:76px;}
   .hero-copy{text-align:left;}
-  .hero-eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:var(--brand-dark); background:rgba(34,87,212,.08); border:1px solid rgba(34,87,212,.18); padding:7px 15px; border-radius:999px; margin-bottom:24px;}
-  .hero-eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--success);}
+  /* 场景标签：承接副标题，把「本地运力」展开成读者能对号入座的具体场景。
+     它紧挨主按钮，所以必须用中性灰、绝不用品牌蓝——同色相 = 读成「能点的按钮」。
+     视觉重量刻意压到按钮之下：小字号、无阴影、无 hover。
+     容器 440px 让 7 个标签分成 4+3，避免最后一个孤字挂行 */
+  .hero-scenes{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:28px; max-width:440px;}
+  .hero-scenes span{
+    font-size:12px; line-height:1.4; color:var(--text-2); font-weight:500;
+    background:#F4F6FA; border:1px solid #E8EBF2;
+    border-radius:6px; padding:5px 9px; white-space:nowrap;
+  }
   .hero h1{font-size:clamp(30px,3.8vw,44px); line-height:1.4; color:var(--text-1); font-weight:700; margin-bottom:18px;}
   .hero h1 em{font-style:normal; color:var(--brand);}
-  .hero p.lead{font-size:16.5px; line-height:1.75; color:var(--text-2); max-width:520px; margin:0 0 30px;}
+  .hero p.lead{font-size:16.5px; line-height:1.75; color:var(--text-2); max-width:520px; margin:0 0 16px;}
   .hero-ctas{display:flex; align-items:center; gap:16px; margin-bottom:16px; flex-wrap:wrap;}
-  .btn-ghost{background:#fff; color:var(--text-1); border-color:var(--border);}
-  .btn-ghost:hover{background:var(--surface); border-color:var(--text-3);}
+  .btn-ghost{background:#fff; color:var(--text-1); border-color:var(--border); box-shadow:0 1px 2px rgba(15,18,41,.04);}
+  .btn-ghost:hover{background:#fff; border-color:var(--brand); color:var(--brand); transform:translateY(-2px); box-shadow:0 1px 2px rgba(15,18,41,.05), 0 10px 22px -8px rgba(34,87,212,.28);}
   .hero-photo-wrap{position:relative;}
   .hero-photo{width:100%; height:100%; aspect-ratio:3/2; object-fit:cover; background:#fff; border-radius:var(--radius-l); box-shadow:var(--shadow-lg); border:1px solid var(--border);}
   .photo-credit{position:absolute; top:12px; right:12px; background:rgba(255,255,255,.85); color:var(--text-3); font-size:10px; font-weight:500; padding:4px 9px; border-radius:999px; border:1px solid var(--border); backdrop-filter:blur(4px);}
 
   /* quick facts strip — sits right under hero, overlaps its bottom edge */
+  /* 数据条 = hero 的证据脚注，不是独立卡片：去掉浮起容器，改为贴合 hero 底部的规格行 */
   .stats-strip{
-    display:grid; grid-template-columns:repeat(4,1fr); background:#fff;
-    border-radius:var(--radius-m); overflow:hidden;
-    margin-top:-36px; position:relative; z-index:2;
-    box-shadow:0 2px 4px rgba(15,18,41,.04), 0 12px 24px rgba(15,18,41,.06);
+    display:grid; grid-template-columns:repeat(4,1fr); gap:32px;
+    margin-top:8px; padding-top:30px; border-top:1px solid var(--border);
+    position:relative; z-index:2;
   }
-  .stats-strip .sp-stat{background:#fff; padding:22px 20px; text-align:center; position:relative;}
-  .stats-strip .sp-stat:not(:first-child)::before{
-    content:""; position:absolute; left:0; top:22%; bottom:22%; width:1px; background:var(--border);
+  .stats-strip .sp-stat{background:transparent; padding:0; text-align:left;}
+  .sp-stat strong{
+    display:block; font-family:var(--font-num); font-size:30px; font-weight:700;
+    letter-spacing:-.02em; line-height:1.1; color:var(--text-1);
   }
-  .sp-stat strong{display:block; font-family:var(--font-en); font-size:22px; font-weight:800; color:var(--brand);}
-  .sp-stat span{font-size:11.5px; color:var(--text-3); font-weight:500;}
+  /* 品牌蓝只落在单位/后缀上——数字本身是事实，用墨色更有分量 */
+  .sp-stat strong em{font-style:normal; font-size:16px; font-weight:600; color:var(--brand); margin-left:2px; letter-spacing:0;}
+  .sp-stat span{display:block; margin-top:7px; font-size:12.5px; color:var(--text-2); font-weight:400; line-height:1.5;}
+  /* 国家码：物流从业者的母语缩写，比中文国名短得多，回答「7 个是哪 7 个」 */
+  /* 国家名注脚：中文比 TH·VN 这类代码好认，但宽不少。中文没有词间空格，
+     浏览器会在任意两字之间折行（实测断在「新／加坡」），所以每个国名包 i 设 nowrap，
+     只允许在分隔点折。字号压到 10.5px 让 1440 宽度下能排成一行 */
+  .sp-codes{margin-top:5px !important; font-family:var(--font-sc); font-size:10.5px; line-height:1.6; color:var(--text-3) !important;}
+  .sp-codes i{font-style:normal; white-space:nowrap;}
 
-  /* social proof — dedicated section, logos only */
-  .sp-logos{display:flex; justify-content:center;}
+  /* social proof — logo strip, now the top half of the merged 客户信任+故事 section */
+  .sp-logos{display:flex; justify-content:center; margin-bottom:56px; padding-bottom:52px; border-bottom:1px solid var(--border);}
   .trust-logos{
     display:grid; grid-template-columns:repeat(4,1fr);
     width:100%; max-width:980px;
   }
+  /* 场景卡片区的次级说明：明确这是「典型用法」不是「上面这些 logo 说的话」，
+     避免读者把场景化描述脑补成某个具名客户的真实引语 */
+  .test-lead{text-align:center; font-size:13.5px; color:var(--text-3); margin:-28px 0 32px;}
   .logo-cell{
     height:64px; display:flex; align-items:center; justify-content:center;
     padding:10px 18px; position:relative; transition:transform .25s cubic-bezier(.16,1,.3,1);
@@ -140,22 +192,20 @@
   .trust-logos img.chip-logo{max-height:34px; border-radius:5px;}
 
   /* problem */
-  .problem-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
-  .problem-card{background:#fff; border-radius:var(--radius-m); padding:28px; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .problem-card:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:#FFFAF8;}
-  .problem-card .ic{width:42px; height:42px; border-radius:11px; background:linear-gradient(135deg, rgba(232,96,60,.18), rgba(232,96,60,.06)); color:#E8603C; display:flex; align-items:center; justify-content:center; margin-bottom:18px; transition:background .3s ease, transform .3s cubic-bezier(.16,1,.3,1);}
+  .problem-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px;}
+  .problem-card{background:#fff; border:1px solid transparent; border-radius:var(--radius-m); padding:28px; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1), border-color .3s ease;}
+  .problem-card:hover{transform:translateY(-2px); border-color:rgba(232,96,60,.22); box-shadow:0 1px 2px rgba(15,18,41,.04), 0 14px 30px -8px rgba(232,96,60,.18);}
+  .problem-card .ic{width:42px; height:42px; border-radius:11px; background:linear-gradient(135deg, rgba(232,96,60,.18), rgba(232,96,60,.06)); color:#E8603C; display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
   .problem-card .ic svg{stroke-width:2.2;}
-  .problem-card:hover .ic{background:linear-gradient(135deg, rgba(232,96,60,.28), rgba(232,96,60,.1)); transform:scale(1.06);}
   .problem-card h3{font-size:17px; margin-bottom:9px;}
   .problem-card p{font-size:14px; color:var(--text-2); line-height:1.7;}
 
   /* 3 pillar features */
   .pillar-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
-  .pillar{border-radius:var(--radius-m); padding:32px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .pillar:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:#F9FBFF;}
-  .pillar .ic{width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg, rgba(34,87,212,.16), rgba(34,87,212,.05)); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:20px; transition:background .3s ease, transform .3s cubic-bezier(.16,1,.3,1);}
+  .pillar{border-radius:var(--radius-m); border:1px solid transparent; padding:32px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1), border-color .3s ease;}
+  .pillar:hover{transform:translateY(-2px); border-color:rgba(34,87,212,.20); box-shadow:0 1px 2px rgba(15,18,41,.04), 0 14px 30px -8px rgba(34,87,212,.18);}
+  .pillar .ic{width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg, rgba(34,87,212,.16), rgba(34,87,212,.05)); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:20px;}
   .pillar .ic svg{stroke-width:2.2;}
-  .pillar:hover .ic{background:linear-gradient(135deg, rgba(34,87,212,.26), rgba(34,87,212,.09)); transform:scale(1.06);}
   .pillar h3{font-size:18.5px; margin-bottom:10px;}
   .pillar > p{font-size:14px; color:var(--text-2); line-height:1.7; margin-bottom:18px;}
   .pillar ul{display:flex; flex-direction:column; gap:9px;}
@@ -166,22 +216,28 @@
   /* coverage */
   .coverage-wrap{display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center;}
   .market-list{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-  .market-card{border-radius:var(--radius-m); padding:16px 18px; display:flex; align-items:center; gap:13px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .market-card:hover{transform:translateY(-3px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 14px 28px rgba(15,18,41,.08); background-color:#F9FBFF;}
+  .market-card{border-radius:var(--radius-m); border:1px solid transparent; padding:16px 18px; display:flex; align-items:center; gap:13px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s cubic-bezier(.16,1,.3,1), border-color .3s ease;}
+  .market-card:hover{transform:translateY(-2px); border-color:rgba(34,87,212,.20); box-shadow:0 1px 2px rgba(15,18,41,.04), 0 12px 26px -8px rgba(34,87,212,.16);}
   .market-card .flag{width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; transition:transform .25s cubic-bezier(.16,1,.3,1);}
   .market-card:hover .flag{transform:scale(1.08);}
   .market-card strong{display:block; font-size:14.5px; font-weight:600;}
   .market-card span{font-size:12px; color:var(--text-3);}
   .map-visual{position:relative; border-radius:var(--radius-l); overflow:hidden; aspect-ratio:1/1; background:linear-gradient(160deg, #F5F6FA, #EEF1F8); box-shadow:var(--shadow-lg); border:1px solid var(--border);}
   .map-visual svg{position:absolute; inset:0; width:100%; height:100%;}
+  .map-overlay{pointer-events:none;}
+  .map-halo{fill:var(--brand); opacity:0; transition:opacity .22s ease;}
+  .map-ring{fill:none; stroke:var(--brand); stroke-width:3; opacity:0; transition:opacity .22s ease;}
+  .map-node.on .map-halo{opacity:.16;}
+  .map-node.on .map-ring{opacity:1;}
+  .market-card{cursor:default;}
+  .market-card.on{background:#F5F8FF; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 8px 20px rgba(34,87,212,.12);}
 
   /* api */
   .api-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
-  .api-card{border-radius:var(--radius-m); padding:32px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .api-card:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:var(--surface-2);}
-  .api-card .ic{width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg, rgba(34,87,212,.14), rgba(34,87,212,.05)); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:20px; transition:background .3s ease, transform .3s cubic-bezier(.16,1,.3,1);}
+  .api-card{border-radius:var(--radius-m); border:1px solid transparent; padding:32px; background:#fff; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1), border-color .3s ease;}
+  .api-card:hover{transform:translateY(-2px); border-color:rgba(34,87,212,.20); box-shadow:0 1px 2px rgba(15,18,41,.04), 0 14px 30px -8px rgba(34,87,212,.18);}
+  .api-card .ic{width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg, rgba(34,87,212,.14), rgba(34,87,212,.05)); color:var(--brand); display:flex; align-items:center; justify-content:center; margin-bottom:20px;}
   .api-card .ic svg{stroke-width:2.2;}
-  .api-card:hover .ic{background:linear-gradient(135deg, rgba(34,87,212,.22), rgba(34,87,212,.08)); transform:scale(1.06);}
   .api-card h3{font-size:18px; margin-bottom:10px;}
   .api-card p{font-size:14px; color:var(--text-2); line-height:1.7;}
 
@@ -195,9 +251,11 @@
   .fleet-row::-webkit-scrollbar{display:none;}
   .fleet-item{display:flex; flex-direction:column; align-items:center; gap:10px; width:132px; flex-shrink:0; scroll-snap-align:start;}
   .fleet-item .ic-wrap{width:112px; height:92px; display:flex; align-items:center; justify-content:center;}
-  .fleet-item .ic-wrap img{max-height:72px; max-width:96px; width:auto; object-fit:contain; transition:transform .3s cubic-bezier(.16,1,.3,1);}
-  .fleet-item:hover .ic-wrap img{transform:scale(1.1) translateY(-2px);}
+  .fleet-item .ic-wrap img{max-height:72px; max-width:96px; width:auto; object-fit:contain; transition:transform .45s cubic-bezier(.16,1,.3,1);}
+  .fleet-item:hover .ic-wrap img{transform:scale(1.3) translateY(-6px);}
+  .fleet-item:hover .fleet-kg{color:var(--brand);}
   .fleet-item span{font-size:12px; font-weight:600; color:var(--text-2); text-align:center; transition:color .2s ease;}
+  .fleet-kg{font-size:11px; font-weight:500; color:var(--text-3); font-family:var(--font-num); margin-top:-4px; transition:color .2s ease;}
   .fleet-item:hover span{color:var(--brand);}
   .fleet-nav{
     position:absolute; top:36px; width:36px; height:36px; border-radius:50%;
@@ -221,8 +279,8 @@
 
   /* testimonials */
   .test-grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
-  .test-card{background:#fff; border-radius:var(--radius-m); padding:28px; display:flex; flex-direction:column; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .test-card:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:#F9FBFF;}
+  .test-card{background:#fff; border:1px solid transparent; border-radius:var(--radius-m); padding:28px; display:flex; flex-direction:column; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1), border-color .3s ease;}
+  .test-card:hover{transform:translateY(-2px); border-color:rgba(34,87,212,.20); box-shadow:0 1px 2px rgba(15,18,41,.04), 0 14px 30px -8px rgba(34,87,212,.18);}
   .test-card .stars{color:#F5A623; font-size:22px; margin-bottom:14px; letter-spacing:4px;}
   .test-card p{font-size:14px; line-height:1.75; margin-bottom:20px; flex:1;}
   .test-person{display:flex; align-items:center; gap:11px;}
@@ -232,10 +290,10 @@
 
   /* pricing (settlement tiers) */
   .price-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:820px; margin:0 auto;}
-  .price-card{border-radius:var(--radius-m); padding:34px; background:#fff; position:relative; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .price-card:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:#F9FBFF;}
+  .price-card{border-radius:var(--radius-m); border:1px solid transparent; padding:34px; background:#fff; position:relative; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1), border-color .3s ease;}
+  .price-card:hover{transform:translateY(-2px); border-color:rgba(34,87,212,.20); box-shadow:0 1px 2px rgba(15,18,41,.04), 0 14px 30px -8px rgba(34,87,212,.18);}
   .price-card.rec{border:1.5px solid var(--brand); box-shadow:0 12px 30px rgba(34,87,212,.14);}
-  .price-card.rec:hover{transform:translateY(-4px); box-shadow:0 18px 40px rgba(34,87,212,.22); background-color:#F7FAFF;}
+  .price-card.rec:hover{transform:translateY(-2px); box-shadow:0 1px 2px rgba(34,87,212,.08), 0 18px 40px -10px rgba(34,87,212,.26);}
   .price-card .rec-tag{
     position:absolute; top:-13px; left:30px; color:#fff; font-size:11.5px; font-weight:700;
     padding:5px 14px; border-radius:999px;
@@ -248,27 +306,33 @@
   .price-card li{display:flex; gap:9px; font-size:13.5px; color:var(--text-2); align-items:flex-start;}
   .price-card li svg{color:var(--success); flex-shrink:0; margin-top:2px;}
 
-  /* app download card */
-  .app-grid{display:flex; justify-content:center; max-width:820px; margin:0 auto;}
-  .app-card{border-radius:var(--radius-m); padding:34px 40px; background:#fff; position:relative; text-align:center; box-shadow:0 1px 2px rgba(15,18,41,.03), 0 6px 16px rgba(15,18,41,.05); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1), background-color .2s ease;}
-  .app-card:hover{transform:translateY(-4px); box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.09); background-color:#F9FBFF;}
-  .app-card.ready{max-width:340px;}
-  .app-card .app-qr{width:208px; height:208px; margin:0 auto; border-radius:var(--radius-s); overflow:hidden;}
-  .app-card .app-qr img{width:100%; height:100%; object-fit:cover; display:block;}
-
-  /* lead form (Form Design section applied) */
-  .lead-form{max-width:460px; margin:0 auto; background:#fff; border-radius:var(--radius-m); padding:32px; box-shadow:0 2px 4px rgba(15,18,41,.04), 0 16px 32px rgba(15,18,41,.08);}
-  .lead-form .sub{font-size:13.5px; color:var(--text-3); text-align:center; margin-bottom:24px;}
+  /* APP 下载 + 留资：双栏卡片，参照 B 版布局逻辑 */
+  .get-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:900px; margin:0 auto; align-items:stretch;}
+  .get-card{border-radius:var(--radius-m); padding:32px; background:#fff; border:1px solid var(--border); box-shadow:0 2px 4px rgba(15,18,41,.03), 0 10px 24px rgba(15,18,41,.05); display:flex; flex-direction:column; text-align:left;}
+  .get-card h3{font-size:17px; font-weight:700; margin:0 0 8px;}
+  .get-card>p{font-size:13.5px; color:var(--text-3); line-height:1.6; margin:0 0 22px;}
+  .get-card form{display:flex; flex-direction:column; flex:1;}
+  .qr-row{display:flex; gap:18px;}
+  .qr-item{flex:1; text-align:center;}
+  .qr-item b{display:block; font-size:13.5px; font-weight:700; margin-top:10px;}
+  .qr-item span{display:block; font-size:11.5px; color:var(--text-3); margin-top:2px;}
+  .qr-item a{display:inline-flex; align-items:center; font-size:13px; color:var(--brand); font-weight:600; margin-top:14px; padding:6px 4px; border-radius:6px; transition:background .15s ease;}
+  .qr-item a:hover{background:var(--surface);}
+  .app-qr{width:100%; aspect-ratio:1/1; margin:0 auto; border-radius:var(--radius-s); overflow:hidden;}
+  .app-qr img{width:100%; height:100%; object-fit:cover; display:block;}
+  .qr-foot{margin-top:auto; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--text-3); line-height:1.7;}
   .field{margin-bottom:16px;}
   .field label{display:block; font-size:13px; font-weight:600; margin-bottom:7px; color:var(--text-2);}
-  .field input{width:100%; height:48px; border:1px solid var(--border); border-radius:9px; padding:0 14px; font-size:16px; font-family:inherit; color:var(--text-1); transition:.15s;}
+  .field input{width:100%; height:48px; border:1px solid var(--border); border-radius:9px; padding:0 14px; font-size:16px; font-family:inherit; color:var(--text-1); transition:.15s; background:#fff;}
   .field input::placeholder{color:var(--text-3);}
   .field input:focus{outline:none; border-color:var(--brand); box-shadow:0 0 0 3px rgba(34,87,212,.14);}
-  .field .hint{font-size:12px; color:var(--text-3); margin-top:6px;}
-  .lead-form .btn{width:100%;}
-  .lf-tabs{display:flex; gap:4px; background:var(--surface); border-radius:10px; padding:4px; margin-bottom:16px;}
-  .lf-tab{flex:1; border:none; background:transparent; border-radius:7px; padding:9px 0; font-size:13.5px; font-weight:600; color:var(--text-3); cursor:pointer; font-family:inherit; transition:background .15s ease, color .15s ease;}
-  .lf-tab.active{background:#fff; color:var(--brand); box-shadow:0 1px 3px rgba(15,18,41,.08);}
+  .get-card .hint{font-size:12px; color:var(--text-3); margin-top:14px; line-height:1.6;}
+  .ct-tabs{display:flex; gap:4px; background:var(--surface); border-radius:10px; padding:4px; margin-bottom:16px;}
+  .ct-tab{flex:1; border:none; background:transparent; border-radius:7px; padding:9px 0; font-size:13.5px; font-weight:600; color:var(--text-3); cursor:pointer; font-family:inherit; transition:background .15s ease, color .15s ease;}
+  .ct-tab.active{background:#fff; color:var(--brand); box-shadow:0 1px 3px rgba(15,18,41,.08);}
+  .form-foot{display:flex; align-items:center; gap:12px; margin-top:auto; flex-wrap:wrap;}
+  .form-foot .btn{width:auto;}
+  .get-card .btn{width:100%;}
 
   /* faq */
   .faq-wrap{max-width:720px; margin:0 auto;}
@@ -276,15 +340,23 @@
   .faq-q{display:flex; align-items:center; justify-content:space-between; padding:22px 4px; font-size:16px; font-weight:600; background:none; border:none; width:100%; text-align:left; min-height:48px;}
   .faq-q svg{flex-shrink:0; transition:.25s; color:var(--text-3);}
   .faq-item.open .faq-q svg{transform:rotate(45deg); color:var(--brand);}
-  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
-  .faq-a p{padding:0 4px 22px; font-size:14px; color:var(--text-2); line-height:1.75;}
+  /* grid-template-rows 0fr→1fr 代替 max-height：不触发布局重算，走合成器动画 */
+  .faq-a{display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease;}
+  .faq-item.open .faq-a{grid-template-rows:1fr;}
+  .faq-a p{overflow:hidden; padding:0 4px 22px; font-size:14px; color:var(--text-2); line-height:1.75;}
 
-  /* final cta w/ urgency */
-  .final-cta{background:linear-gradient(160deg,var(--ink-900),var(--ink-700)); color:#fff; border-radius:var(--radius-l); padding:64px 48px; text-align:center; position:relative; overflow:hidden;}
-  .final-cta::before{content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(700px 300px at 50% -20%, rgba(76,124,240,.4), transparent 60%);}
-  .final-cta .tag{color:#8FE3B8;}
-  .final-cta h2{position:relative; color:#fff; font-size:clamp(24px,3vw,34px); margin-bottom:12px;}
-  .final-cta p{position:relative; color:rgba(255,255,255,.65); font-size:15.5px; margin-bottom:30px;}
+  /* final cta w/ urgency — 参照 B 版：蓝色渐变 + 斜切高光 + 左文右按钮 */
+  .final-cta{background:linear-gradient(104deg,var(--brand-dark) 0%,var(--brand) 46%,var(--brand-light) 100%); color:#fff; border-radius:var(--radius-l); padding:56px 56px 58px; position:relative; overflow:hidden; isolation:isolate; box-shadow:0 30px 70px rgba(23,64,143,.24);}
+  .final-cta::before{content:""; position:absolute; inset:-40% -10% auto; height:180%; pointer-events:none; z-index:0; transform:skewY(-12deg);
+    background:radial-gradient(40% 60% at 82% 34%, rgba(126,206,236,.42), rgba(126,206,236,0) 66%), radial-gradient(46% 60% at 8% 84%, rgba(255,255,255,.20), rgba(255,255,255,0) 62%);}
+  .final-cta-in{position:relative; z-index:1; display:grid; grid-template-columns:1.25fr .75fr; gap:40px; align-items:center;}
+  .final-cta h2{position:relative; color:#fff; font-size:clamp(24px,2.9vw,34px); letter-spacing:-.02em; margin-bottom:14px;}
+  .final-cta p{position:relative; color:rgba(255,255,255,.88); font-size:15.5px; line-height:1.75; max-width:46ch;}
+  .final-cta-actions{display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end;}
+  .final-cta .btn-primary{background:#fff; color:var(--brand-dark); box-shadow:0 10px 26px rgba(6,20,58,.28);}
+  .final-cta .btn-primary:hover{background:#F2F6FF; color:var(--brand-dark);}
+  .final-cta .btn-ghost{background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.44); color:#fff;}
+  .final-cta .btn-ghost:hover{background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.7);}
 
   footer{background:var(--ink-900); color:rgba(255,255,255,.5); padding:56px 0 28px; text-align:center; font-size:13px;}
   footer .logo{justify-content:center; margin-bottom:14px; color:#fff;}
@@ -300,7 +372,7 @@
     position:fixed; right:24px; bottom:24px; z-index:90; width:200px;
     background:#fff; border-radius:20px;
     box-shadow:0 10px 20px rgba(0,0,0,.12); padding:16px; text-align:center; color:var(--text-1);
-    transition:transform .18s ease, opacity .18s ease;
+    transition:transform .28s cubic-bezier(.16,1,.3,1), opacity .24s ease, visibility .24s ease;
   }
   @keyframes qrDot{
     0%{transform:scale(1); opacity:.7;}
@@ -323,8 +395,46 @@
     .live-dot::after{animation:none; display:none;}
   }
   .sticky-contact .qr{width:100%; aspect-ratio:1/1; object-fit:cover; display:block;}
+  /* 桌面端：直接展示，不需要收起按钮 */
+  .sc-toggle{display:none;}
+  /* 滚到最终 CTA / 页脚时让位，避免遮挡该屏的按钮 */
+  .sticky-contact.yield{opacity:0; visibility:hidden; transform:translateY(10px); pointer-events:none;}
+
+  /* 收起态：移动端固定用；桌面端窗口高度不足 560px 时也用——展开态的卡片约需 286px，
+     短窗口下会被视口底边裁掉半个二维码（实测浏览器窗口拖矮或高缩放时出现） */
+  @media (max-width:640px), (max-height:560px){
+    /* 默认收起成一个白底小圆钮，点击向上展开二维码 */
+    .sticky-contact{
+      right:16px; bottom:24px; width:auto; padding:0;
+      background:transparent; box-shadow:none; border-radius:0;
+    }
+    .sc-toggle{
+      display:flex; align-items:center; justify-content:center; position:relative;
+      width:46px; height:46px; border-radius:50%;
+      background:#fff; color:var(--brand); border:1px solid var(--border);
+      box-shadow:0 2px 6px rgba(15,18,41,.08), 0 10px 24px -8px rgba(15,18,41,.18);
+      transition:color .2s ease, border-color .2s ease, box-shadow .3s cubic-bezier(.16,1,.3,1);
+    }
+    .sc-toggle svg, .sc-toggle .sc-toggle-close{
+      position:absolute; transition:opacity .2s ease, transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    .sc-toggle .sc-toggle-close{font-size:24px; line-height:1; opacity:0; transform:rotate(-90deg);}
+    .sticky-contact.open .sc-toggle{color:var(--text-2); border-color:var(--text-3);}
+    .sticky-contact.open .sc-toggle svg{opacity:0; transform:rotate(90deg);}
+    .sticky-contact.open .sc-toggle .sc-toggle-close{opacity:1; transform:rotate(0);}
+    /* 绝对定位：收起时不占布局空间（否则会把按钮往上顶），且从按钮上方展开 */
+    .sc-panel{
+      position:absolute; bottom:100%; right:0; margin-bottom:10px;
+      width:168px; padding:14px; text-align:center;
+      background:#fff; border-radius:20px; box-shadow:0 10px 24px rgba(15,18,41,.16);
+      transform-origin:bottom right; transition:opacity .24s ease, transform .3s cubic-bezier(.16,1,.3,1);
+      opacity:0; transform:scale(.92) translateY(8px); pointer-events:none;
+    }
+    .sticky-contact.open .sc-panel{opacity:1; transform:scale(1) translateY(0); pointer-events:auto;}
+  }
+  /* 移动端底部有固定 CTA 条，圆钮要抬高让位（桌面短窗口没有这条，保持 24px） */
   @media (max-width:640px){
-    .sticky-contact{right:16px; bottom:88px; width:168px; padding:14px;}
+    .sticky-contact{bottom:82px;}
   }
 
   .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
@@ -348,6 +458,7 @@
     .problem-grid, .pillar-grid, .steps3, .test-grid3, .api-grid{grid-template-columns:1fr;}
     .price-grid{grid-template-columns:1fr;}
     .coverage-wrap{grid-template-columns:1fr;}
+    .get-grid{grid-template-columns:1fr;}
     .map-visual{max-width:420px; margin:0 auto; aspect-ratio:4/3;}
     .hero-grid{grid-template-columns:1fr; gap:40px;}
     .hero-copy{text-align:center;}
@@ -357,66 +468,84 @@
     .hero-photo-wrap{max-width:480px; margin:0 auto;}
   }
   @media (max-width:640px){
-    section{padding:64px 0;}
-    .hero{padding:110px 0 64px;}
-    .market-list{grid-template-columns:1fr;}
+    /* 移动端密度：收紧区块留白 + 小卡片改双列，避免整页过长 */
+    section{padding:46px 0;}
+    .hero{padding:100px 0 46px;}
+    /* 配图隐藏后，CTA 到数据条之间不再需要图片那份留白 */
+    .hero-grid{margin-bottom:36px;}
+    .section-head{margin-bottom:28px;}
+    .section-head h2{font-size:23px; line-height:1.35;}
+    .section-head p{font-size:14px;}
+    .problem-grid{grid-template-columns:repeat(2,1fr); gap:12px;}
+    .problem-card{padding:18px 16px;}
+    .problem-card .ic{width:34px; height:34px; border-radius:9px; margin-bottom:12px;}
+    .problem-card h3{font-size:14.5px; margin-bottom:6px;}
+    .problem-card p{font-size:12.5px; line-height:1.6;}
+    .market-list{grid-template-columns:repeat(2,1fr); gap:10px;}
+    .market-card{padding:12px 12px; gap:9px;}
+    .market-card .flag{width:28px; height:28px; font-size:18px;}
+    .market-card strong{font-size:13.5px;}
+    .market-card span{font-size:11.5px;}
+    /* 解决方案 6 张卡改双列：竖排 6 张在手机上要滑很久 */
+    .pillar-grid{grid-template-columns:repeat(2,1fr); gap:12px;}
+    .pillar{padding:18px 16px;}
+    .pillar .ic{width:34px; height:34px; border-radius:9px; margin-bottom:12px;}
+    .pillar h3{font-size:14.5px; line-height:1.45; margin-bottom:6px;}
+    .pillar p{font-size:12.5px; line-height:1.65;}
+    .pillar .note{font-size:11px;}
+    /* 覆盖地图在移动端隐藏：上方 8 张市场卡已完整列出国家+城市，地图是同一信息的重复，
+       且不带标注，只占空间不增信息（桌面端是左右并排，不占纵向空间，保留） */
+    .map-visual{display:none;}
+    .api-grid, .test-grid3, .price-grid{gap:14px;}
+    .api-card, .test-card, .price-card{padding:22px 20px;}
+    /* 一排一的卡片：图标和标题并排，省掉图标独占一行的 68px 纵向空间。
+       用 grid 让正文与标题左边缘对齐（不是缩在图标下面），读起来仍是一个整块 */
+    .api-card{display:grid; grid-template-columns:auto 1fr; column-gap:12px; row-gap:6px; align-items:center;}
+    .api-card .ic{width:38px; height:38px; border-radius:10px; margin-bottom:0;}
+    .api-card .ic svg{width:19px; height:19px;}
+    .api-card h3{font-size:15.5px; margin-bottom:0;}
+    .api-card p{grid-column:2; font-size:13px;}
+    .get-grid{gap:14px;}
+    .get-card{padding:24px 20px;}
     .trust-logos{grid-template-columns:repeat(3,1fr);}
     .fleet-row{gap:24px 10px;}
     .fleet-item{width:88px;}
     .fleet-item .ic-wrap{width:76px; height:64px;}
     .fleet-item .ic-wrap img{max-height:48px; max-width:64px;}
-    .hero-ctas{flex-direction:column; align-items:stretch;}
-    .hero-ctas .btn{width:100%;}
+    /* 场景标签：移动端 hero 文案居中，标签容器也要跟着居中（否则左对齐会和标题错位） */
+    .hero-scenes{justify-content:center; max-width:none; gap:6px; margin-bottom:18px;}
+    .hero-scenes span{font-size:12px; padding:4px 9px;}
+    /* 移动端按钮组一律并排平分，不要竖排各占一整行 */
+    .hero-ctas{flex-direction:row; align-items:stretch; gap:10px; justify-content:center;}
+    .hero-ctas .btn{flex:1; width:auto; min-width:0; padding:13px 10px; font-size:14.5px; white-space:nowrap;}
+    .form-foot{flex-wrap:nowrap; gap:10px;}
+    .form-foot .btn{flex:1; min-width:0; padding:13px 8px; font-size:14px; white-space:nowrap;}
+    /* 最终 CTA：桌面端的 1.25fr/.75fr 分栏在窄屏会把按钮挤成一列字，必须解除 */
+    .final-cta{padding:34px 22px 36px;}
+    .final-cta-in{grid-template-columns:1fr; gap:22px;}
+    .final-cta-actions{justify-content:stretch; flex-wrap:nowrap; gap:10px;}
+    .final-cta-actions .btn{flex:1; min-width:0; padding:13px 10px; font-size:14.5px; white-space:nowrap;}
     body{padding-bottom:74px;}
     .mobile-cta-bar{display:block;}
-    .final-cta{padding:44px 22px;}
-    .stats-strip{grid-template-columns:repeat(2,1fr);}
-    .stats-strip .sp-stat:nth-child(3)::before{display:none;}
+    /* 移动端已有底部固定 CTA，悬浮二维码会挡住正文内容，隐藏 */
+    .stats-strip{grid-template-columns:repeat(2,1fr); gap:22px 18px; padding-top:24px;}
+    .sp-stat strong{font-size:25px;}
+    .sp-stat strong em{font-size:14px;}
     .trust-logos{gap:24px;}
-    .header-actions .btn-ghost{display:none;}
+    /* 登录在移动端不隐藏（老用户回访要有入口），但降级成纯文字链接省宽度，
+       让蓝色主按钮继续是头部唯一的重色块 */
+    .header-actions{gap:14px;}
+    .header-actions .btn-ghost{
+      background:none; border:none; box-shadow:none; padding:0;
+      font-size:14px; color:var(--text-2); min-height:auto;
+    }
+    .header-actions .btn-ghost:hover{background:none; border:none; box-shadow:none; transform:none; color:var(--brand);}
+    .header-cta{padding:10px 16px;}
+    /* 移动端隐藏首屏配图：桌面端它在文案右侧不占纵向空间，移动端却独占近一屏，
+       把真正有说服力的数据条挤到折叠线以下（同 .map-visual 的取舍） */
+    .hero-photo-wrap{display:none;}
   }
 
-  /* annotation review widget */
-  #annoToggle{
-    position:fixed; left:24px; bottom:24px; z-index:200;
-    display:flex; align-items:center; gap:8px; background:var(--ink-900); color:#fff;
-    border:none; border-radius:999px; padding:12px 18px; font-size:14px; font-weight:600;
-    font-family:var(--font-sc); cursor:pointer; box-shadow:0 10px 24px rgba(0,0,0,.22);
-    transition:transform .18s ease, background .2s ease;
-  }
-  #annoToggle:hover{transform:translateY(-2px);}
-  #annoToggle.active{background:var(--brand);}
-  #annoToggle .dot{width:7px; height:7px; border-radius:50%; background:#8FE3B8;}
-  body.anno-mode [data-section]{cursor:crosshair;}
-  .anno-pin{
-    position:absolute; width:26px; height:26px; border-radius:50% 50% 50% 4px;
-    background:var(--brand); color:#fff; font-family:var(--font-en); font-weight:700; font-size:12px;
-    display:flex; align-items:center; justify-content:center; transform:translate(-50%,-100%) rotate(45deg);
-    cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); z-index:9998; pointer-events:none;
-  }
-  .anno-pin span{transform:rotate(-45deg);}
-  .anno-popover{
-    position:absolute; z-index:9999; width:320px; background:#fff; border-radius:14px;
-    box-shadow:0 20px 48px rgba(0,0,0,.28); padding:16px; font-family:var(--font-sc);
-    text-align:left; color:var(--text-1);
-  }
-  .anno-popover .ctx{font-size:12px; color:var(--text-3); margin-bottom:10px; line-height:1.6; background:var(--surface); border-radius:8px; padding:8px 10px;}
-  .anno-popover textarea{
-    width:100%; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:14px;
-    font-family:inherit; margin-bottom:8px; resize:vertical; min-height:120px;
-  }
-  .anno-popover .anno-name{
-    width:100%; border:1px solid var(--border); border-radius:8px; padding:6px 10px; font-size:12px;
-    font-family:inherit; margin-bottom:8px; box-sizing:border-box;
-  }
-  .anno-popover .row{display:flex; gap:8px; justify-content:flex-end;}
-  .anno-popover button{border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit;}
-  .anno-popover .cancel{background:var(--surface); color:var(--text-2);}
-  .anno-popover .submit{background:var(--brand); color:#fff;}
-  .anno-popover .submit:disabled{opacity:.7; cursor:default;}
-  .anno-popover .anno-ok{display:flex; align-items:center; gap:8px; font-weight:600; color:var(--brand); margin-bottom:10px;}
-  .anno-popover .anno-ok-icon{width:20px; height:20px; border-radius:50%; background:var(--brand); color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
-  .anno-popover .anno-ok-text{font-size:13px; line-height:1.6; color:var(--text-2); background:var(--surface); border-radius:8px; padding:10px 12px; margin-bottom:12px; white-space:pre-wrap; word-break:break-word;}
 </style>
 </head>
 <body>
@@ -424,12 +553,11 @@
 <header id="siteHeader">
   <div class="wrap">
     <a href="#top" class="logo">
-      <span class="mark"><img src="assets/logo-mark.png" alt=""></span>
-      <b>货拉拉</b>企业国际版
+      <img src="assets/logo-wordmark.png" alt="货拉拉 · 企业国际版" class="logo-wordmark">
     </a>
     <div class="header-actions">
-      <a href="#login" id="loginBtn" class="btn btn-ghost header-cta">登录</a>
-      <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary header-cta">立即试用</a>
+      <a href="#login" id="loginBtn" class="btn btn-ghost header-cta">注册/登录</a>
+      <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary header-cta">立即询价</a>
     </div>
   </div>
 </header>
@@ -440,11 +568,13 @@
   <section class="hero" data-section="Hero首屏">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <div class="hero-eyebrow">东南亚企业用车 · 泰国 越南 马来西亚 印尼 菲律宾 新加坡 香港</div>
-        <h1><em>出海企业</em>东南亚配送，<br>一个账户全搞定</h1>
-        <p class="lead">货拉拉企业国际版整合 7 个国家/地区的本地运力，支持人民币/美元/港币多币种统一结算，让出海企业的最后一公里配送像在国内一样简单。</p>
+        <h1>东南亚<em>多国本地运力</em>，<br>一个账号统一管理</h1>
+        <p class="lead">面向跨境物流、海外仓与供应链企业，覆盖东南亚主要国家，统一下单、查询轨迹、获取 POD 并完成企业结算。</p>
+        <div class="hero-scenes" aria-label="典型使用场景">
+          <span>本地提货</span><span>仓间调拨</span><span>门店补货</span><span>电商末端配送</span><span>当日达履约</span><span>临时加车</span><span>大件及非标用车</span>
+        </div>
         <div class="hero-ctas">
-          <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary">立即试用 →</a>
+          <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary">立即询价 <span class="btn-arrow">→</span></a>
           <a href="#pain" class="btn btn-ghost">看看怎么运作</a>
         </div>
       </div>
@@ -458,9 +588,9 @@
     <!-- Quick facts — belongs to hero, floats over its bottom edge -->
     <div class="wrap">
       <div class="stats-strip reveal">
-        <div class="sp-stat"><strong>7</strong><span>国家/地区已上线</span></div>
-        <div class="sp-stat"><strong>14+</strong><span>车型全场景覆盖</span></div>
-        <div class="sp-stat"><strong>24H</strong><span>双语客服在线</span></div>
+        <div class="sp-stat"><strong>7<em>个</em></strong><span>国家/地区已上线</span><span class="sp-codes"><i>泰国</i>·<i>越南</i>·<i>马来西亚</i>·<i>印尼</i>·<i>菲律宾</i>·<i>新加坡</i>·<i>香港</i></span></div>
+        <div class="sp-stat"><strong>19<em>+</em></strong><span>车型全场景覆盖</span></div>
+        <div class="sp-stat"><strong>24<em>H</em></strong><span>双语客服在线</span></div>
         <div class="sp-stat"><strong>API</strong><span>可直连企业系统</span></div>
       </div>
     </div>
@@ -471,8 +601,8 @@
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">痛点</span>
-        <h2>出海东南亚，本地配送卡在哪？</h2>
-        <p>企业把货铺到东南亚市场后，本地"最后一公里"往往比想象中更难标准化。</p>
+        <h2>出海东南亚，本地配送<em>卡在哪</em>？</h2>
+        <p>企业把货铺到东南亚市场后，本地「最后一公里」往往比想象中更难标准化。</p>
       </div>
       <div class="problem-grid">
         <div class="problem-card reveal">
@@ -484,11 +614,6 @@
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></svg></div>
           <h3>多国货币，结算繁琐</h3>
           <p>员工垫付报销难，当地货币需要汇率换算，缺少企业端对公结算渠道。</p>
-        </div>
-        <div class="problem-card reveal">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 5 3-3" /><path d="m2 22 3-3" /><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" /><path d="M7.5 13.5 10 11" /><path d="M10.5 16.5 13 14" /><path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z" /></svg></div>
-          <h3>系统割裂，靠人工传单</h3>
-          <p>企业自有系统对不上当地供应商下单方式，效率低、易出错。</p>
         </div>
         <div class="problem-card reveal">
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6" /><path d="m4 14 6-6 2-3" /><path d="M2 5h12" /><path d="M7 2h1" /><path d="m22 22-5-10-5 10" /><path d="M14 18h6" /></svg></div>
@@ -516,12 +641,12 @@
         <div class="pillar reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" /><path d="M15 18H9" /><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" /><circle cx="17" cy="18" r="2" /><circle cx="7" cy="18" r="2" /></svg></div>
           <h3>全车型全场景覆盖</h3>
-          <p>出海企业订单形态杂——电商小件、大件、生鲜都可能同时存在。从二轮摩托、轿车、MPV，到厢式/开篷货车，再到大型货车（最大可达 9.6 米/18 吨级，具体规格因市场而异），一个供应商全包，不用分头找车队。</p>
+          <p>从二轮摩托到 18,000 公斤大车，小件、大件、生鲜共用一个供应商，不用分头找车队。</p>
         </div>
         <div class="pillar reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2" /><circle cx="12" cy="12" r="2" /><path d="M6 12h.01M18 12h.01" /></svg></div>
           <h3>多币种统一结算</h3>
-          <p>支持人民币/美元/港币结算，按月末中银香港挂牌汇率统一折算，次月月末统一还账单，财务不用自己应付 7 国汇率换算。</p>
+          <p>人民币/美元/港币结算，按月末中银香港挂牌汇率统一折算，次月月末一张账单。</p>
         </div>
         <div class="pillar reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg></div>
@@ -531,7 +656,7 @@
         <div class="pillar reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></svg></div>
           <h3>企业子母账号管理</h3>
-          <p>出海企业总部+各市场分部要协同，上级账号可统一管理多个市场子账号（如 E001-VN、E001-TH），权限分级，数据集中查看。</p>
+          <p>上级账号统管各市场子账号（如 E001-VN、E001-TH），权限分级，数据集中查看。</p>
         </div>
         <div class="pillar reveal">
           <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" /></svg></div>
@@ -559,18 +684,27 @@
             <p>持续拓展本地运力网络，覆盖主要经济中心城市。</p>
           </div>
           <div class="market-list reveal">
-            <div class="market-card"><span class="flag">🇹🇭</span><div><strong>泰国</strong><span>曼谷及周边</span></div></div>
-            <div class="market-card"><span class="flag">🇻🇳</span><div><strong>越南</strong><span>河内 · 胡志明市</span></div></div>
-            <div class="market-card"><span class="flag">🇲🇾</span><div><strong>马来西亚</strong><span>吉隆坡及周边</span></div></div>
-            <div class="market-card"><span class="flag">🇮🇩</span><div><strong>印度尼西亚</strong><span>雅加达 · 泗水</span></div></div>
-            <div class="market-card"><span class="flag">🇵🇭</span><div><strong>菲律宾</strong><span>马尼拉及周边</span></div></div>
-            <div class="market-card"><span class="flag">🇸🇬</span><div><strong>新加坡</strong><span>全岛覆盖</span></div></div>
-            <div class="market-card"><span class="flag">🇭🇰</span><div><strong>香港</strong><span>全区覆盖</span></div></div>
+            <div class="market-card" data-mk="th"><span class="flag">🇹🇭</span><div><strong>泰国</strong><span>曼谷及周边</span></div></div>
+            <div class="market-card" data-mk="vn"><span class="flag">🇻🇳</span><div><strong>越南</strong><span>河内 · 胡志明市</span></div></div>
+            <div class="market-card" data-mk="my"><span class="flag">🇲🇾</span><div><strong>马来西亚</strong><span>吉隆坡及周边</span></div></div>
+            <div class="market-card" data-mk="id"><span class="flag">🇮🇩</span><div><strong>印度尼西亚</strong><span>雅加达 · 泗水</span></div></div>
+            <div class="market-card" data-mk="ph"><span class="flag">🇵🇭</span><div><strong>菲律宾</strong><span>马尼拉及周边</span></div></div>
+            <div class="market-card" data-mk="sg"><span class="flag">🇸🇬</span><div><strong>新加坡</strong><span>全岛覆盖</span></div></div>
+            <div class="market-card" data-mk="hk"><span class="flag">🇭🇰</span><div><strong>香港</strong><span>全区覆盖</span></div></div>
             <div class="market-card" style="align-items:flex-start;"><span class="flag">＋</span><div><strong>持续拓展中</strong><span>更多市场规划上线</span></div></div>
           </div>
         </div>
         <div class="map-visual reveal">
-          <img src="assets/coverage-map.webp" alt="lala-i 覆盖东南亚 7 国/地区地图：泰国曼谷、越南胡志明市、马来西亚吉隆坡、印度尼西亚雅加达、菲律宾马尼拉、新加坡、香港" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <img src="assets/coverage-map-v2.png" alt="lala-i 覆盖东南亚 7 国/地区地图：泰国曼谷、越南胡志明市、马来西亚吉隆坡、印度尼西亚雅加达、菲律宾马尼拉、新加坡、香港" style="width:100%; height:100%; object-fit:cover; display:block;">
+          <svg class="map-overlay" viewBox="0 0 1254 1254" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g class="map-node" data-node="th"><circle class="map-halo" cx="317" cy="378" r="34"/><circle class="map-ring" cx="317" cy="378" r="19"/></g>
+            <g class="map-node" data-node="vn"><circle class="map-halo" cx="498" cy="488" r="34"/><circle class="map-ring" cx="498" cy="488" r="19"/></g>
+            <g class="map-node" data-node="my"><circle class="map-halo" cx="360" cy="737" r="34"/><circle class="map-ring" cx="360" cy="737" r="19"/></g>
+            <g class="map-node" data-node="id"><circle class="map-halo" cx="655" cy="775" r="34"/><circle class="map-ring" cx="655" cy="775" r="19"/></g>
+            <g class="map-node" data-node="ph"><circle class="map-halo" cx="846" cy="472" r="34"/><circle class="map-ring" cx="846" cy="472" r="19"/></g>
+            <g class="map-node" data-node="sg"><circle class="map-halo" cx="398" cy="827" r="34"/><circle class="map-ring" cx="398" cy="827" r="19"/></g>
+            <g class="map-node" data-node="hk"><circle class="map-halo" cx="769" cy="247" r="34"/><circle class="map-ring" cx="769" cy="247" r="19"/></g>
+          </svg>
         </div>
       </div>
     </div>
@@ -582,7 +716,7 @@
       <div class="section-head reveal">
         <span class="tag">车型覆盖</span>
         <h2>从二轮摩托到大型货车，<em>全场景覆盖</em></h2>
-        <p>单市场 8~14 种车型可选，具体规格与吨位因市场而异，最大可达 9.6 米 / 18 吨级（越南、印尼）。</p>
+        <p>单市场 6~19 种车型可选，最大载重 18,000 公斤，具体规格与吨位因市场而异。</p>
       </div>
       <div class="fleet-carousel">
         <button class="fleet-nav prev" aria-label="向左滚动">
@@ -590,40 +724,49 @@
         </button>
         <div class="fleet-row reveal" id="fleetRow">
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/moto.png" alt="二轮摩托"></div>
-            <span>二轮摩托</span>
+            <div class="ic-wrap"><img src="assets/vehicles-real/moto-20kg.png" alt="摩托车"></div>
+            <span>摩托车</span>
+            <b class="fleet-kg">20 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/sedan.png" alt="轿车"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/sedan-100kg.png" alt="轿车"></div>
             <span>轿车</span>
+            <b class="fleet-kg">100 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/mpv.png" alt="MPV / SUV"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/suv-300kg.png" alt="SUV"></div>
             <span>MPV / SUV</span>
+            <b class="fleet-kg">300 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/van.png" alt="面包车"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/van-500kg.png" alt="面包车"></div>
             <span>面包车</span>
+            <b class="fleet-kg">500 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/pickup.png" alt="皮卡"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/pickup-250kg.png" alt="皮卡"></div>
             <span>皮卡</span>
+            <b class="fleet-kg">250 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/boxtruck.png" alt="厢式货车"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/lorry-1000kg.png" alt="厢式货车"></div>
             <span>厢式货车</span>
+            <b class="fleet-kg">1,000 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/midtruck.png" alt="中大型货车"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/truck-5000kg.png" alt="中大型货车"></div>
             <span>中大型货车</span>
+            <b class="fleet-kg">5,000 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/opentruck.png" alt="开篷货车"></div>
+            <div class="ic-wrap"><img src="assets/vehicles-real/opentruck-2500kg.png" alt="开篷货车"></div>
             <span>开篷货车</span>
+            <b class="fleet-kg">2,500 kg</b>
           </div>
           <div class="fleet-item">
-            <div class="ic-wrap"><img src="assets/vehicles/tronton.png" alt="9.6 米大车（Tronton 翼展箱式货车）"></div>
-            <span>9.6 米大车</span>
+            <div class="ic-wrap"><img src="assets/vehicles-real/tronton-18000kg.png" alt="翼展箱式货车（Tronton）"></div>
+            <span>翼展箱式货车</span>
+            <b class="fleet-kg">18,000 kg</b>
           </div>
         </div>
         <button class="fleet-nav next" aria-label="向右滚动">
@@ -633,36 +776,8 @@
     </div>
   </section>
 
-  <!-- API -->
-  <section id="api" class="section-plain" data-section="开发者能力(API)">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">开发者能力</span>
-        <h2><em>API 直连</em>，接入企业自有系统</h2>
-        <p>标准化接口覆盖下单、查价、状态回调与账单对账，帮助企业把货运能力嵌入自身系统。</p>
-      </div>
-      <div class="api-grid">
-        <div class="api-card reveal">
-          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></div>
-          <h3>下单 / 查价接口</h3>
-          <p>一次调用完成车型报价与下单，支持多装卸货点参数。</p>
-        </div>
-        <div class="api-card reveal">
-          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" /><path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" /><path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8" /></svg></div>
-          <h3>订单状态实时推送</h3>
-          <p>司机接单、到达、完成等节点实时推送，无需轮询。</p>
-        </div>
-        <div class="api-card reveal">
-          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V7" /><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></svg></div>
-          <h3>账单与对账接口</h3>
-          <p>按月拉取多国汇率折算后的统一账单，直接同步财务系统。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- PRICING (settlement tiers, clear + highlight recommended) -->
-  <section class="section-alt" data-section="结算方案">
+  <section class="section-plain" data-section="结算方案">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="tag">结算方案</span>
@@ -693,14 +808,58 @@
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <!-- TESTIMONIALS -->
-  <section class="section-plain" data-section="客户故事">
+  <!-- API -->
+  <section id="api" class="section-alt" data-section="开发者能力(API)">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="tag">客户故事</span>
-        <h2>出海企业怎么用 <em>lala-i</em></h2>
+        <span class="tag">开发者能力</span>
+        <h2><em>API 直连</em>，接入企业自有系统</h2>
+        <p>标准化接口覆盖下单、查价、状态回调与账单对账，帮助企业把货运能力嵌入自身系统。</p>
       </div>
+      <div class="api-grid">
+        <div class="api-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg></div>
+          <h3>下单 / 查价接口</h3>
+          <p>一次调用完成车型报价与下单，支持多装卸货点参数。</p>
+        </div>
+        <div class="api-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" /><path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" /><path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8" /></svg></div>
+          <h3>订单状态实时推送</h3>
+          <p>司机接单、到达、完成等节点实时推送，无需轮询。</p>
+        </div>
+        <div class="api-card reveal">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V7" /><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></svg></div>
+          <h3>账单与对账接口</h3>
+          <p>按月拉取多国汇率折算后的统一账单，直接同步财务系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <!-- TESTIMONIALS -->
+  <!-- 客户信任 + 客户故事 合并：logo 墙负责「规模感」，场景卡片负责「具体怎么用」，
+       一组标题统领，中间用分隔线断开角色，避免读者把场景化描述脑补成上方具名客户的原话 -->
+  <section class="social-proof section-plain" data-section="客户信任与故事">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">客户信任</span>
+        <h2>与<em>出海企业</em>一起增长</h2>
+        <p>已服务多个跨境电商、物流与消费品出海品牌。</p>
+      </div>
+      <div class="sp-logos">
+        <div class="trust-logos">
+          <div class="logo-cell"><img src="assets/logos/cainiao.svg" alt="菜鸟国际 Cainiao"></div>
+          <div class="logo-cell"><img src="assets/logos/jd.png" alt="京东国际 JD.com"></div>
+          <div class="logo-cell"><img src="assets/logos/tiktok.svg" alt="TikTok"></div>
+          <div class="logo-cell"><img src="assets/logos/jt-express.svg" alt="极兔速递 J&T Express"></div>
+          <div class="logo-cell"><img src="assets/logos/sf-express.png" alt="顺丰速运 SF Express" class="chip-logo"></div>
+          <div class="logo-cell"><img src="assets/logos/flash-express.svg" alt="Flash Express"></div>
+          <div class="logo-cell"><img src="assets/logos/lianyu.png" alt="联宇物流 LINKTRANS" class="chip-logo"></div>
+          <div class="logo-cell"><img src="assets/logos/yunda.png" alt="韵达国际 YUNDA Express"></div>
+        </div>
+      </div>
+      <p class="test-lead">出海企业怎么用 lala-i · 典型场景</p>
       <div class="test-grid3">
         <div class="test-card reveal">
           <div class="stars">★★★★★</div>
@@ -721,69 +880,50 @@
     </div>
   </section>
 
-  <!-- SOCIAL PROOF — dedicated section, logos only -->
-  <section class="social-proof section-alt" data-section="客户信任">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">客户信任</span>
-        <h2>与<em>出海企业</em>一起增长</h2>
-        <p>已服务多个跨境电商、物流与消费品出海品牌。</p>
-      </div>
-      <div class="sp-logos">
-        <div class="trust-logos">
-          <div class="logo-cell"><img src="assets/logos/cainiao.svg" alt="菜鸟国际 Cainiao"></div>
-          <div class="logo-cell"><img src="assets/logos/jd.png" alt="京东国际 JD.com"></div>
-          <div class="logo-cell"><img src="assets/logos/tiktok.svg" alt="TikTok"></div>
-          <div class="logo-cell"><img src="assets/logos/jt-express.svg" alt="极兔速递 J&T Express"></div>
-          <div class="logo-cell"><img src="assets/logos/sf-express.png" alt="顺丰速运 SF Express" class="chip-logo"></div>
-          <div class="logo-cell"><img src="assets/logos/flash-express.svg" alt="Flash Express"></div>
-          <div class="logo-cell"><img src="assets/logos/lianyu.png" alt="联宇物流 LINKTRANS" class="chip-logo"></div>
-          <div class="logo-cell"><img src="assets/logos/yunda.png" alt="韵达国际 YUNDA Express"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- APP DOWNLOAD -->
-  <section id="app-download" class="section-plain" data-section="下载APP">
+  <!-- APP 下载 + 留资表单：合并为一个区块，参照 B 版布局逻辑 -->
+  <section id="quote" class="section-alt" data-section="下载APP与留资">
     <div class="wrap">
-      <div class="section-head reveal">
-        <span class="tag">随时随地下单</span>
-        <h2>下载 <em>lala-i</em> 企业版 APP</h2>
-        <p>扫码下载企业版 APP，出车、跟单、对账，走到哪管到哪。</p>
+      <div class="section-head reveal" style="max-width:640px;">
+        <span class="tag">立即开始</span>
+        <h2 style="margin-bottom:0;">扫码下载 APP，或者留个手机号我们联系你</h2>
       </div>
-      <div class="app-grid">
-        <div class="app-card ready reveal">
-          <div class="app-qr"><img src="assets/app-qr-universal.png" alt="lala-i 企业版 App 下载二维码"></div>
-        </div>
-      </div>
-      <div style="max-width:340px; margin:28px auto 0;">
-        <a href="https://lala-i-app.netlify.app/" data-nav="GO_APP_DOWNLOAD" class="btn btn-outline-brand" style="width:100%;">查看详细安装指引 →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- LEAD FORM — Form Design rules applied -->
-  <section id="quote" class="section-alt" data-section="留资表单">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <h2>留联系方式，获取详细资料</h2>
-      </div>
-      <div class="lead-form reveal">
-        <div class="sub">如需了解更详细的送货服务、结算方案等，欢迎留下联系方式，我们将发送给您详细的资料以便您参考</div>
-        <div class="lf-tabs" role="tablist" id="lfTabs">
-          <button type="button" class="lf-tab active" role="tab" aria-selected="true" data-type="tel" data-label="手机号" data-placeholder="方便联系的手机号">手机号</button>
-          <button type="button" class="lf-tab" role="tab" aria-selected="false" data-type="email" data-label="邮箱" data-placeholder="接收资料的邮箱">邮箱</button>
-          <button type="button" class="lf-tab" role="tab" aria-selected="false" data-type="text" data-label="微信号" data-placeholder="方便联系的微信号">微信号</button>
-        </div>
-        <form onsubmit="return false;">
-          <div class="field">
-            <label for="lf-contact" id="lfContactLabel">手机号</label>
-            <input id="lf-contact" type="tel" placeholder="方便联系的手机号" required>
-            <div class="hint">仅用于本次咨询，不做其他用途</div>
+      <div class="get-grid reveal">
+        <div class="get-card get-card--app">
+          <h3>下载企业国际版 APP</h3>
+          <p>手机扫码即可安装，估价、下单、看状态都在 APP 里完成</p>
+          <div class="qr-row">
+            <div class="qr-item">
+              <div class="app-qr"><img src="assets/app-qr-universal.png" alt="lala-i 企业版 App 下载二维码"></div>
+              <b>APP 下载</b><span>iOS / Android 通用</span>
+              <a href="https://lala-i-app.netlify.app/" data-nav="GO_APP_DOWNLOAD">打开下载页 →</a>
+            </div>
+            <div class="qr-item">
+              <div class="app-qr"><img src="assets/wecom-qr.png" alt="lala-i 企业微信客服二维码"></div>
+              <b>企业微信</b><span>24H 双语客服直连</span>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary">留下联系方式，获取资料 →</button>
-        </form>
+          <p class="qr-foot">APP 内直接估价、下单、看订单状态；有异常在企业微信里找 24 小时双语客服。</p>
+        </div>
+        <div class="get-card get-card--form">
+          <h3>留下联系方式，专属顾问联系你</h3>
+          <p>告诉我们方便联系的手机号，我们了解你的市场和需求后，给一版可执行的方案</p>
+          <form onsubmit="return false;">
+            <div class="ct-tabs" role="tablist" id="ctTabs">
+              <button type="button" class="ct-tab active" role="tab" aria-selected="true" data-type="tel" data-label="手机号" data-placeholder="请输入手机号">手机号</button>
+              <button type="button" class="ct-tab" role="tab" aria-selected="false" data-type="email" data-label="邮箱" data-placeholder="请输入邮箱">邮箱</button>
+            </div>
+            <div class="field">
+              <label for="lf-contact" id="lfContactLabel">手机号</label>
+              <input id="lf-contact" type="tel" placeholder="请输入手机号" required>
+            </div>
+            <div class="form-foot">
+              <button type="submit" class="btn btn-primary">提交，等顾问联系我</button>
+              <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-ghost">直接在线询价</a>
+            </div>
+            <div class="hint">仅用于本次咨询，不做其他用途。提交即表示同意我们就本次咨询与你联系。</div>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -813,7 +953,7 @@
           <div class="faq-a"><p>企业认证通过后即可申请，我们提供接口文档、测试环境和技术对接支持。</p></div>
         </div>
         <div class="faq-item reveal">
-          <button class="faq-q">试用估价需要先完成企业认证吗？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <button class="faq-q">在线询价需要先完成企业认证吗？<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
           <div class="faq-a"><p>不需要，选择服务类型和装卸货点即可即时查看预估价格；正式下单和账期开通需完成企业认证。</p></div>
         </div>
         <div class="faq-item reveal">
@@ -832,10 +972,16 @@
   <section data-section="最终CTA">
     <div class="wrap">
       <div class="final-cta reveal">
-        <span class="tag">立即开始</span>
-        <h2>今天申请，最快<em>当天开通试用</em></h2>
-        <p>3 分钟看到覆盖 7 个国家/地区的真实报价，不用等销售回电。</p>
-        <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary">立即试用 →</a>
+        <div class="final-cta-in">
+          <div>
+            <h2><em>立即询价</em>，不用等待审批</h2>
+            <p>3 分钟看到覆盖 7 个国家/地区的真实报价，不用等销售回电。</p>
+          </div>
+          <div class="final-cta-actions">
+            <a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary">立即询价 <span class="btn-arrow">→</span></a>
+            <a href="#login" data-nav="GO_LOGIN" class="btn btn-ghost">注册/登录</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -845,27 +991,31 @@
 <footer>
   <div class="wrap">
     <a href="#top" class="logo">
-      <span class="mark"><img src="assets/logo-mark.png" alt=""></span>
-      <b style="color:#fff;">货拉拉</b>企业国际版
+      <img src="assets/logo-wordmark-white.png" alt="货拉拉 · 企业国际版" class="logo-wordmark">
     </a>
     <div class="flinks">
-      <a href="#quote" data-nav="GO_TRIAL_QUOTE">立即试用</a>
+      <a href="#quote" data-nav="GO_TRIAL_QUOTE">立即询价</a>
       <a href="#solutions">解决方案</a>
-      <a href="#">帮助中心</a>
-      <a href="#">隐私政策</a>
+      <a href="https://lala-i.net/user-protocol" target="_blank" rel="noopener noreferrer">用户协议</a>
+      <a href="https://lala-i.net/privacy-policy" target="_blank" rel="noopener noreferrer">隐私政策</a>
     </div>
     <span>© 2026 货拉拉企业国际版 · lala-i</span>
   </div>
 </footer>
 
-<div class="sticky-contact" aria-label="企业微信客服">
-  <strong><span class="live-dot"></span>立即扫码咨询</strong>
-  <img class="qr" src="assets/wecom-qr.png" alt="企业微信客服二维码">
+<div class="sticky-contact" id="stickyContact" aria-label="企业微信客服">
+  <button class="sc-toggle" id="scToggle" type="button" aria-expanded="false" aria-controls="scPanel" aria-label="展开企业微信客服二维码">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
+    <span class="sc-toggle-close" aria-hidden="true">×</span>
+  </button>
+  <div class="sc-panel" id="scPanel">
+    <strong><span class="live-dot"></span>立即扫码咨询</strong>
+    <img class="qr" src="assets/wecom-qr.png" alt="企业微信客服二维码">
+  </div>
 </div>
 
-<div class="mobile-cta-bar"><a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary">立即试用</a></div>
+<div class="mobile-cta-bar"><a href="#quote" data-nav="GO_TRIAL_QUOTE" class="btn btn-primary">立即询价</a></div>
 
-<button id="annoToggle" type="button"><span class="dot"></span><span id="annoToggleLabel">意见批注</span></button>
 
 <script>
   // --- 父应用通信：env → 父域名 映射表，postMessage 的唯一真相源，禁止从 URL 直接接收父域名 ---
@@ -927,12 +1077,66 @@
     }
   }
 
-  // 「立即试用」类按钮：统一改为 postMessage 通知父应用，不再滚动到页内表单
+  // 「立即询价」类按钮：统一改为 postMessage 通知父应用，不再滚动到页内表单
   document.querySelectorAll('[data-nav]').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       navigateOrPost(el.dataset.nav);
     });
+  });
+
+  // 移动端悬浮客服二维码：默认收起，点击展开
+  const stickyContact = document.getElementById('stickyContact');
+  const scToggle = document.getElementById('scToggle');
+  if (stickyContact && scToggle) {
+    scToggle.addEventListener('click', () => {
+      const open = stickyContact.classList.toggle('open');
+      scToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      scToggle.setAttribute('aria-label', open ? '收起企业微信客服二维码' : '展开企业微信客服二维码');
+    });
+
+    // 滚到最终 CTA / 页脚时让位：那一屏本身就有询价和登录，悬浮钮会挡住按钮也抢注意力
+    const yieldZones = [document.querySelector('[data-section="最终CTA"]'), document.querySelector('footer')].filter(Boolean);
+    if (yieldZones.length && 'IntersectionObserver' in window) {
+      const visible = new Set();
+      const scIo = new IntersectionObserver((entries) => {
+        entries.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target));
+        const hide = visible.size > 0;
+        stickyContact.classList.toggle('yield', hide);
+        if (hide) {
+          stickyContact.classList.remove('open');
+          scToggle.setAttribute('aria-expanded', 'false');
+        }
+      }, { threshold: .12 });
+      yieldZones.forEach(z => scIo.observe(z));
+    }
+  }
+
+  // 留资表单：手机号 / 邮箱 切换
+  const ctTabs = document.getElementById('ctTabs');
+  if (ctTabs) {
+    const contactInput = document.getElementById('lf-contact');
+    const contactLabel = document.getElementById('lfContactLabel');
+    ctTabs.querySelectorAll('.ct-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        ctTabs.querySelectorAll('.ct-tab').forEach((t) => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        contactInput.type = tab.dataset.type;
+        contactInput.placeholder = tab.dataset.placeholder;
+        contactLabel.textContent = tab.dataset.label;
+        contactInput.value = '';
+      });
+    });
+  }
+
+  // 覆盖市场列表 hover 时联动高亮地图上对应节点
+  document.querySelectorAll('.market-card[data-mk]').forEach((card) => {
+    const key = card.dataset.mk;
+    const node = document.querySelector('.map-node[data-node="' + key + '"]');
+    if (!node) return;
+    card.addEventListener('mouseenter', () => { card.classList.add('on'); node.classList.add('on'); });
+    card.addEventListener('mouseleave', () => { card.classList.remove('on'); node.classList.remove('on'); });
   });
 
   const header = document.getElementById('siteHeader');
@@ -945,30 +1149,13 @@
     document.querySelector('.fleet-nav.next')?.addEventListener('click', () => fleetRow.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
   }
 
-  const lfTabs = document.getElementById('lfTabs');
-  if(lfTabs){
-    const contactInput = document.getElementById('lf-contact');
-    const contactLabel = document.getElementById('lfContactLabel');
-    lfTabs.querySelectorAll('.lf-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        lfTabs.querySelectorAll('.lf-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        contactInput.type = tab.dataset.type;
-        contactInput.placeholder = tab.dataset.placeholder;
-        contactLabel.textContent = tab.dataset.label;
-        contactInput.value = '';
-      });
-    });
-  }
 
   document.querySelectorAll('.faq-item').forEach(item => {
-    const q = item.querySelector('.faq-q'); const a = item.querySelector('.faq-a');
-    if(item.classList.contains('open')) a.style.maxHeight = a.scrollHeight + 'px';
+    const q = item.querySelector('.faq-q');
     q.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(o => { o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = 0; });
-      if(!isOpen){ item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+      document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
+      if(!isOpen){ item.classList.add('open'); }
     });
   });
 
@@ -978,114 +1165,6 @@
     revealEls.forEach(el => io.observe(el));
   } else { revealEls.forEach(el => el.classList.add('in')); }
 
-  /* ---------- annotation review widget ---------- */
-  (function(){
-    const API = '/.netlify/functions/annotate';
-    const toggleBtn = document.getElementById('annoToggle');
-    const toggleLabel = document.getElementById('annoToggleLabel');
-    let annoMode = false;
-    let openPopover = null;
-
-    function closePopover(){
-      if(openPopover){ openPopover.remove(); openPopover = null; }
-    }
-
-    function getContext(target, section){
-      const heading = section.querySelector('h2, h3');
-      const headingText = heading ? heading.textContent.trim().slice(0, 60) : '';
-      let el = target;
-      let elText = (el.textContent || '').trim().replace(/\s+/g,' ').slice(0, 50);
-      const tag = el.tagName ? el.tagName.toLowerCase() : '';
-      return { headingText, elementDesc: elText ? (tag + ': ' + elText) : tag };
-    }
-
-    function renderPin(pageX, pageY){
-      const pin = document.createElement('div');
-      pin.className = 'anno-pin';
-      pin.style.left = pageX + 'px';
-      pin.style.top = pageY + 'px';
-      pin.innerHTML = '<span>✓</span>';
-      document.body.appendChild(pin);
-      setTimeout(() => { pin.style.transition = 'opacity .4s ease'; pin.style.opacity = '0'; setTimeout(() => pin.remove(), 400); }, 1400);
-    }
-
-    function placePopover(pop, pageX, pageY){
-      const w = 320, pad = 12;
-      const clientX = pageX - window.scrollX, clientY = pageY - window.scrollY;
-      let left = clientX + 16;
-      if(left + w + pad > window.innerWidth) left = clientX - w - 16;
-      left = Math.max(pad, Math.min(left, window.innerWidth - w - pad));
-      const top = Math.max(pad, Math.min(clientY, window.innerHeight - pad));
-      pop.style.left = (left + window.scrollX) + 'px';
-      pop.style.top = (top + window.scrollY) + 'px';
-    }
-
-    function showForm(sectionName, context, pageX, pageY){
-      closePopover();
-      const pop = document.createElement('div');
-      pop.className = 'anno-popover';
-      pop.innerHTML =
-        '<div class="ctx">板块：' + sectionName + (context.headingText ? ' · ' + context.headingText : '') + '</div>' +
-        '<textarea placeholder="写下你的意见（文案/布局/设计都可以）" class="anno-text"></textarea>' +
-        '<input type="text" placeholder="提出人（可选）" class="anno-name" maxlength="20">' +
-        '<div class="row"><button type="button" class="cancel">取消</button><button type="button" class="submit">提交</button></div>';
-      document.body.appendChild(pop);
-      placePopover(pop, pageX, pageY);
-      openPopover = pop;
-      pop.querySelector('.cancel').addEventListener('click', (e) => { e.stopPropagation(); closePopover(); });
-      pop.addEventListener('click', (e) => e.stopPropagation());
-      pop.querySelector('.anno-text').focus();
-      pop.querySelector('.submit').addEventListener('click', async (e) => {
-        e.stopPropagation();
-        const comment = pop.querySelector('.anno-text').value.trim();
-        if(!comment) return;
-        const name = pop.querySelector('.anno-name').value.trim();
-        const rec = {
-          section: sectionName,
-          context: context.headingText || context.elementDesc,
-          comment,
-          name,
-          url: location.href
-        };
-        pop.querySelector('.submit').textContent = '提交中…';
-        pop.querySelector('.submit').disabled = true;
-        try{
-          const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rec) });
-          if(!res.ok) throw new Error('HTTP ' + res.status);
-          renderPin(pageX, pageY);
-          pop.innerHTML =
-            '<div class="anno-ok"><span class="anno-ok-icon">✓</span>已提交，感谢反馈</div>' +
-            '<div class="anno-ok-text">' + comment.replace(/</g,'&lt;') + '</div>' +
-            '<div class="row"><button type="button" class="cancel anno-close">关闭</button></div>';
-          pop.querySelector('.anno-close').addEventListener('click', (e2) => { e2.stopPropagation(); closePopover(); });
-          setTimeout(() => { if(openPopover === pop) closePopover(); }, 4000);
-        }catch(err){
-          console.warn('anno submit failed', err);
-          pop.querySelector('.submit').textContent = '提交';
-          pop.querySelector('.submit').disabled = false;
-          alert('提交失败，请稍后重试');
-        }
-      });
-    }
-
-    document.querySelectorAll('[data-section]').forEach(section => {
-      section.addEventListener('click', (e) => {
-        if(!annoMode) return;
-        if(e.target.closest('.anno-popover') || e.target.closest('.anno-pin')) return;
-        const sectionName = section.dataset.section;
-        const context = getContext(e.target, section);
-        showForm(sectionName, context, e.pageX, e.pageY);
-      });
-    });
-
-    toggleBtn.addEventListener('click', () => {
-      annoMode = !annoMode;
-      document.body.classList.toggle('anno-mode', annoMode);
-      toggleBtn.classList.toggle('active', annoMode);
-      toggleLabel.textContent = annoMode ? '批注中（点任意处）' : '意见批注';
-      closePopover();
-    });
-  })();
 </script>
 
 </body>
