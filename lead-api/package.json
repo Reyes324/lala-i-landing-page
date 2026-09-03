@@ -1,0 +1,7 @@
+{
+  "name": "lala-i-lead-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "官网留资 → 飞书多维表格 的 Vercel Serverless Function",
+  "type": "module"
+}
