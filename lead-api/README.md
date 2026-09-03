@@ -35,14 +35,14 @@ npx vercel --prod     # 部署到生产
 
 改完环境变量要 redeploy 一次才生效。
 
-## 部署后
+## 已部署
 
-拿到函数地址，形如 `https://<项目名>.vercel.app/api/lead`，
-把 `index.html` 里这一行的地址换成它：
+- Vercel 项目：`qiuweijiameiguo123-7183s-projects/lead-api`
+- 生产地址（固定别名）：**https://lead-api-six.vercel.app/api/lead**
+- 4 个环境变量已在 Production 配好（App 复用 `cli_a940e9e9bbb99bd2`，已拥有该表权限，无需加协作者）
+- `index.html` 里 `const LEAD_API` 已指向该地址
 
-```js
-const LEAD_API = 'https://REPLACE_ME.vercel.app/api/lead';
-```
+改环境变量后需 `vercel --prod` 重新部署一次才生效。
 
 ## 联调自测
 
