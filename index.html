@@ -341,7 +341,9 @@
   /* grid-template-rows 0fr→1fr 代替 max-height：不触发布局重算，走合成器动画 */
   .faq-a{display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease;}
   .faq-item.open .faq-a{grid-template-rows:1fr;}
-  .faq-a p{overflow:hidden; padding:0 4px 22px; font-size:14px; color:var(--text-2); line-height:1.75;}
+  /* 收起态不留底 padding：0fr 轨道能裁掉文字但裁不掉 p 自身的 padding，会露出半行 */
+  .faq-a p{overflow:hidden; padding:0 4px; font-size:14px; color:var(--text-2); line-height:1.75; transition:padding-bottom .25s ease;}
+  .faq-item.open .faq-a p{padding-bottom:22px;}
 
   /* final cta w/ urgency — 参照 B 版：蓝色渐变 + 斜切高光 + 左文右按钮 */
   .final-cta{background:linear-gradient(104deg,var(--brand-dark) 0%,var(--brand) 46%,var(--brand-light) 100%); color:#fff; border-radius:var(--radius-l); padding:56px 56px 58px; position:relative; overflow:hidden; isolation:isolate; box-shadow:0 30px 70px rgba(23,64,143,.24);}
@@ -574,7 +576,7 @@
   <section class="hero" data-section="Hero首屏">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1>东南亚<em>多国本地运力</em>，<br>1个账号统一管理</h1>
+        <h1>东南亚<em>多国本地运力</em>，<br>1个账号全搞定！</h1>
         <p class="lead">面向跨境物流、海外仓与供应链企业，覆盖东南亚主要国家，统一下单、查询轨迹、获取 POD 并完成企业结算。</p>
         <div class="hero-scenes" aria-label="典型使用场景">
           <span>本地提货</span><span>仓间调拨</span><span>门店补货</span><span>电商末端配送</span><span>当日达履约</span><span>临时加车</span><span>大件及非标用车</span>
@@ -1016,7 +1018,7 @@
   </button>
   <div class="sc-panel" id="scPanel">
     <strong><span class="live-dot"></span>立即扫码咨询</strong>
-    <img class="qr" src="assets/wecom-qr.png" alt="企业微信客服二维码">
+    <img class="qr" src="assets/wecom-qr-consult.png" alt="企业微信客服二维码">
   </div>
 </div>
 
