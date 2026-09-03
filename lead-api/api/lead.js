@@ -69,9 +69,9 @@ export default async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const contact = typeof body.contact === 'string' ? body.contact.trim() : '';
-    if (!contact || contact.length < 3 || contact.length > 100) {
-      return res.status(400).json({ ok: false, error: 'invalid contact' });
+    const contact = typeof body.contact === 'string' ? body.contact.trim().slice(0, 100) : '';
+    if (!contact) {
+      return res.status(400).json({ ok: false, error: 'empty contact' });
     }
     const contactType = CONTACT_TYPES.includes(body.contactType) ? body.contactType : '手机号';
     const pageUrl = typeof body.pageUrl === 'string' ? body.pageUrl.slice(0, 500) : '';

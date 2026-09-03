@@ -1164,11 +1164,9 @@
       statusEl.className = 'lf-status ' + (kind || '');
     }
 
+    // 不做格式校验，只挡空提交
     function validate(type, val) {
-      if (!val) return '请填写' + activeTab.dataset.label;
-      if (type === 'tel')   return /^[\d\s+()\-]{6,20}$/.test(val) ? '' : '手机号格式不太对，请检查';
-      if (type === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ? '' : '邮箱格式不太对，请检查';
-      return val.length >= 3 && val.length <= 40 ? '' : '微信号长度看起来不对';
+      return val ? '' : '请填写' + activeTab.dataset.label;
     }
 
     function currentChannel() {
