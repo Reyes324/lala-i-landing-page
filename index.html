@@ -1131,8 +1131,9 @@
   // 留资表单：手机号 / 邮箱 / 微信号 切换 + 提交
   const ctTabs = document.getElementById('ctTabs');
   if (ctTabs) {
-    // ── 留资接收接口：独立 serverless 函数，收到后写入飞书多维表格。换地址只改这一行。
-    const LEAD_API = 'https://lead-api-six.vercel.app/api/lead';
+    // ── 留资接收接口：Netlify Function，收到后写入飞书多维表格。换地址只改这一行。
+    //    写绝对地址而非相对路径：本页会被部署到多个域名，接口始终指向 Netlify。
+    const LEAD_API = 'https://lala-i-intro.netlify.app/.netlify/functions/lead';
 
     const leadForm = document.getElementById('leadForm');
     const contactInput = document.getElementById('lf-contact');
